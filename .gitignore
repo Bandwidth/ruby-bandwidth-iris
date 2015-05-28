@@ -1,0 +1,11 @@
+.ruby-version
+pkg/*
+Gemfile.lock
+doc
+coverage
+*.gem
+.bundle
+*.log
+*.swp
+*.swo
+.yardoc
