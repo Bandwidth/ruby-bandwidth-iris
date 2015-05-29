@@ -12,9 +12,10 @@ module BandwidthIris
       if user_name == nil && password == nil && options == nil
         if account_id && account_id.is_a?(Hash)
           options = account_id
+          account_id = nil
         end
       end
-      options = options || @global_options
+      options = options || @@global_options
       account_id = options[:account_id] unless account_id
       user_name = options[:user_name] || options[:username]  unless user_name
       password = options[:password] unless password
@@ -64,7 +65,7 @@ module BandwidthIris
     # @param method [Symbol] http method to make
     # @param path [string] path of url (exclude api verion and endpoint) to make call
     # @param data [Hash] data  which will be sent with request (for :get and :delete request they will be sent with query in url)
-    # @return [Array] array with 2 elements: parsed json data of response and response headers
+    # @return [Array] array with 2 elements: parsed  data of response and response headers
     def make_request(method, path, data = {})
       d  = camelcase(data)
       connection = @create_connection.call()
@@ -73,37 +74,40 @@ module BandwidthIris
                       req.params = d unless d == nil || d.empty?
                     end
                   else
-                    connection.run_request(method, @build_path.call(path), build_doc(d).to_xml(), {'Content-Type' => 'text/xml'})
+                    doc = build_doc(d)
+                    connection.run_request(method, @build_path.call(path),
+                      doc.values.first.to_xml({:root => doc.keys.first, :skip_types => true, :indent => 0 }),
+                      {'Content-Type' => 'text/xml'})
                   end
-      check_response(response)
-      [if response.body.strip().size > 0 then parse_xml(response.body) else {} end, symbolize(response.headers || {})]
+      body = check_response(response)
+      [body || {}, symbolize(response.headers || {})]
     end
 
     # Check response object and raise error if status code >= 400
     # @param response response object
     def check_response(response)
-      if response.status >= 400
-        parsed_body = parse_xml(response.body || '')
-        code = find_first_descendant(parsed_body, :error_code)
-        description = find_first_descendant(parsed_body, :description)
-        unless code
-          error = find_first_descendant(parsed_body, :error)
-          if error
-            code = error[:code]
-            description = error[:description]
+      parsed_body = parse_xml(response.body || '')
+      code = find_first_descendant(parsed_body, :error_code)
+      description = find_first_descendant(parsed_body, :description)
+      unless code
+        error = find_first_descendant(parsed_body, :error)
+        if error
+          code = error[:code]
+          description = error[:description]
+        else
+          errors = find_first_descendant(parsed_body, :errors)
+          if errors == nil || errors.length == 0
+            code = find_first_descendant(parsed_body, :result_code)
+            description = find_first_descendant(parsed_body, :result_message)
           else
-            errors = find_first_descendant(parsed_body, :errors)
-            if errors.length == 0
-              code = find_first_descendant(parsed_body, :result_code)
-              description = find_first_descendant(parsed_body, :result_message)
-            else
-              raise Errors::AgregateError.new(errors.map {|e| Errors::GenericError.new(e[:code], e[:description], response.status)})
-            end
+            errors = [errors] if errors.is_a?(Hash)
+            raise Errors::AgregateError.new(errors.map {|e| Errors::GenericError.new(e[:code], e[:description], response.status)})
           end
         end
-        raise Errors::GenericError.new(code, description, response.status) if code && description && code != '0'
-        raise Errors::GenericError.new('', "Http code #{response.status}", response.status)
       end
+      raise Errors::GenericError.new(code, description, response.status) if code && description && code != '0' && code != 0
+      raise Errors::GenericError.new('', "Http code #{response.status}", response.status) if response.status >= 400
+      parsed_body
     end
 
     # Build url path like /accounts/<account-id>/<path>
@@ -153,7 +157,7 @@ module BandwidthIris
 
     def parse_xml(xml)
       doc = ActiveSupport::XmlMini.parse(xml)
-      process_parsed_doc(doc)
+      process_parsed_doc(doc.values.first)
     end
 
     def build_doc(v)
@@ -163,7 +167,7 @@ module BandwidthIris
         when v.is_a?(Hash)
           result = {}
           v.each do |k, val|
-            result[k.to_s().camelcase(:lower)] = build_doc(val)
+            result[k.to_s().camelcase(:upper)] = build_doc(val)
           end
           result
         else
@@ -176,6 +180,7 @@ module BandwidthIris
         when v.is_a?(Array)
           v.map {|i| process_parsed_doc(i)}
         when v.is_a?(Hash)
+          return process_parsed_doc(v['__content__']) if v.keys.length == 1 && v['__content__']
           result = {}
           v.each do |k, val|
             key =  if k.downcase() == 'lata' then :lata else k.underscore().to_sym() end
@@ -193,6 +198,28 @@ module BandwidthIris
         else
           v
       end
+    end
+
+    def find_first_descendant v, name
+      result = nil
+      case
+        when v.is_a?(Array)
+          v.each do |val|
+            result = find_first_descendant(val, name)
+            break if result
+          end
+        when v.is_a?(Hash)
+          v.each do |k, val|
+            if k == name
+              result = val
+              break
+            else
+              result = find_first_descendant(val, name)
+              break if result
+            end
+          end
+      end
+      result
     end
   end
 end

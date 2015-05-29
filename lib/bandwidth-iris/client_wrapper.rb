@@ -1,4 +1,4 @@
-module Bandwidth
+module BandwidthIris
   # Allows to make first argument (client instance) of defined singletom function optional
   module ClientWrapper
     # Make first argument (client instance) of a method optional

@@ -7,8 +7,7 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
 ]
 SimpleCov.start()
 
-
-require 'ruby-bandwidth'
+require 'ruby-bandwidth-iris'
 require 'rspec'
 
 RSpec.configure do |config|
@@ -19,18 +18,18 @@ end
 
 
 RSpec.configure do |conf|
-  include Bandwidth
+  include BandwidthIris
 end
 
 module Helper
   def self.get_client()
-    Client.new('userId', 'token', 'secret')
+    Client.new('accountId', 'username', 'password')
   end
 
   def self.setup_environment()
-    Client.global_options[:user_id] = 'userId'
-    Client.global_options[:api_token] = 'token'
-    Client.global_options[:api_secret] = 'secret'
+    Client.global_options[:account_id] = 'accountId'
+    Client.global_options[:username] = 'username'
+    Client.global_options[:password] = 'password'
     @stubs = Faraday::Adapter::Test::Stubs.new()
   end
 
@@ -52,17 +51,13 @@ module Helper
         v
     end
   end
-
-  def self.to_xml(verb)
-    Xml::Response.new([verb]).to_xml()
-  end
 end
 
-class  Bandwidth::Client
+class  BandwidthIris::Client
   alias_method :old_initialize, :initialize
-  def initialize (user_id = nil, api_token = nil, api_secret = nil, api_endpoint = 'https://api.catapult.inetwork.com', api_version = 'v1')
-    old_initialize(user_id, api_token, api_secret, api_endpoint, api_version)
-    @stubs = if user_id  then  Faraday::Adapter::Test::Stubs.new() else Helper.stubs end
+  def initialize (account_id = nil, user_name = nil, password = nil, options = nil)
+    old_initialize(account_id, user_name, password, options)
+    @stubs = if account_id  then  Faraday::Adapter::Test::Stubs.new() else Helper.stubs end
     @set_adapter = lambda{|faraday| faraday.adapter(:test, @stubs)}
   end
  def stubs()
