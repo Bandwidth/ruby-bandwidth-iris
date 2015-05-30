@@ -67,17 +67,14 @@ module BandwidthIris
     # @param data [Hash] data  which will be sent with request (for :get and :delete request they will be sent with query in url)
     # @return [Array] array with 2 elements: parsed  data of response and response headers
     def make_request(method, path, data = {})
-      d  = camelcase(data)
       connection = @create_connection.call()
       response =  if method == :get || method == :delete
+                    d  = camelcase(data)
                     connection.run_request(method, @build_path.call(path), nil, nil) do |req|
                       req.params = d unless d == nil || d.empty?
                     end
                   else
-                    doc = build_doc(d)
-                    connection.run_request(method, @build_path.call(path),
-                      doc.values.first.to_xml({:root => doc.keys.first, :skip_types => true, :indent => 0 }),
-                      {'Content-Type' => 'text/xml'})
+                    connection.run_request(method, @build_path.call(path), build_xml(data), {'Content-Type' => 'text/xml'})
                   end
       body = check_response(response)
       [body || {}, symbolize(response.headers || {})]
@@ -119,6 +116,11 @@ module BandwidthIris
     # @return [Faraday::Connection] connection
     def create_connection()
       @create_connection.call()
+    end
+
+    def build_xml(data)
+       doc = build_doc(data)
+       doc.values.first.to_xml({:root => doc.keys.first, :skip_types => true, :indent => 0 })
     end
 
     protected
@@ -167,7 +169,9 @@ module BandwidthIris
         when v.is_a?(Hash)
           result = {}
           v.each do |k, val|
-            result[k.to_s().camelcase(:upper)] = build_doc(val)
+            if k[0] != '_'
+              result[v["_#{k}XmlElement"] || (k.to_s().camelcase(:upper))] = build_doc(val)
+            end
           end
           result
         else
@@ -194,7 +198,7 @@ module BandwidthIris
         when /\A\d{9}\d?\Z/.match(v)
           v
         when /\A\d+\Z/.match(v)
-          Integer(v)  
+          Integer(v)
         when /\A[-+]?[0-9]*\.?[0-9]+\Z/.match(v)
           Float(v)
         else
