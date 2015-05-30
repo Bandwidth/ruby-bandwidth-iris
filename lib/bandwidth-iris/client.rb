@@ -191,8 +191,10 @@ module BandwidthIris
           v == "true"
         when /^\d{4}\-\d{2}-\d{2}T\d{2}\:\d{2}\:\d{2}(\.\d{3})?Z$/.match(v)
           DateTime.iso8601(v)
-        when /\d{10}/.match(v)
+        when /\A\d{9}\d?\Z/.match(v)
           v
+        when /\A\d+\Z/.match(v)
+          Integer(v)  
         when /\A[-+]?[0-9]*\.?[0-9]+\Z/.match(v)
           Float(v)
         else

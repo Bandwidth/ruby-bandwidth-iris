@@ -13,7 +13,7 @@ module BandwidthIris
     #
     #     wrap_client_arg :do_something
     #     # Now you can make calls like MyClass.do_something(client, arg1, arg2) and MyClass.do_something(arg1, arg2)
-    #     # In last case Client instance with default parameters (from Cleint.global_options) will be used
+    #     # In last case Client instance with default parameters (from Client.global_options) will be used
     #   end
     def wrap_client_arg(method)
       old = method(method)

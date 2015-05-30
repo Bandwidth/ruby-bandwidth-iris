@@ -64,7 +64,7 @@ describe BandwidthIris::Client do
       client.stubs.get('/v1.0/path1') { |env| [200, {}, '<Result><Test>data</Test></Result>'] }
       client.stubs.get('/v1.0/path2?testField=10') { |env| [200, {'Location'=>'url'}, '<Root><TestValue>10</TestValue><DataArray>1</DataArray><DataArray>2</DataArray><BoolValue>true</BoolValue><BoolValue2>false</BoolValue2><DateTimeValue>2015-05-29T01:02:03Z</DateTimeValue></Root>'] }
       expect(client.make_request(:get, '/path1')).to eql([{:test => 'data'}, {}])
-      expect(client.make_request(:get, '/path2', {:test_field => 10})).to eql([{:test_value => 10.0, :data_array => [1.0, 2.0], :bool_value => true, :bool_value2 => false, :date_time_value => DateTime.new(2015,5,29,1,2,3)}, {:location=>'url'}])
+      expect(client.make_request(:get, '/path2', {:test_field => 10})).to eql([{:test_value => 10, :data_array => [1, 2], :bool_value => true, :bool_value2 => false, :date_time_value => DateTime.new(2015,5,29,1,2,3)}, {:location=>'url'}])
     end
 
     it 'should make POST request and return xml data' do

@@ -1,5 +1,6 @@
 require 'simplecov'
 require 'coveralls'
+require 'yaml'
 
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
   SimpleCov::Formatter::HTMLFormatter,
@@ -21,7 +22,10 @@ RSpec.configure do |conf|
   include BandwidthIris
 end
 
+
+
 module Helper
+  @xml = YAML.load(File.read(File.join(File.dirname(__FILE__), 'xml.yml')))
   def self.get_client()
     Client.new('accountId', 'username', 'password')
   end
@@ -35,6 +39,10 @@ module Helper
 
   def self.stubs()
     @stubs
+  end
+  
+  def self.xml()
+    @xml
   end
 
   def self.camelcase v
