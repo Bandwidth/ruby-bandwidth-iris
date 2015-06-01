@@ -10,5 +10,6 @@ require 'bandwidth-iris/disconnect'
 require 'bandwidth-iris/import_to_account'
 require 'bandwidth-iris/lnp_checker'
 require 'bandwidth-iris/order'
+require 'bandwidth-iris/port_out'
 
 require 'bandwidth-iris/version'
