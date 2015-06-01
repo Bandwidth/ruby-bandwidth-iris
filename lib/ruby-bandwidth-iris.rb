@@ -11,5 +11,6 @@ require 'bandwidth-iris/import_to_account'
 require 'bandwidth-iris/lnp_checker'
 require 'bandwidth-iris/order'
 require 'bandwidth-iris/port_out'
+require 'bandwidth-iris/rate_center'
 
 require 'bandwidth-iris/version'
