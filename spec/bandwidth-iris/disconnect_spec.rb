@@ -1,4 +1,4 @@
-describe BandwidthIris:Disconnect do
+describe BandwidthIris::Disconnect do
   client = nil
 
   before :each do
