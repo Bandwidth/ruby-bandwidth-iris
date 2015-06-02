@@ -13,6 +13,8 @@ require 'bandwidth-iris/order'
 require 'bandwidth-iris/port_in'
 require 'bandwidth-iris/port_out'
 require 'bandwidth-iris/rate_center'
+require 'bandwidth-iris/sip_peer'
+require 'bandwidth-iris/site'
 require 'bandwidth-iris/subscription'
 
 require 'bandwidth-iris/version'
