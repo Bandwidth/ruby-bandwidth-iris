@@ -18,5 +18,6 @@ require 'bandwidth-iris/site'
 require 'bandwidth-iris/subscription'
 require 'bandwidth-iris/tn'
 require 'bandwidth-iris/tn_reservation'
+require 'bandwidth-iris/user'
 
 require 'bandwidth-iris/version'
