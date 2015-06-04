@@ -9,7 +9,7 @@ describe BandwidthIris::Disconnect do
     client.stubs.verify_stubbed_calls()
   end
 
-  describe '#disconnect_numbers' do
+  describe '#create' do
     it 'should disconnect numbers' do
       data = {
         :disconnect_telephone_number_order => {
@@ -21,7 +21,7 @@ describe BandwidthIris::Disconnect do
         }
       }
       client.stubs.post('/v1.0/accounts/accountId/disconnects', client.build_xml(data)) {|env| [200, {}, '']}
-      Disconnect.disconnect_numbers(client, 'test', ['111', '222'])
+      Disconnect.create(client, 'test', ['111', '222'])
     end
   end
 

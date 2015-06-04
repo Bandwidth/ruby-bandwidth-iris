@@ -5,7 +5,7 @@ module BandwidthIris
     extend ClientWrapper
     include ApiItem
 
-    def self.disconnect_numbers(client, order_name, numbers)
+    def self.create(client, order_name, numbers)
       data = {
         :disconnect_telephone_number_order =>{
           :name => order_name,
@@ -15,7 +15,7 @@ module BandwidthIris
       }
       client.make_request(:post, client.concat_account_path(DISCONNECT_PATH), data)[0]
     end
-    wrap_client_arg :disconnect_numbers
+    wrap_client_arg :create
 
     def get_notes()
       list = @client.make_request(:get, "#{@client.concat_account_path(DISCONNECT_PATH)}/#{id}/notes")[0][:note]
