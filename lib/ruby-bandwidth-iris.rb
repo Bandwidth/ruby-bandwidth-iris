@@ -16,5 +16,7 @@ require 'bandwidth-iris/rate_center'
 require 'bandwidth-iris/sip_peer'
 require 'bandwidth-iris/site'
 require 'bandwidth-iris/subscription'
+require 'bandwidth-iris/tn'
+require 'bandwidth-iris/tn_reservation'
 
 require 'bandwidth-iris/version'

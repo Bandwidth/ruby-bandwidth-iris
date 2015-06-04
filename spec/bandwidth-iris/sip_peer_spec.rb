@@ -52,7 +52,7 @@ describe BandwidthIris::SipPeer do
 
   describe '#get_tns' do
     it 'should return list of numbers' do
-      client.stubs.get('/v1.0/accounts/accountId/sites/1/sippeers/10/tns') {|env| [200, {}, Helper.xml['tns']]}
+      client.stubs.get('/v1.0/accounts/accountId/sites/1/sippeers/10/tns') {|env| [200, {}, Helper.xml['sip_peer_tns']]}
       item = SipPeer.new({:site_id => 1, :id => 10}, client)
       list = item.get_tns()
       expect(list.length).to eql(17)
