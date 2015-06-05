@@ -36,6 +36,14 @@ describe BandwidthIris::Order do
     end
   end
 
+  describe '#list' do
+    it 'should return orders' do
+      client.stubs.get("/v1.0/accounts/accountId/orders"){|env| [200, {}, Helper.xml['orders']]}
+      list = Order.list(client)
+      expect(list.length).to eql(1)
+    end
+  end
+
   describe '#update' do
     it 'should update an order' do
       data = { :name => "Test",  :close_order => true }
@@ -67,6 +75,50 @@ describe BandwidthIris::Order do
       expect(item[:id]).to eql(11299)
       expect(item[:user_id]).to eql('customer')
       expect(item[:description]).to eql('Test')
+    end
+  end
+
+  describe '#get_area_codes' do
+    it 'should return codes' do
+      client.stubs.get('/v1.0/accounts/accountId/orders/1/areaCodes') {|env| [200, {}, Helper.xml['order_area_codes']]}
+      order = Order.new({:id => 1}, client)
+      list = order.get_area_codes()
+      expect(list.length).to eql(1)
+    end
+  end
+
+  describe '#get_npa_nxx' do
+    it 'should return codes' do
+      client.stubs.get('/v1.0/accounts/accountId/orders/1/npaNxx') {|env| [200, {}, Helper.xml['order_npa_nxx']]}
+      order = Order.new({:id => 1}, client)
+      list = order.get_npa_npx()
+      expect(list.length).to eql(1)
+    end
+  end
+
+  describe '#get_totals' do
+    it 'should return totals' do
+      client.stubs.get('/v1.0/accounts/accountId/orders/1/totals') {|env| [200, {}, Helper.xml['order_totals']]}
+      order = Order.new({:id => 1}, client)
+      list = order.get_totals()
+      expect(list.length).to eql(1)
+    end
+  end
+
+  describe '#get_history' do
+    it 'should return history' do
+      client.stubs.get('/v1.0/accounts/accountId/orders/1/history') {|env| [200, {}, Helper.xml['order_history']]}
+      order = Order.new({:id => 1}, client)
+      list = order.get_history()
+      expect(list.length).to eql(2)
+    end
+  end
+
+  describe '#get_tns' do
+    it 'should return tns' do
+      client.stubs.get('/v1.0/accounts/accountId/orders/1/tns') {|env| [200, {}, Helper.xml['order_tns']]}
+      order = Order.new({:id => 1}, client)
+      order.get_tns()
     end
   end
 end
