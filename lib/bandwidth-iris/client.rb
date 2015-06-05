@@ -33,7 +33,7 @@ module BandwidthIris
           @set_adapter.call(faraday)
         }
       }
-      @concat_account_path = lambda {|path| "/accounts/#{account_id}" + (if path[0] == "/" then path else "/#{path}" end) }
+      @concat_account_path = lambda {|path| "/accounts/#{account_id}" + (if path then (if path[0] == "/" then path else "/#{path}" end) else '' end) }
       @api_endpoint = api_endpoint
       @api_version = api_version
     end
