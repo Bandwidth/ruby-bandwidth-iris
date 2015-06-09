@@ -29,7 +29,7 @@ module BandwidthIris
       @create_connection = lambda{||
         Faraday.new(api_endpoint) { |faraday|
           faraday.basic_auth(user_name, password)
-          faraday.headers['Accept'] = 'text/xml'
+          faraday.headers['Accept'] = 'application/xml'
           @set_adapter.call(faraday)
         }
       }
