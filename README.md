@@ -1,6 +1,6 @@
 # ruby-bandwidth-iris
 
-[![Build](https://travis-ci.org/bandwidthcom/ruby-bandwidth-Bandwidth::png)](https://travis-ci.org/bandwidthcom/ruby-bandwidth-iris)
+[![Build Status](https://travis-ci.org/bandwidthcom/ruby-bandwidth-iris.svg)](https://travis-ci.org/bandwidthcom/ruby-bandwidth-iris)
 
 Ruby Client library for IRIS / BBS API
 
@@ -557,14 +557,17 @@ tn.get_rate_center()
 ```
 
 ## TN Reservation
+
 ### Create TN Reservation
 ```ruby
 Bandwidth::TnReservation.create({:reserved_tn => "9195551212"})
 ```
+
 ### Get TN Reservation
 ```ruby
 tn = Bandwidth::TnReservation.get(id)
 ```
+
 ### Delete TN Reservation
 ```ruby
 tn.delete()
