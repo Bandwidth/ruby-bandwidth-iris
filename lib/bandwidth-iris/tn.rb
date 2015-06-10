@@ -14,6 +14,7 @@ module BandwidthIris
 
     def self.list(client, query = nil)
       list = client.make_request(:get, TN_PATH, query)[0][:telephone_numbers][:telephone_number]
+      return [] if !list
       list = if list.is_a?(Array) then list else [list] end
       list.map do |i|
         Tn.new(i, client)

@@ -7,6 +7,7 @@ module BandwidthIris
 
     def get_notes()
       list = @client.make_request(:get, "#{@client.concat_account_path(IMPORT_TO_ACCOUNT_PATH)}/#{id}/notes")[0][:note]
+      return [] if !list
       if list.is_a?(Array)
         list
       else

@@ -44,6 +44,7 @@ module BandwidthIris
 
     def get_sip_peers()
       list = @client.make_request(:get, "#{@client.concat_account_path(SITE_PATH)}/#{id}/sippeers")[0][:sip_peers][:sip_peer]
+      return [] if !list
       list = if list.is_a?(Array) then list else [list] end
       list.each {|i| i[:id] = i[:peer_id]}
       list
@@ -53,6 +54,30 @@ module BandwidthIris
        location = @client.make_request(:post, "#{@client.concat_account_path(SITE_PATH)}/#{id}/sippeers", {:sip_peer => item})[1][:location]
        id = Client.get_id_from_location_header(location)
        get_sip_peer(id)
+    end
+
+    def get_portins()
+      list = @client.make_request(:get, "#{@client.concat_account_path(SITE_PATH)}/#{id}/portins")[0]
+      # TODO need additional documentaion
+      list
+    end
+
+    def get_totaltns()
+      list = @client.make_request(:get, "#{@client.concat_account_path(SITE_PATH)}/#{id}/totaltns")[0]
+      # TODO need additional documentaion
+      list
+    end
+
+    def get_orders()
+      list = @client.make_request(:get, "#{@client.concat_account_path(SITE_PATH)}/#{id}/orders")[0]
+      # TODO need additional documentaion
+      list
+    end
+
+    def get_inservice_numbers()
+      list = @client.make_request(:get, "#{@client.concat_account_path(SITE_PATH)}/#{id}/inserviceNumbers")[0]
+      # TODO need additional documentaion
+      list
     end
   end
 end

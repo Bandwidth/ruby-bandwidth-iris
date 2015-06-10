@@ -19,6 +19,7 @@ module BandwidthIris
 
     def get_notes()
       list = @client.make_request(:get, "#{@client.concat_account_path(DISCONNECT_PATH)}/#{id}/notes")[0][:note]
+      return [] if !list
       if list.is_a?(Array)
         list
       else

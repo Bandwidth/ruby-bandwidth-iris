@@ -1,11 +1,21 @@
+lib = File.expand_path('../../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
 require 'yaml'
 require 'ruby-bandwidth-iris'
+config = YAML.load_file('config.yml')
 
-BandwidthIris::Client.global_options = YAML.load_file('config.yml')
+BandwidthIris::Client.global_options = {
+  :api_endpoint => config['api_endpoint'],
+  :user_name => config['user_name'],
+  :password => config['password'],
+  :account_id => config['account_id']
+}
+
+number = '9195551212' #exisitng number for order
 
 
-
-site = BanwidthIris::Site.create({
+site = BandwidthIris::Site.create({
   :name => "Ruby Test Site",
   :description => "A Site From Ruby SDK Examples",
   :address => {
@@ -18,21 +28,21 @@ site = BanwidthIris::Site.create({
   }
 })
 
-order =  BandwidthIris::Orders.create({
+order =  BandwidthIris::Order.create({
   :name =>"A Test Order",
   :site_id => site.id,
   :existing_telephone_number_order_type => {
-    :telephone_number_list =>[
+    :telephone_number_list =>
       {
-        :telephone_number => '+12524101959'
+        :telephone_number => [number]
       }
-    ]
+
   }
 })
 
 puts order.to_data
 
-order = BandwidthIris::Orders.get(order.id)
+order = BandwidthIris::Order.get(order.id)
 
 puts order.to_data
 

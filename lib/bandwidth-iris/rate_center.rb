@@ -6,6 +6,7 @@ module BandwidthIris
 
     def self.list(client)
       list = client.make_request(:get, RATE_CENTER_PATH)[0][:rate_centers][:rate_center]
+      return [] if !list
       if list.is_a?(Array)
         list
       else

@@ -8,13 +8,12 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Andrey Belchikov"]
   spec.description   = "Gem for integrating to Bandwidth's Iris API"
   spec.summary       = spec.description
-  spec.homepage      = "https://github.com/bandwidthcom/ruby-iris"
+  spec.homepage      = "https://github.com/bandwidthcom/ruby-bandwidth-iris"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
-
   spec.add_dependency "builder"
   spec.add_dependency "faraday"
   spec.add_dependency "nori"

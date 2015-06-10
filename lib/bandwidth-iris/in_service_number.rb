@@ -6,6 +6,7 @@ module BandwidthIris
 
     def self.list(client, query = nil)
       list = client.make_request(:get, client.concat_account_path(INSERVICE_NUMBER_PATH), query)[0][:telephone_numbers][:telephone_number]
+      return [] if !list
       if list.is_a?(Array) then list else [list] end
     end
     wrap_client_arg :list

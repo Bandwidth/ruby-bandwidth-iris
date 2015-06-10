@@ -19,6 +19,7 @@ module BandwidthIris
 
     def self.list(client, query = nil)
       list = client.make_request(:get, client.concat_account_path(ORDER_PATH), query)[0][:orders][:order]
+      return [] if !list
       list = if list.is_a?(Array) then list else [list]  end
       list.map {|i| Order.new(i, client)}
     end
@@ -30,6 +31,7 @@ module BandwidthIris
 
     def get_notes()
       list = @client.make_request(:get, "#{@client.concat_account_path(ORDER_PATH)}/#{id}/notes")[0][:note]
+      return [] if !list
       if list.is_a?(Array)
         list
       else
@@ -45,16 +47,19 @@ module BandwidthIris
 
     def get_area_codes()
       list = @client.make_request(:get, "#{@client.concat_account_path(ORDER_PATH)}/#{id}/areaCodes")[0][:telephone_details_report]
+      return [] if !list
       if list.is_a?(Array) then list else [list]  end
     end
 
     def get_npa_npx()
       list = @client.make_request(:get, "#{@client.concat_account_path(ORDER_PATH)}/#{id}/npaNxx")[0][:telephone_details_report]
+      return [] if !list
       if list.is_a?(Array) then list else [list]  end
     end
 
     def get_totals()
       list = @client.make_request(:get, "#{@client.concat_account_path(ORDER_PATH)}/#{id}/totals")[0][:telephone_details_report]
+      return [] if !list
       if list.is_a?(Array) then list else [list]  end
     end
 
@@ -64,6 +69,7 @@ module BandwidthIris
 
     def get_history()
       list = @client.make_request(:get, "#{@client.concat_account_path(ORDER_PATH)}/#{id}/history")[0][:order_history]
+      return [] if !list
       if list.is_a?(Array) then list else [list]  end
     end
   end

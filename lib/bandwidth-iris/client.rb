@@ -29,6 +29,7 @@ module BandwidthIris
       @create_connection = lambda{||
         Faraday.new(api_endpoint) { |faraday|
           faraday.basic_auth(user_name, password)
+          #faraday.response :logger
           faraday.headers['Accept'] = 'application/xml'
           @set_adapter.call(faraday)
         }
@@ -74,7 +75,7 @@ module BandwidthIris
                       req.params = d unless d == nil || d.empty?
                     end
                   else
-                    connection.run_request(method, @build_path.call(path), build_xml(data), {'Content-Type' => 'text/xml'})
+                    connection.run_request(method, @build_path.call(path), build_xml(data), {'Content-Type' => 'application/xml'})
                   end
       body = check_response(response)
       [body || {}, symbolize(response.headers || {})]

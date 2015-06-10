@@ -31,6 +31,7 @@ module BandwidthIris
         r[:sip_peer_telephone_number]
       else
         list = r[:sip_peer_telephone_numbers][:sip_peer_telephone_number]
+        return [] if !list
         if list.is_a?(Array) then list else [list] end
       end
     end

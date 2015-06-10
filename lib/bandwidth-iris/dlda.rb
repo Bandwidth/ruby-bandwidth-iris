@@ -7,6 +7,7 @@ module BandwidthIris
 
     def self.list(client, query = nil)
       list = client.make_request(:get, client.concat_account_path(DLDA_PATH), query)[0][:list_order_id_user_id_date][:order_id_user_id_date]
+      return [] if !list
       list = if list.is_a?(Array) then list else [list] end
       list.map do |i|
         i[:id] = i[:order_id]
