@@ -557,14 +557,17 @@ tn.get_rate_center()
 ```
 
 ## TN Reservation
+
 ### Create TN Reservation
 ```ruby
 Bandwidth::TnReservation.create({:reserved_tn => "9195551212"})
 ```
+
 ### Get TN Reservation
 ```ruby
 tn = Bandwidth::TnReservation.get(id)
 ```
+
 ### Delete TN Reservation
 ```ruby
 tn.delete()
