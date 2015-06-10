@@ -275,11 +275,11 @@ order = {
   :name => "A Test Order",
   :site_id => 1111,
   :existing_telephone_number_order_type => {
-    telephone_number_list =>[
+    telephone_number_list =>
       {
-        :telephone_number => "9195551212"
+        :telephone_number => ["9195551212"]
       }
-    ]
+    
   }
 }
 
@@ -400,28 +400,26 @@ data = {
   :is_default_peer => false, 
   :short_messaging_protocol =>"SMPP",
   :site_id => selectedSite, 
-  :voice_hosts =>[
+  :voice_hosts =>
     {
-      :host => {
+      :host => [{
         :host_name => "1.1.1.1"
-      }
-    }
-  ],
-  :sms_hosts =>[
+      }]
+    },
+  :sms_hosts =>
     {
-      :host => {
+      :host => [{
         :host_name => "1.1.1.1"
-      }
-    }
-  ],
-  :termination_hosts => [
+      }]
+    },
+  :termination_hosts => 
     {
-        :termination_host =>{
+        :termination_host =>[{
         :host_name => "1.1.1.1",
         :port => 5060
-      }
+      }]
     }
-  ]
+  
 }
 
 Bandwidth::SipPeer.create(data)
