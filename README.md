@@ -1,6 +1,6 @@
 # ruby-bandwidth-iris
 
-[![Build](https://travis-ci.org/bandwidthcom/ruby-bandwidth-Bandwidth::png)](https://travis-ci.org/bandwidthcom/ruby-bandwidth-iris)
+[![Build Status](https://travis-ci.org/bandwidthcom/ruby-bandwidth-iris.svg)](https://travis-ci.org/bandwidthcom/ruby-bandwidth-iris)
 
 Ruby Client library for IRIS / BBS API
 
