@@ -1,5 +1,5 @@
 module BandwidthIris
-  DISC_NUMBER_PATH = 'users'
+  DISC_NUMBER_PATH = 'discnumbers'
 
   class DiscNumber
     extend ClientWrapper
