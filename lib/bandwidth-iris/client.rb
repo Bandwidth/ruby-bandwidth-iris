@@ -120,7 +120,7 @@ module BandwidthIris
     end
 
     def build_xml(data)
-       doc = build_doc(data)
+       doc = build_doc(data, data.keys.first.to_s().camelcase(:upper))
        doc.values.first.to_xml({:root => doc.keys.first, :skip_types => true, :indent => 0 })
     end
 
@@ -163,15 +163,19 @@ module BandwidthIris
       process_parsed_doc(doc.values.first)
     end
 
-    def build_doc(v)
+    def build_doc(v, name)
       case
         when v.is_a?(Array)
-          v.map {|i| build_doc(i)}
+          list = v.map {|i| build_doc(i, name)}
+          list.extend(XmlArraySerializer)
+          list.element_name = name
+          list
         when v.is_a?(Hash)
           result = {}
           v.each do |k, val|
             if k[0] != '_'
-              result[v["_#{k}XmlElement"] || (k.to_s().camelcase(:upper))] = build_doc(val)
+              element_name = v["_#{k}XmlElement"] || (k.to_s().camelcase(:upper))
+              result[element_name] = build_doc(val, element_name)
             end
           end
           result
@@ -229,4 +233,23 @@ module BandwidthIris
       result
     end
   end
+
+  module XmlArraySerializer
+    def element_name=(name)
+      @element_name = name
+    end
+
+    def to_xml(options = {})
+      builder = options[:builder]
+      self.map do |item|
+        if item.class.method_defined?(:to_xml)
+          builder << item.to_xml({skip_instruct: true, root: @element_name, skip_types: true, indent:0})
+        else
+          builder << "<#{@element_name}>#{item}</#{@element_name}>"
+        end
+      end
+      builder
+    end
+  end
 end
+

@@ -123,3 +123,17 @@ describe BandwidthIris::Client do
     end
   end
 end
+
+describe '#build_xml' do
+  client = nil
+  before :each do
+    client = Helper.get_client()
+  end
+
+  it 'should generate valid XML' do
+    expect(client.build_xml({root: {item: {value: '123'}}})).to eql('<?xml version="1.0" encoding="UTF-8"?><Root><Item><Value>123</Value></Item></Root>')
+    expect(client.build_xml({root: {item: [1,2,3]}})).to eql('<?xml version="1.0" encoding="UTF-8"?><Root><Item>1</Item><Item>2</Item><Item>3</Item></Root>')
+    expect(client.build_xml({root: {item: [{value: '111'}, {value: '222'}]}})).to eql('<?xml version="1.0" encoding="UTF-8"?><Root><Item><Value>111</Value></Item><Item><Value>222</Value></Item></Root>')
+    expect(client.build_xml({root: {item: [{value: [1,2,3]}, {value: '222'}]}})).to eql('<?xml version="1.0" encoding="UTF-8"?><Root><Item><Value>1</Value><Value>2</Value><Value>3</Value></Item><Item><Value>222</Value></Item></Root>')
+  end
+end
