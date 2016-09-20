@@ -68,8 +68,8 @@ describe BandwidthIris::Client do
     end
 
     it 'should make POST request and return xml data' do
-      client.stubs.post('/v1.0/path1', '<?xml version="1.0" encoding="UTF-8"?><Request><TestField1>test</TestField1><TestField2>10</TestField2><TestField3>false</TestField3><TestFieldd4>2015-05-29T01:02:03+00:00</TestFieldd4></Request>')  { |env|  [200, {}, '<Response><Success>true</Success></Response>'] }
-      expect(client.make_request(:post, '/path1', {:request => {:test_field1 => "test", :test_field2 => 10, :test_field3 => false, :test_fieldd4 => DateTime.new(2015, 5, 29, 1,2,3)}})[0]).to eql(:success => true)
+      client.stubs.post('/v1.0/path1', '<?xml version="1.0" encoding="UTF-8"?><Request><TestField1>test</TestField1><TestField2>019</TestField2><TestField3>false</TestField3><TestFieldd4>2015-05-29T01:02:03+00:00</TestFieldd4></Request>')  { |env|  [200, {}, '<Response><Success>true</Success></Response>'] }
+      expect(client.make_request(:post, '/path1', {:request => {:test_field1 => "test", :test_field2 => "019", :test_field3 => false, :test_fieldd4 => DateTime.new(2015, 5, 29, 1,2,3)}})[0]).to eql(:success => true)
     end
 
     it 'should make PUT request and return xml data' do
