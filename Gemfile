@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-gem 'rake', '11.1.0'
 
 group :test do
   gem 'coveralls', '0.8.13'
