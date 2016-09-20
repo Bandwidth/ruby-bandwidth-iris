@@ -82,18 +82,18 @@ list = BandwidthIris::AvailableNpaNxx.list({:area_code => "818", :quantity =>5})
 
 ## Cities
 ```ruby
-list = Bandwidth::City.list(:available => true, :state =>"CA"})
+list = BandwidthIris::City.list({:available => true, :state =>"CA"})
 ```
 
 ## Covered Rate Centers
 ```ruby
-Bandwidth::CoveredRateCenter.list({:zip => "27601"})
+BandwidthIris::CoveredRateCenter.list({:zip => "27601"})
 ```
 
 ## Disconnected Numbers
 Retrieves a list of disconnected numbers for an account
 ```ruby
-Bandwidth::DiscNumber.list({:area_code => "919"})
+BandwidthIris::DiscNumber.list({:area_code => "919"})
 ```
 
 ## Disconnect Numbers 
@@ -101,7 +101,7 @@ The Disconnect object is used to disconnect numbers from an account.  Creates a 
 
 ### Create Disconnect
 ```ruby
-Bandwidth::Disconnect.create("Disconnect Order Name", ["9195551212", "9195551213"])
+BandwidthIris::Disconnect.create("Disconnect Order Name", ["9195551212", "9195551213"])
 ```
 
 ### Add Note to Disconnect
@@ -143,7 +143,7 @@ dlda = {
   ]
 }
 
-Bandwidth::Dlda.create(dlda)
+BandwidthIris::Dlda.create(dlda)
 ```
 
 ### Get Dlda
@@ -158,7 +158,7 @@ dlda.get_history()
 
 ### List Dldas
 ```ruby
-Bandwidth::Dlda.list({:telephone_number => "9195551212"})
+BandwidthIris::Dlda.list({:telephone_number => "9195551212"})
 ```
 
 ## Import To Account
@@ -168,12 +168,12 @@ This path is generally not available to Bandwidth accounts, and as such is not d
 
 ### List InService Numbers
 ```ruby
-Bandwidth::InServiceNumber.list({:area_code => "919"})
+BandwidthIris::InServiceNumber.list({:area_code => "919"})
 ```
 
 ### Get InService Number Detail
 ```ruby
-Bandwidth::InServiceNumber.get("9195551212")
+BandwidthIris::InServiceNumber.get("9195551212")
 ```
 
 ## Lidb
@@ -191,15 +191,15 @@ data = {
     }
   }
 }
-Bandwidth::Lidbs.create(data)
+BandwidthIris::Lidbs.create(data)
 ```
 ### Get Lidb
 ```ruby
-Bandwidth::Lidbs.get(id)
+BandwidthIris::Lidbs.get(id)
 ```
 ### List Lidbs
 ```ruby
-Bandwidth::Lidbs.list({:telephone_number => "9195551212"})
+BandwidthIris::Lidbs.list({:telephone_number => "9195551212"})
 ```
 
 ## LNP Checker
@@ -207,7 +207,7 @@ Bandwidth::Lidbs.list({:telephone_number => "9195551212"})
 ```ruby
 numbers = ["9195551212", "9195551213"]
 full_check = true
-Bandwidth::LnpChecker.check(numbers, full_check)
+BandwidthIris::LnpChecker.check(numbers, full_check)
 ```
 
 ## LSR Orders
@@ -239,20 +239,20 @@ data = {
   }
 }
 
-Bandwidth::LsrOrder.create(data)
+BandwidthIris::LsrOrder.create(data)
 ```
 ### Get LSR Order
 ```ruby
-Bandwidth::LsrOrder.get(id)
+BandwidthIris::LsrOrder.get(id)
 ```
 ### List LSR Orders
 ```ruby
-Bandwidth::LsrOrder.list({:pon =>"Some Pon"})
+BandwidthIris::LsrOrder.list({:pon =>"Some Pon"})
 ```
 ### Update LSR Order
 ```ruby
 order.requestedFocDate = "2015-11-16"
-Bandwidth::LsrOrder.update(order)
+BandwidthIris::LsrOrder.update(order)
 ```
 ### Get LSR Order History
 ```ruby
@@ -283,15 +283,15 @@ order = {
   }
 }
 
-Bandwidth::Order.create(order)
+BandwidthIris::Order.create(order)
 ```
 ### Get Order
 ```ruby
-Bandwidth::Order.get(id)
+BandwidthIris::Order.get(id)
 ```
 ### List Orders
 ```ruby
-Bandwidth::Order.list(query)
+BandwidthIris::Order.list(query)
 ```
 ### Order Instance Methods 
 ```ruby
@@ -343,11 +343,11 @@ data = {
   :billing_type => "PORTIN"
 }
 
-Bandwidth::PortIn.create(data)
+BandwidthIris::PortIn.create(data)
 ```
 ## Get PortIn
 ```ruby
-Bandwidth::PortIn.get("id", callback)
+BandwidthIris::PortIn.get("id", callback)
 ```
 
 ### PortIn Instance methods
@@ -378,18 +378,18 @@ portIn.get_files()
 ### List PortOuts
 ```ruby
 query = {:status => "complete"}
-Bandwidth::PortOut.list(query)
+BandwidthIris::PortOut.list(query)
 ```
 ### Get PortOut
 ```ruby
-Bandwidth::PortOut.get(id)
+BandwidthIris::PortOut.get(id)
 ```
 
 ## Rate Centers
 ### List Ratecenters
 ```ruby
 query = {:available => true, :state => "CA"}
-Bandwidth::RateCenter.list(query)
+BandwidthIris::RateCenter.list(query)
 ```
 
 ## SIP Peers
@@ -422,15 +422,15 @@ data = {
   
 }
 
-Bandwidth::SipPeer.create(data)
+BandwidthIris::SipPeer.create(data)
 ```
 ### Get SIP Peer
 ```ruby
-Bandwidth::SipPeer.get("id")
+BandwidthIris::SipPeer.get("id")
 ```
 ### List SIP Peers
 ```ruby
-Bandwidth::SipPeer.list(siteId)
+BandwidthIris::SipPeer.list(siteId)
 ```
 ### Delete SIP Peer
 ```ruby
@@ -470,7 +470,7 @@ site = {
     :address_type => "Service"
   }
 };
-Bandwidth::Site.create(site)
+BandwidthIris::Site.create(site)
 ```
 
 ### Updating a Site
@@ -483,7 +483,7 @@ site.delete()
 ```
 ### Listing All Sites
 ```ruby
-Bandwidth::Site.list()
+BandwidthIris::Site.list()
 ```
 ```
 ### Site SipPeer Methods
@@ -510,15 +510,15 @@ subscription = {
     :expiry => 12000
   }
 }
-Bandwidth::Subscription.create(subscription)
+BandwidthIris::Subscription.create(subscription)
 ```
 ### Get Subscription
 ```ruby
-Bandwidth::Subscription.get(id)
+BandwidthIris::Subscription.get(id)
 ```
 ### List Subscriptions
 ```ruby
-Bandwidth::Subscription.list(query)
+BandwidthIris::Subscription.list(query)
 ```
 ### Subscription Instance Methods
 ```ruby
@@ -534,11 +534,11 @@ subscription.delete()
 ## TNs
 ### Get TN
 ```ruby
-tn = Bandwidth::Tn.get(fullNumber)
+tn = BandwidthIris::Tn.get(fullNumber)
 ```
 ### List TNs
 ```ruby
-Bandwidth::Tn.list(query)
+BandwidthIris::Tn.list(query)
 ```
 ### TN Instance Methods
 ```ruby
@@ -560,12 +560,12 @@ tn.get_rate_center()
 
 ### Create TN Reservation
 ```ruby
-Bandwidth::TnReservation.create({:reserved_tn => "9195551212"})
+BandwidthIris::TnReservation.create({:reserved_tn => "9195551212"})
 ```
 
 ### Get TN Reservation
 ```ruby
-tn = Bandwidth::TnReservation.get(id)
+tn = BandwidthIris::TnReservation.get(id)
 ```
 
 ### Delete TN Reservation
