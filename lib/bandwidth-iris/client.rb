@@ -202,7 +202,7 @@ module BandwidthIris
           DateTime.iso8601(v)
         when /\A\d{9}\d?\Z/.match(v)
           v
-        when /\A\d+\Z/.match(v)
+        when /\A[1-9]\d*\Z/.match(v)
           Integer(v)
         when /\A[-+]?[0-9]*\.?[0-9]+\Z/.match(v)
           Float(v)
