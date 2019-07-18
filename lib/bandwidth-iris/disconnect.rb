@@ -10,7 +10,11 @@ module BandwidthIris
         :disconnect_telephone_number_order =>{
           :name => order_name,
           '_nameXmlElement' => 'name',
-          :disconnect_telephone_number_order_type => { :telephone_number => numbers }
+          :disconnect_telephone_number_order_type => {
+              :telephone_number_list => {
+                :telephone_number => numbers
+              }
+            }
         }
       }
       client.make_request(:post, client.concat_account_path(DISCONNECT_PATH), data)[0]

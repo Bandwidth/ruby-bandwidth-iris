@@ -4,6 +4,12 @@
 
 Ruby Client library for IRIS / BBS API
 
+## Release Notes
+
+| Release Version | Notes |
+|--|--|
+| 1.0.5 | Fixed incorrect generation of XML for a Disconnect request |
+
 ## Install
 
 Run

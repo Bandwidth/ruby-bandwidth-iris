@@ -16,7 +16,9 @@ describe BandwidthIris::Disconnect do
           :name => 'test',
           '_nameXmlElement' => 'name',
           :disconnect_telephone_number_order_type => {
-            :telephone_number => ['111', '222']
+            :telephone_number_list => {
+              :telephone_number => ['111', '222']
+            }
           }
         }
       }
