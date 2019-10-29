@@ -78,7 +78,7 @@ case by the internals of the API when converted to XML.
 ## Available Numbers
 
 ```Ruby
-list = BandwidthIris::AvailableNumbers.list(query)
+list = BandwidthIris::AvailableNumber.list(query)
 ```
 
 ## Available NpaNxx
