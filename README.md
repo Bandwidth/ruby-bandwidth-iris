@@ -160,12 +160,12 @@ dlda_data = {
   ]
 }
 
-dlda_response = BandwidthIris::Dlda.create(dlda_data)
+BandwidthIris::Dlda.create(dlda_data)
 ```
 
 ### Get Dlda
 ```ruby
-dlda = Bandwidth::Dlda.get(dlda_response.id)
+dlda = Bandwidth::Dlda.get("dlda_id")
 ```
 
 ### Get Dlda History
@@ -208,11 +208,11 @@ data = {
     }
   }
 }
-lidb_response = BandwidthIris::Lidb.create(data)
+BandwidthIris::Lidb.create(data)
 ```
 ### Get Lidb
 ```ruby
-BandwidthIris::Lidb.get(lidb_response.id)
+BandwidthIris::Lidb.get("lidb_id")
 ```
 ### List Lidb
 ```ruby
@@ -256,11 +256,11 @@ data = {
   }
 }
 
-lsr_order_response = BandwidthIris::LsrOrder.create(data)
+BandwidthIris::LsrOrder.create(data)
 ```
 ### Get LSR Order
 ```ruby
-BandwidthIris::LsrOrder.get(lsr_order_response.id)
+BandwidthIris::LsrOrder.get("lsr_order_response_id")
 ```
 ### List LSR Orders
 ```ruby
@@ -300,11 +300,11 @@ order_data = {
   }
 }
 
-order_response = BandwidthIris::Order.create(order_data)
+BandwidthIris::Order.create(order_data)
 ```
 ### Get Order
 ```ruby
-order = BandwidthIris::Order.get(order_response.id)
+order = BandwidthIris::Order.get("order_id")
 ```
 ### List Orders
 ```ruby
@@ -364,7 +364,7 @@ portin_response = BandwidthIris::PortIn.create(data)
 ```
 ## Get PortIn
 ```ruby
-portIn = BandwidthIris::PortIn.get(portin_response.id, callback)
+portIn = BandwidthIris::PortIn.get("portin_id", callback)
 ```
 
 ### PortIn Instance methods
@@ -395,11 +395,11 @@ portIn.get_files()
 ### List PortOuts
 ```ruby
 query = {:status => "complete"}
-portout_response = BandwidthIris::PortOut.list(query)
+list = BandwidthIris::PortOut.list(query)
 ```
 ### Get PortOut
 ```ruby
-portout = BandwidthIris::PortOut.get(portout_response.id)
+portout = BandwidthIris::PortOut.get("portout_id")
 ```
 
 ## Rate Centers
@@ -439,11 +439,11 @@ data = {
   
 }
 
-sippeer_response = BandwidthIris::SipPeer.create(data)
+BandwidthIris::SipPeer.create(data)
 ```
 ### Get SIP Peer
 ```ruby
-sipPeer = BandwidthIris::SipPeer.get(sippeer_response.id)
+sipPeer = BandwidthIris::SipPeer.get("sippeer_id")
 ```
 ### List SIP Peers
 ```ruby
@@ -532,11 +532,11 @@ subscription = {
     :expiry => 12000
   }
 }
-subscription = BandwidthIris::Subscription.create(subscription)
+BandwidthIris::Subscription.create(subscription)
 ```
 ### Get Subscription
 ```ruby
-BandwidthIris::Subscription.get(subscription.id)
+BandwidthIris::Subscription.get("subscription_id")
 ```
 ### List Subscriptions
 ```ruby
@@ -556,7 +556,7 @@ subscription.delete()
 ## TNs
 ### Get TN
 ```ruby
-tn = BandwidthIris::Tn.get(fullNumber)
+tn = BandwidthIris::Tn.get("9195555555")
 ```
 ### List TNs
 ```ruby
