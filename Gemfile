@@ -1,9 +1,7 @@
 source 'https://rubygems.org'
 
 group :test do
-  gem 'coveralls', '0.8.13'
-  gem 'rspec', '3.4.0'
-  gem 'simplecov', '0.11.2'
+  gem 'coveralls', '0.8.23'
+  gem 'rspec', '3.9.0'
+  gem 'simplecov', '~> 0.16.1'
 end
-
-gemspec
