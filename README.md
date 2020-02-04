@@ -9,6 +9,7 @@ Ruby Client library for IRIS / BBS API
 | Release Version | Notes |
 |--|--|
 | 1.0.5 | Fixed incorrect generation of XML for a Disconnect request |
+| 1.1.0 | Added `importTnOrders`, `removeImportedTnOrders`, `inserviceNumbers`, and `importTnChecker` endpoints |
 
 ## Install
 
@@ -592,4 +593,52 @@ tn = BandwidthIris::TnReservation.get("tn_reservation_id")
 ### Delete TN Reservation
 ```ruby
 tn.delete()
+```
+
+## Hosted Messaging
+
+### Create Import TN Order
+```ruby
+import_tn_order = {
+    :customer_order_id => "id",
+    :site_id => "12345",
+    :subscriber => {
+        :service_address => {
+            :city => "city",
+            :house_number => "1",
+            :street_name => "Street",
+            :state_code => "XY",
+            :zip => "54345",
+            :county => "County"
+        },
+        :name => "Company INC"
+    },
+    :loa_authorizing_person => "Test Person",
+    :telephone_numbers => {
+        :telephone_number => ["5554443333"]
+    }
+}
+response = BandwidthIris::ImportTnOrders.create_import_tn_order(import_tn_order)
+puts response
+```
+
+### Get Import TN Orders
+```ruby
+response = BandwidthIris::ImportTnOrders.get_import_tn_orders({
+    :createdDateFrom => "2013-10-22T00:00:00.000Z",
+    :createdDateTo => "2013-10-25T00:00:00.000Z"}
+)
+puts response
+```
+
+### Get Import TN Order By ID
+```
+response = BandwidthIris::ImportTnOrders.get_import_tn_order("id")
+puts response
+```
+
+### Get Import TN Order History
+```
+response = BandwidthIris::ImportTnOrders.get_import_tn_order_history("id")
+puts response
 ```
