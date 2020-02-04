@@ -27,5 +27,6 @@ require 'bandwidth-iris/tn'
 require 'bandwidth-iris/tn_reservation'
 require 'bandwidth-iris/user'
 require 'bandwidth-iris/import_tn_orders'
+require 'bandwidth-iris/import_tn_checker'
 
 require 'bandwidth-iris/version'

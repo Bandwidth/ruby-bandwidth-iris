@@ -632,13 +632,23 @@ puts response
 ```
 
 ### Get Import TN Order By ID
-```
+```ruby
 response = BandwidthIris::ImportTnOrders.get_import_tn_order("id")
 puts response
 ```
 
 ### Get Import TN Order History
-```
+```ruby
 response = BandwidthIris::ImportTnOrders.get_import_tn_order_history("id")
+puts response
+```
+
+### Check TNs Portability
+```ruby
+response = BandwidthIris::ImportTnChecker.check_tns_portability({
+    :telephone_numbers => {
+        :telephone_number => ["5554443333", "5553334444"]
+    }
+})
 puts response
 ```
