@@ -16,6 +16,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
   spec.add_dependency "builder"
   spec.add_dependency "faraday"
+  spec.add_dependency "faraday_middleware"
   spec.add_dependency "nori"
   spec.add_dependency "activesupport","4.2.7"
   spec.add_dependency "certified"

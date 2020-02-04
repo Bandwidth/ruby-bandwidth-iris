@@ -1,4 +1,5 @@
 require 'faraday'
+require 'faraday_middleware'
 require 'certified'
 require 'active_support/xml_mini'
 require 'active_support/core_ext/hash/conversions'
@@ -31,6 +32,7 @@ module BandwidthIris
           faraday.basic_auth(user_name, password)
           #faraday.response :logger
           faraday.headers['Accept'] = 'application/xml'
+          faraday.use FaradayMiddleware::FollowRedirects
           @set_adapter.call(faraday)
         }
       }

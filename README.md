@@ -652,3 +652,9 @@ response = BandwidthIris::ImportTnChecker.check_tns_portability({
 })
 puts response
 ```
+
+### List InService Numbers
+```ruby
+response = BandwidthIris::InServiceNumber.list()
+puts response
+```
