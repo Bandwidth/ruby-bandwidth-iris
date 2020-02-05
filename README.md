@@ -659,3 +659,37 @@ response = BandwidthIris::InServiceNumber.list()
 puts response[0]
 #{:total_count=>2, :links=>{:first=>"Link=<https://dashboard.bandwidth.com:443/v1.0/accounts/99/inserviceNumbers?page=1&size=500>;rel=\"first\";"}, :telephone_numbers=>{:count=>2, :telephone_number=>["5554443333", "5554442222"]}}
 ```
+
+### Get Remove Imported TN Orders
+```ruby
+response = BandwidthIris::RemoveImportedTnOrders.get_remove_imported_tn_orders({
+    :createdDateFrom => "2013-10-22T00:00:00.000Z",
+    :createdDateTo => "2013-10-25T00:00:00.000Z"
+})
+puts response
+```
+
+### Get Remove Imported TN Order
+```ruby
+response = BandwidthIris::RemoveImportedTnOrders.get_remove_imported_tn_order("order_id")
+puts response
+```
+
+### Get Remove Imported TN Order History
+```ruby
+response = BandwidthIris::RemoveImportedTnOrders.get_remove_imported_tn_order_history("order_id")
+puts response
+```
+
+### Create Remove Imported TN Order
+```ruby
+remove_imported_tn_order = {
+    :customer_order_id => "custom string",
+    :telephone_numbers => {
+        :telephone_number => ["5554443333", "5554442222"]
+    }
+}
+
+response = BandwidthIris::RemoveImportedTnOrders.create_remove_imported_tn_order(remove_imported_tn_order)
+puts response
+```
