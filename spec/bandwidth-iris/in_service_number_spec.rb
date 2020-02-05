@@ -12,7 +12,7 @@ describe BandwidthIris::InServiceNumber do
   describe '#list' do
     it 'should return numbers' do
       client.stubs.get('/v1.0/accounts/accountId/inserviceNumbers') {|env| [200, {}, Helper.xml['in_service_numbers']]}
-      list = InServiceNumber.list(client)
+      list = InServiceNumber.list(client)[0][:telephone_numbers][:telephone_number]
       expect(list.length).to eql(15)
     end
   end
