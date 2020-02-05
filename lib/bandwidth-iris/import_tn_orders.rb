@@ -5,7 +5,7 @@ module BandwidthIris
     extend ClientWrapper
     include ApiItem
 
-    def self.get_import_tn_orders(client, query)
+    def self.get_import_tn_orders(client, query = nil)
       data = client.make_request(:get, client.concat_account_path(IMPORT_TN_ORDERS_PATH), query)
       return data
     end

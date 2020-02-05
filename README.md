@@ -9,7 +9,7 @@ Ruby Client library for IRIS / BBS API
 | Release Version | Notes |
 |--|--|
 | 1.0.5 | Fixed incorrect generation of XML for a Disconnect request |
-| 1.1.0 | Added `importTnOrders`, `removeImportedTnOrders`, `inserviceNumbers`, and `importTnChecker` endpoints |
+| 2.0.0 | Added `importTnOrders`, `removeImportedTnOrders`, `inserviceNumbers`, and `importTnChecker` endpoints. This release also changed the response body of `BandwidthIris::InServiceNumber.list()`. Please make sure to update your code to include this change. |
 
 ## Install
 
@@ -653,8 +653,9 @@ response = BandwidthIris::ImportTnChecker.check_tns_portability({
 puts response
 ```
 
-### List InService Numbers
+### List InService Numbers (2.0.0 release)
 ```ruby
 response = BandwidthIris::InServiceNumber.list()
-puts response
+puts response[0]
+#{:total_count=>2, :links=>{:first=>"Link=<https://dashboard.bandwidth.com:443/v1.0/accounts/99/inserviceNumbers?page=1&size=500>;rel=\"first\";"}, :telephone_numbers=>{:count=>2, :telephone_number=>["5554443333", "5554442222"]}}
 ```
