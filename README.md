@@ -9,6 +9,7 @@ Ruby Client library for IRIS / BBS API
 | Release Version | Notes |
 |--|--|
 | 1.0.5 | Fixed incorrect generation of XML for a Disconnect request |
+| 2.0.0 | Added `importTnOrders`, `removeImportedTnOrders`, `inserviceNumbers`, and `importTnChecker` endpoints. This release also changed the response body of `BandwidthIris::InServiceNumber.list()`. Please make sure to update your code to include this change. |
 
 ## Install
 
@@ -592,4 +593,103 @@ tn = BandwidthIris::TnReservation.get("tn_reservation_id")
 ### Delete TN Reservation
 ```ruby
 tn.delete()
+```
+
+## Hosted Messaging
+
+### Create Import TN Order
+```ruby
+import_tn_order = {
+    :customer_order_id => "id",
+    :site_id => "12345",
+    :subscriber => {
+        :service_address => {
+            :city => "city",
+            :house_number => "1",
+            :street_name => "Street",
+            :state_code => "XY",
+            :zip => "54345",
+            :county => "County"
+        },
+        :name => "Company INC"
+    },
+    :loa_authorizing_person => "Test Person",
+    :telephone_numbers => {
+        :telephone_number => ["5554443333"]
+    }
+}
+response = BandwidthIris::ImportTnOrders.create_import_tn_order(import_tn_order)
+puts response
+```
+
+### Get Import TN Orders
+```ruby
+response = BandwidthIris::ImportTnOrders.get_import_tn_orders({
+    :createdDateFrom => "2013-10-22T00:00:00.000Z",
+    :createdDateTo => "2013-10-25T00:00:00.000Z"}
+)
+puts response
+```
+
+### Get Import TN Order By ID
+```ruby
+response = BandwidthIris::ImportTnOrders.get_import_tn_order("id")
+puts response
+```
+
+### Get Import TN Order History
+```ruby
+response = BandwidthIris::ImportTnOrders.get_import_tn_order_history("id")
+puts response
+```
+
+### Check TNs Portability
+```ruby
+response = BandwidthIris::ImportTnChecker.check_tns_portability({
+    :telephone_numbers => {
+        :telephone_number => ["5554443333", "5553334444"]
+    }
+})
+puts response
+```
+
+### List InService Numbers (2.0.0 release)
+```ruby
+response = BandwidthIris::InServiceNumber.list()
+puts response[0]
+#{:total_count=>2, :links=>{:first=>"Link=<https://dashboard.bandwidth.com:443/v1.0/accounts/99/inserviceNumbers?page=1&size=500>;rel=\"first\";"}, :telephone_numbers=>{:count=>2, :telephone_number=>["5554443333", "5554442222"]}}
+```
+
+### Get Remove Imported TN Orders
+```ruby
+response = BandwidthIris::RemoveImportedTnOrders.get_remove_imported_tn_orders({
+    :createdDateFrom => "2013-10-22T00:00:00.000Z",
+    :createdDateTo => "2013-10-25T00:00:00.000Z"
+})
+puts response
+```
+
+### Get Remove Imported TN Order
+```ruby
+response = BandwidthIris::RemoveImportedTnOrders.get_remove_imported_tn_order("order_id")
+puts response
+```
+
+### Get Remove Imported TN Order History
+```ruby
+response = BandwidthIris::RemoveImportedTnOrders.get_remove_imported_tn_order_history("order_id")
+puts response
+```
+
+### Create Remove Imported TN Order
+```ruby
+remove_imported_tn_order = {
+    :customer_order_id => "custom string",
+    :telephone_numbers => {
+        :telephone_number => ["5554443333", "5554442222"]
+    }
+}
+
+response = BandwidthIris::RemoveImportedTnOrders.create_remove_imported_tn_order(remove_imported_tn_order)
+puts response
 ```
