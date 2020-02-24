@@ -693,3 +693,67 @@ remove_imported_tn_order = {
 response = BandwidthIris::RemoveImportedTnOrders.create_remove_imported_tn_order(remove_imported_tn_order)
 puts response
 ```
+
+## CSR
+
+### Create CSR Order
+
+```ruby
+csr_data = {
+    :customer_order_id => "order id",
+    :working_or_billing_telephone_number => "5554443333"
+}
+
+response = BandwidthIris::Csr.create(csr_data)
+puts response
+```
+
+### Replace CSR Order
+
+```ruby
+csr_data = {
+    :customer_order_id => "order id",
+    :working_or_billing_telephone_number => "5554443333"
+}
+
+response = BandwidthIris::Csr.replace("csr_id", csr_data)
+puts response
+```
+
+### Get CSR Order
+
+```ruby
+response = BandwidthIris::Csr.get("csr_id")
+puts response
+```
+
+### Get CSR Order Notes
+
+```ruby
+response = BandwidthIris::Csr.get_notes("csr_id")
+puts response
+```
+
+### Add CSR Order Note
+
+```ruby
+note_data = {
+    :user_id => "id",
+    :description => "description"
+}
+
+response = BandwidthIris::Csr.add_note("csr_id", note_data)
+puts response
+```
+
+### Update CSR Order Note
+
+```ruby
+note_data = {
+    :user_id => "id",
+    :description => "description"
+}
+
+response = BandwidthIris::Csr.add_note("csr_id", "note_id", note_data)
+puts response
+```
