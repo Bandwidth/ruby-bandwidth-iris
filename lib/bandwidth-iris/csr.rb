@@ -39,4 +39,6 @@ module BandwidthIris
       data = client.make_request(:put, client.concat_account_path("#{CSR_PATH}/#{csr_id}/notes/#{note_id}"), {:note => note_data})
       return data
     end
-    wrap_client_arg :update_node
+    wrap_client_arg :update_note
+  end
+end
