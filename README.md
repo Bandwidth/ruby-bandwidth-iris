@@ -743,8 +743,7 @@ note_data = {
     :description => "description"
 }
 
-response = BandwidthIris::Csr.add_note("csr_id", note_data)
-puts response
+BandwidthIris::Csr.add_note("csr_id", note_data)
 ```
 
 ### Update CSR Order Note
@@ -755,6 +754,5 @@ note_data = {
     :description => "description"
 }
 
-response = BandwidthIris::Csr.add_note("csr_id", "note_id", note_data)
-puts response
+BandwidthIris::Csr.update_note("csr_id", "note_id", note_data)
 ```

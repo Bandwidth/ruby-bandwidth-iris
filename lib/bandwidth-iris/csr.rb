@@ -21,7 +21,7 @@ module BandwidthIris
       data = client.make_request(:put, client.concat_account_path("#{CSR_PATH}/#{csr_id}"), {:csr => csr_data})
       return data
     end
-    wrap_client_arg :create
+    wrap_client_arg :replace
 
     def self.get_notes(client, csr_id)
       data = client.make_request(:get, client.concat_account_path("#{CSR_PATH}/#{csr_id}/notes"))
