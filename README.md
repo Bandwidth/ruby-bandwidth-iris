@@ -10,6 +10,7 @@ Ruby Client library for IRIS / BBS API
 |--|--|
 | 1.0.5 | Fixed incorrect generation of XML for a Disconnect request |
 | 2.0.0 | Added `importTnOrders`, `removeImportedTnOrders`, `inserviceNumbers`, and `importTnChecker` endpoints. This release also changed the response body of `BandwidthIris::InServiceNumber.list()`. Please make sure to update your code to include this change. |
+| 2.1.0 | Added `csrs` endpoints |
 
 ## Install
 
