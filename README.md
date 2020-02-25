@@ -706,7 +706,7 @@ csr_data = {
 }
 
 response = BandwidthIris::Csr.create(csr_data)
-puts response
+puts response[0][:order_id]
 ```
 
 ### Replace CSR Order
@@ -718,21 +718,21 @@ csr_data = {
 }
 
 response = BandwidthIris::Csr.replace("csr_id", csr_data)
-puts response
+puts response[0][:order_id]
 ```
 
 ### Get CSR Order
 
 ```ruby
 response = BandwidthIris::Csr.get("csr_id")
-puts response
+puts response[0][:order_id]
 ```
 
 ### Get CSR Order Notes
 
 ```ruby
 response = BandwidthIris::Csr.get_notes("csr_id")
-puts response
+puts response[0][:note][0][:id]
 ```
 
 ### Add CSR Order Note
