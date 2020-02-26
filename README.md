@@ -67,7 +67,7 @@ ruby covered_rate_centers.rb
 If the examples take command line parameters, you will get the usage by just executing the individual script.
 
 
-## API Objects 
+## API Objects
 ### General principles
 When fetching objects from the API, it will always return an object that has the client
 instantiated so that you can call dependent methods as well as update, delete.
@@ -84,7 +84,7 @@ site = BandwidthIris::Site.create(client, {siteObject})
 
 Each entity has a get, list, create, update and delete method if appropriate.
 
-All properties are underscored and low-cased for Ruby readability, and are converted on the fly to the proper 
+All properties are underscored and low-cased for Ruby readability, and are converted on the fly to the proper
 case by the internals of the API when converted to XML.
 
 ## Available Numbers
@@ -114,7 +114,7 @@ Retrieves a list of disconnected numbers for an account
 BandwidthIris::DiscNumber.list({:area_code => "919"})
 ```
 
-## Disconnect Numbers 
+## Disconnect Numbers
 The Disconnect object is used to disconnect numbers from an account.  Creates a disconnect order that can be tracked
 
 ### Create Disconnect
@@ -297,7 +297,7 @@ order_data = {
       {
         :telephone_number => ["9195551212"]
       }
-    
+
   }
 }
 
@@ -311,7 +311,7 @@ order = BandwidthIris::Order.get("order_id")
 ```ruby
 BandwidthIris::Order.list(query)
 ```
-### Order Instance Methods 
+### Order Instance Methods
 ```ruby
 // get Area Codes
 order.get_area_codes()
@@ -353,7 +353,7 @@ data = {
       :state_code => "NC",
       :county => "Wake"
     }
-  }, 
+  },
   :loa_authorizing_person => "Joe Blow",
   :list_of_phone_numbers => {
     :phone_number => ["9195551212"]
@@ -415,9 +415,9 @@ BandwidthIris::RateCenter.list(query)
 ```ruby
 data = {
   :peer_name => "A New SIP Peer",
-  :is_default_peer => false, 
+  :is_default_peer => false,
   :short_messaging_protocol =>"SMPP",
-  :site_id => selectedSite, 
+  :site_id => selectedSite,
   :voice_hosts =>
     {
       :host => [{
@@ -430,14 +430,14 @@ data = {
         :host_name => "1.1.1.1"
       }]
     },
-  :termination_hosts => 
+  :termination_hosts =>
     {
         :termination_host =>[{
         :host_name => "1.1.1.1",
         :port => 5060
       }]
     }
-  
+
 }
 
 BandwidthIris::SipPeer.create(data)
@@ -474,7 +474,7 @@ sipPeer.move_tns(numbers_to_move)
 ## Sites
 
 ### Create A Site
-A site is what is called Location in the web UI. 
+A site is what is called Location in the web UI.
 ```ruby
 site = {
   :name =>"A new site",
@@ -528,7 +528,7 @@ site.create_sip_peer(sipPeer)
 subscription = {
   :order_type => "orders",
   :callback_subcription => {
-    :url => "http://mycallbackurl.com",
+    :URL => "http://mycallbackurl.com",
     :user => "userid",
     :expiry => 12000
   }
