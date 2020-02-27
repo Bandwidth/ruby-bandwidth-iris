@@ -28,5 +28,53 @@ module BandwidthIris
       return data
     end
     wrap_client_arg :create_import_tn_order
+
+    def self.get_loa_files(client, order_id)
+      #todo: validate response
+      data = client.make_request(:get, client.concat_account_path("#{IMPORT_TN_ORDERS_PATH}/#{order_id}/#{LOAS_PATH}")
+      return data
+    end
+    wrap_client_arg :get_loa_files
+
+    def self.upload_loa_file(client, order_id, file_contents, mime_type)
+      #todo: add upload, content header
+      client.make_request(:post, client.concat_account_path("#{IMPORT_TN_ORDERS_PATH}/#{order_id}/#{LOAS_PATH}")
+    end
+    wrap_client_arg :upload_loa_file
+
+    def self.donwload_loa_file(client, order_id, file_id)
+      #todo: validate response
+      data = client.make_request(:get, client.concat_account_path("#{IMPORT_TN_ORDERS_PATH}/#{order_id}/#{LOAS_PATH}/#{file_id}")
+      return data
+    end
+    wrap_client_arg :download_loa_file
+
+    def self.replace_loa_file(client, order_id, file_id, file_contents, mime_type)
+      #todo: add upload, content header
+      data = client.make_request(:put, client.concat_account_path("#{IMPORT_TN_ORDERS_PATH}/#{order_id}/#{LOAS_PATH}/#{file_id}")
+    end
+    wrap_client_arg :replace_loa_file
+
+    def self.delete_loa_file(client, order_id, file_id)
+      client.make_request(:delete, client.concat_account_path("#{IMPORT_TN_ORDERS_PATH}/#{order_id}/#{LOAS_PATH}/#{file_id}")
+    end
+    wrap_client_arg :delete_loa_file
+
+    def self.get_loa_file_metadata(client, order_id, file_id)
+      data = client.make_request(:get, client.concat_account_path("#{IMPORT_TN_ORDERS_PATH}/#{order_id}/#{LOAS_PATH}/#{file_id}/metadata")
+      return data
+    end
+    wrap_client_arg :get_loa_file_metadata
+
+    def self.update_loa_file_metadata(client, order_id, file_id, file_metadata)
+      #todo: add upload, content header
+      client.make_request(:put, client.concat_account_path("#{IMPORT_TN_ORDERS_PATH}/#{order_id}/#{LOAS_PATH}/#{file_id}/metadata")
+    end
+    wrap_client_arg :update_loa_file_metadata
+
+    def self.delete_loa_file_metadata(client, order_id, file_id)
+      client.make_request(:delete, client.concat_account_path("#{IMPORT_TN_ORDERS_PATH}/#{order_id}/#{LOAS_PATH}/#{file_id}/metadata")
+    end
+    wrap_client_arg :delete_loa_file_metadata
   end
 end
