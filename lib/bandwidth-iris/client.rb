@@ -83,6 +83,19 @@ module BandwidthIris
       [body || {}, symbolize(response.headers || {})]
     end
 
+    # Makes an HTTP request for file uploads
+    # @param method [Symbol] http method to make
+    # @param path [string] path of url (exclude api verion and endpoint) to make call
+    # @param data [string] the raw binary string representing the file to upload 
+    # @param content_type [string] the content type of the request
+    # @return [Array] array with 2 elements: parsed  data of response and response headers
+    def make_request_file_upload(method, path, data, content_type)
+      connection = @create_connection.call()
+      response = connection.run_request(method, @build_path.call(path), data, {'Content-Type' => content_type})
+      body = check_response(response)
+      [body || {}, symbolize(response.headers || {})]
+    end
+
     # Check response object and raise error if status code >= 400
     # @param response response object
     def check_response(response)

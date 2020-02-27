@@ -696,6 +696,57 @@ response = BandwidthIris::RemoveImportedTnOrders.create_remove_imported_tn_order
 puts response
 ```
 
+### Get LOAs
+```ruby
+response = BandwidthIris::ImportTnOrders.get_loa_files("order_id")
+puts response
+```
+
+### Upload LOA
+Valid `mime_types` can be found on the [Dashboard API Reference](https://dev.bandwidth.com/numbers/apiReference.html) under `/accounts /{accountId} /importTnOrders /{orderid} /loas`
+
+Mime types are expected to be in the format `x/y`, such as `application/pdf` or `text/plain`
+
+```ruby
+BandwidthIris::ImportTnOrders.upload_loa_file("order_id", "binary_file_contents", "mime_type")
+```
+
+### Download LOA
+```ruby
+response = BandwidthIris::ImportTnOrders.download_loa_file("order_id", "file_id")
+#write response to file
+```
+
+### Replace LOA
+```ruby
+BandwidthIris::ImportTnOrders.replace_loa_file("order_id", "file_id", "binary_file_contents", "mime_type")
+```
+
+### Delete LOA
+```ruby
+BandwidthIris::ImportTnOrders.delete_loa_file("order_id", "file_id")
+```
+
+### Get LOA Metadata
+```ruby
+response = BandwidthIris::ImportTnOrders.get_loa_file_metadata("order_id", "file_id")
+puts response
+```
+
+### Update LOA Metadata
+```ruby
+metadata = {
+    :document_name => "name",
+    :document_type => "LOA"    
+}
+BandwidthIris::ImportTnOrders.update_loa_file_metadata("order_id", "file_id", metadata)
+```
+
+### Delete LOA Metadata
+```ruby
+BandwidthIris::ImportTnOrders.delete_loa_file_metadata("order_id", "file_id")
+```
+
 ## CSR
 
 ### Create CSR Order
