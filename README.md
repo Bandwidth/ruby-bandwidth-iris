@@ -605,6 +605,7 @@ tn.delete()
 import_tn_order = {
     :customer_order_id => "id",
     :site_id => "12345",
+    :sip_peer_id => "23456",
     :subscriber => {
         :service_address => {
             :city => "city",
@@ -700,7 +701,8 @@ puts response
 ### Get LOAs
 ```ruby
 response = BandwidthIris::ImportTnOrders.get_loa_files("order_id")
-puts response
+puts response[0][:result_message]
+puts response[0][:file_names] #this can be a single string (if there's 1 file) or an array of strings (if there's multiple files)
 ```
 
 ### Upload LOA
@@ -712,10 +714,22 @@ Mime types are expected to be in the format `x/y`, such as `application/pdf` or 
 BandwidthIris::ImportTnOrders.upload_loa_file("order_id", "binary_file_contents", "mime_type")
 ```
 
-### Download LOA
 ```ruby
+f = open("loa.pdf", "rb")
+file_content = f.read
+f.close()
+
+BandwidthIris::ImportTnOrders.upload_loa_file("order_id", file_content, "application/pdf")
+```
+
+### Download LOA
+Note: Make sure to grab the desired file ID from the response of `BandwidthIris::ImportTnOrders.get_loa_files("order_id")` in the field `response[0][:file_names]`
+
+```ruby
+f = open("write.pdf", "wb")
 response = BandwidthIris::ImportTnOrders.download_loa_file("order_id", "file_id")
-#write response to file
+f.puts(response)
+f.close()
 ```
 
 ### Replace LOA
@@ -731,13 +745,14 @@ BandwidthIris::ImportTnOrders.delete_loa_file("order_id", "file_id")
 ### Get LOA Metadata
 ```ruby
 response = BandwidthIris::ImportTnOrders.get_loa_file_metadata("order_id", "file_id")
-puts response
+puts response[0][:document_name]
+puts response[0][:file_name]
 ```
 
 ### Update LOA Metadata
 ```ruby
 metadata = {
-    :document_name => "name",
+    :document_name => "file_name",
     :document_type => "LOA"    
 }
 BandwidthIris::ImportTnOrders.update_loa_file_metadata("order_id", "file_id", metadata)

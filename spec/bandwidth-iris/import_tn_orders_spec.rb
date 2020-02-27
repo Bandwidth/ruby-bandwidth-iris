@@ -11,7 +11,7 @@ describe BandwidthIris::ImportTnOrders do
 
   describe '#create' do
     it 'should get an order' do
-      client.stubs.get('/v1.0/accounts/accountId/importTnOrders', {}) {|env| [200, {}, '']}
+      client.stubs.get('/v1.0/accounts/accountId/importtnorders', {}) {|env| [200, {}, '']}
       item = ImportTnOrders.get_import_tn_orders(client)
     end
   end
@@ -19,7 +19,7 @@ describe BandwidthIris::ImportTnOrders do
   describe '#get' do
     it 'should get an order' do
       order = "123"
-      client.stubs.get("/v1.0/accounts/accountId/importTnOrders/#{order}", {}) {|env| [200, {}, '']}
+      client.stubs.get("/v1.0/accounts/accountId/importtnorders/#{order}", {}) {|env| [200, {}, '']}
       item = ImportTnOrders.get_import_tn_order(client, order)
     end
   end
@@ -27,7 +27,7 @@ describe BandwidthIris::ImportTnOrders do
   describe '#get history' do
     it 'should get an order history' do
       order = "123"
-      client.stubs.get("/v1.0/accounts/accountId/importTnOrders/#{order}/history", {}) {|env| [200, {}, '']}
+      client.stubs.get("/v1.0/accounts/accountId/importtnorders/#{order}/history", {}) {|env| [200, {}, '']}
       item = ImportTnOrders.get_import_tn_order_history(client, order)
     end
   end
@@ -37,7 +37,7 @@ describe BandwidthIris::ImportTnOrders do
       data = {
           :id => "id"
       }
-      client.stubs.post("/v1.0/accounts/accountId/importTnOrders", client.build_xml({:import_tn_order => data})) {|env| [200, {}, '']}
+      client.stubs.post("/v1.0/accounts/accountId/importtnorders", client.build_xml({:import_tn_order => data})) {|env| [200, {}, '']}
       item = ImportTnOrders.create_import_tn_order(client, data)
     end
   end

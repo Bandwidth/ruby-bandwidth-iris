@@ -96,6 +96,24 @@ module BandwidthIris
       [body || {}, symbolize(response.headers || {})]
     end
 
+    # Makes an HTTP request for a file download
+    # @param method [Symbol] http method to make
+    # @param path [string] path of url (exclude api verion and endpoint) to make call
+    # @param data [Hash] data  which will be sent with request (for :get and :delete request they will be sent with query in url)
+    # @return [string] raw response from the API 
+    def make_request_file_download(method, path, data = {})
+      connection = @create_connection.call()
+      response =  if method == :get || method == :delete
+                    d  = camelcase(data)
+                    connection.run_request(method, @build_path.call(path), nil, nil) do |req|
+                      req.params = d unless d == nil || d.empty?
+                    end
+                  else
+                    connection.run_request(method, @build_path.call(path), build_xml(data), {'Content-Type' => 'application/xml'})
+                  end
+      return response.body
+    end
+
     # Check response object and raise error if status code >= 400
     # @param response response object
     def check_response(response)
