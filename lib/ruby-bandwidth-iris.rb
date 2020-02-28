@@ -29,5 +29,6 @@ require 'bandwidth-iris/user'
 require 'bandwidth-iris/import_tn_orders'
 require 'bandwidth-iris/import_tn_checker'
 require 'bandwidth-iris/remove_imported_tn_orders'
+require 'bandwidth-iris/csr'
 
 require 'bandwidth-iris/version'

@@ -11,6 +11,7 @@ Ruby Client library for IRIS / BBS API
 | 1.0.5 | Fixed incorrect generation of XML for a Disconnect request |
 | 2.0.0 | Added `importTnOrders`, `removeImportedTnOrders`, `inserviceNumbers`, and `importTnChecker` endpoints. This release also changed the response body of `BandwidthIris::InServiceNumber.list()`. Please make sure to update your code to include this change. |
 | 2.0.1 | Updated gem dependencies to be less restrictive |
+| 2.1.0 | Added `csrs` endpoints |
 
 ## Install
 
@@ -693,4 +694,66 @@ remove_imported_tn_order = {
 
 response = BandwidthIris::RemoveImportedTnOrders.create_remove_imported_tn_order(remove_imported_tn_order)
 puts response
+```
+
+## CSR
+
+### Create CSR Order
+
+```ruby
+csr_data = {
+    :customer_order_id => "order id",
+    :working_or_billing_telephone_number => "5554443333"
+}
+
+response = BandwidthIris::Csr.create(csr_data)
+puts response[0][:order_id]
+```
+
+### Replace CSR Order
+
+```ruby
+csr_data = {
+    :customer_order_id => "order id",
+    :working_or_billing_telephone_number => "5554443333"
+}
+
+response = BandwidthIris::Csr.replace("csr_id", csr_data)
+puts response[0][:order_id]
+```
+
+### Get CSR Order
+
+```ruby
+response = BandwidthIris::Csr.get("csr_id")
+puts response[0][:order_id]
+```
+
+### Get CSR Order Notes
+
+```ruby
+response = BandwidthIris::Csr.get_notes("csr_id")
+puts response[0][:note][0][:id]
+```
+
+### Add CSR Order Note
+
+```ruby
+note_data = {
+    :user_id => "id",
+    :description => "description"
+}
+
+BandwidthIris::Csr.add_note("csr_id", note_data)
+```
+
+### Update CSR Order Note
+
+```ruby
+note_data = {
+    :user_id => "id",
+    :description => "description"
+}
+
+BandwidthIris::Csr.update_note("csr_id", "note_id", note_data)
 ```
