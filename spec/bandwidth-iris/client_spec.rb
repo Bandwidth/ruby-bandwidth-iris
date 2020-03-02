@@ -86,41 +86,6 @@ describe BandwidthIris::Client do
       client.stubs.get('/v1.0/path1') { |env| [400, {}, ''] }
       expect{client.make_request(:get, '/path1')}.to raise_error(Errors::GenericError, "Http code 400")
     end
-
-    it 'should fail if output contains ErrorCode and Description' do
-      client.stubs.get('/v1.0/path1') { |env| [200, {}, '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Response><Test><ErrorCode>400</ErrorCode><Description>Error</Description></Test></Response>'] }
-      expect{client.make_request(:get, '/path1')}.to raise_error(Errors::GenericError, "Error")
-    end
-
-    it 'should fail if output contains element Error with Code and Description' do
-      client.stubs.get('/v1.0/path1') { |env| [200, {}, '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Response><Test><Error><Code>400</Code><Description>Error</Description></Error></Test></Response>'] }
-      expect{client.make_request(:get, '/path1')}.to raise_error(Errors::GenericError, "Error")
-    end
-
-    it 'should fail if output contains elements Errors with Code and Description' do
-      client.stubs.get('/v1.0/path1') { |env| [200, {}, '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Response><Test><Errors><Code>400</Code><Description>Error</Description></Errors><Errors><Code>401</Code><Description>Error1</Description></Errors></Test></Response>'] }
-      expect{client.make_request(:get, '/path1')}.to raise_error(Errors::AgregateError)
-    end
-
-    it 'should fail if output contains elements Errors with Code and Description (for 1 element)' do
-      client.stubs.get('/v1.0/path1') { |env| [200, {}, '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Response><Test><Errors><Code>400</Code><Description>Error</Description></Errors></Test></Response>'] }
-      expect{client.make_request(:get, '/path1')}.to raise_error(Errors::AgregateError)
-    end
-
-    it 'should fail if output contains elements resultCode and resultMessage' do
-      client.stubs.get('/v1.0/path1') { |env| [200, {}, '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Response><Test><resultCode>400</resultCode><resultMessage>Error</resultMessage></Test></Response>'] }
-      expect{client.make_request(:get, '/path1')}.to raise_error(Errors::GenericError, "Error")
-    end
-
-    it 'should fail if output contains elements resultCode and resultMessage (more deep)' do
-      client.stubs.get('/v1.0/path1') { |env| [200, {}, '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Response><Tests><Test></Test><Test><resultCode>400</resultCode><resultMessage>Error</resultMessage></Test></Tests></Response>'] }
-      expect{client.make_request(:get, '/path1')}.to raise_error(Errors::GenericError, "Error")
-    end
-
-    it 'should not fail if resultCode == 0' do
-      client.stubs.get('/v1.0/path1') { |env| [200, {}, '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Response><Test><resultCode>0</resultCode><resultMessage>Completed</resultMessage></Test></Response>'] }
-     client.make_request(:get, '/path1')
-    end
   end
 end
 
