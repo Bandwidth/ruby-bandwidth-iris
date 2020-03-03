@@ -12,6 +12,7 @@ Ruby Client library for IRIS / BBS API
 | 2.0.0 | Added `importTnOrders`, `removeImportedTnOrders`, `inserviceNumbers`, and `importTnChecker` endpoints. This release also changed the response body of `BandwidthIris::InServiceNumber.list()`. Please make sure to update your code to include this change. |
 | 2.0.1 | Updated gem dependencies to be less restrictive |
 | 2.1.0 | Added `csrs` endpoints |
+| 2.2.0 | Added `loas` endpoints to `importTnOrders` |
 
 ## Install
 
@@ -604,6 +605,7 @@ tn.delete()
 import_tn_order = {
     :customer_order_id => "id",
     :site_id => "12345",
+    :sip_peer_id => "23456",
     :subscriber => {
         :service_address => {
             :city => "city",
@@ -694,6 +696,71 @@ remove_imported_tn_order = {
 
 response = BandwidthIris::RemoveImportedTnOrders.create_remove_imported_tn_order(remove_imported_tn_order)
 puts response
+```
+
+### Get LOAs
+```ruby
+response = BandwidthIris::ImportTnOrders.get_loa_files("order_id")
+puts response[0][:result_message]
+puts response[0][:file_names] #this can be a single string (if there's 1 file) or an array of strings (if there's multiple files)
+```
+
+### Upload LOA
+Valid `mime_types` can be found on the [Dashboard API Reference](https://dev.bandwidth.com/numbers/apiReference.html) under `/accounts /{accountId} /importTnOrders /{orderid} /loas`
+
+Mime types are expected to be in the format `x/y`, such as `application/pdf` or `text/plain`
+
+```ruby
+BandwidthIris::ImportTnOrders.upload_loa_file("order_id", "binary_file_contents", "mime_type")
+```
+
+```ruby
+f = open("loa.pdf", "rb")
+file_content = f.read
+f.close()
+
+BandwidthIris::ImportTnOrders.upload_loa_file("order_id", file_content, "application/pdf")
+```
+
+### Download LOA
+Note: Make sure to grab the desired file ID from the response of `BandwidthIris::ImportTnOrders.get_loa_files("order_id")` in the field `response[0][:file_names]`
+
+```ruby
+f = open("write.pdf", "wb")
+response = BandwidthIris::ImportTnOrders.download_loa_file("order_id", "file_id")
+f.puts(response)
+f.close()
+```
+
+### Replace LOA
+```ruby
+BandwidthIris::ImportTnOrders.replace_loa_file("order_id", "file_id", "binary_file_contents", "mime_type")
+```
+
+### Delete LOA
+```ruby
+BandwidthIris::ImportTnOrders.delete_loa_file("order_id", "file_id")
+```
+
+### Get LOA Metadata
+```ruby
+response = BandwidthIris::ImportTnOrders.get_loa_file_metadata("order_id", "file_id")
+puts response[0][:document_name]
+puts response[0][:file_name]
+```
+
+### Update LOA Metadata
+```ruby
+metadata = {
+    :document_name => "file_name",
+    :document_type => "LOA"    
+}
+BandwidthIris::ImportTnOrders.update_loa_file_metadata("order_id", "file_id", metadata)
+```
+
+### Delete LOA Metadata
+```ruby
+BandwidthIris::ImportTnOrders.delete_loa_file_metadata("order_id", "file_id")
 ```
 
 ## CSR
