@@ -332,7 +332,7 @@ order.get_totals()
 
 // get all Tns for an order
 order.get_tns()
-##or##
+##Use the below method to grab TNs via an already existing Order ID##
 BandwidthIris::Order.get_tns_by_order_id("id")
 
 // get order history
