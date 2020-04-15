@@ -13,6 +13,7 @@ Ruby Client library for IRIS / BBS API
 | 2.0.1 | Updated gem dependencies to be less restrictive |
 | 2.1.0 | Added `csrs` endpoints |
 | 2.2.0 | Added `loas` endpoints to `importTnOrders` |
+| 2.3.0 | Added `get_tns_by_order_id` to the Orders class |
 
 ## Install
 
@@ -331,6 +332,8 @@ order.get_totals()
 
 // get all Tns for an order
 order.get_tns()
+##Use the below method to grab TNs via an already existing Order ID##
+BandwidthIris::Order.get_tns_by_order_id("id")
 
 // get order history
 order.get_history()
