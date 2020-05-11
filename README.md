@@ -839,23 +839,26 @@ data = {
   :app_name => "Name",
   :msg_callback_url => "https://test.com"
 }
-application = Applications.create_application(data)[0]
-puts application[:application][:application_id]
+application = BandwidthIris::Applications.create_application(data)[0]
+puts application[:application]
 ```
 
 ### Get Applications
 
 ```ruby
-applications = Applications.get_applications()[0]
-puts applications[:application_list][:application][0][:application_id]
-puts applications[:application_list][:application][1][:application_id]
+applications = BandwidthIris::Applications.get_applications()[0]
+#1 application found
+puts applications[:application_list][:application]
+#more than 1 application found
+puts applications[:application_list][:application][0]
+puts applications[:application_list][:application][1]
 ```
 
 ### Get An Application
 
 ```ruby
-application = Applications.get_application("id")[0]
-puts application[:application][:application_id]
+application = BandwidthIris::Applications.get_application("id")[0]
+puts application[:application]
 ```
 
 ### Partially Update An Application
@@ -864,8 +867,8 @@ puts application[:application][:application_id]
 data = {
   :app_name => "Name2"
 }
-application = Applications.partial_update_application("id", data)[0]
-puts application[:application][:application_id]
+application = BandwidthIris::Applications.partial_update_application("id", data)[0]
+puts application[:application]
 ```
 
 ### Completely Update An Application
@@ -876,19 +879,22 @@ data = {
   :app_name => "Name2",
   :msg_callback_url => "https://test2.com"
 }
-application = Applications.complete_update_application("id", data)[0]
-puts application[:application][:application_id]
+application = BandwidthIris::Applications.complete_update_application("id", data)[0]
+puts application[:application]
 ```
 
 ### Remove An Application
 
 ```ruby
-Applications.delete_application("id")
+BandwidthIris::Applications.delete_application("id")
 ```
 
 ### List Application Sippeers
 
 ```ruby
-sippeers = Applications.get_application_sippeers("id")[0]
-puts sippeers[:associated_sip_peers][:associated_sip_peer][0][:site_id]
+sippeers = BandwidthIris::Applications.get_application_sippeers("id")[0]
+#1 sip peer found
+puts sippeers[:associated_sip_peers][:associated_sip_peer]
+#more than 1 sip peer found
+puts sippeers[:associated_sip_peers][:associated_sip_peer][0]
 ```
