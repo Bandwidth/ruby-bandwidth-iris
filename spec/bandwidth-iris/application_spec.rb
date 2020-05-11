@@ -25,9 +25,9 @@ describe BandwidthIris::Applications do
 
     it 'should get an application\'s sippeers' do
       client.stubs.get("/v1.0/accounts/accountId/applications/id/associatedsippeers", ){|env| [200, {},  Helper.xml['applicationSippeers']]}
-      application = Applications.get_application_sippeers(client, "id")[0]
-      expect(application[:associated_sip_peers][:associated_sip_peer][0][:site_id]).to eql(1)
-      expect(application[:associated_sip_peers][:associated_sip_peer][1][:site_id]).to eql(2)
+      sippeers = Applications.get_application_sippeers(client, "id")[0]
+      expect(sippeers[:associated_sip_peers][:associated_sip_peer][0][:site_id]).to eql(1)
+      expect(sippeers[:associated_sip_peers][:associated_sip_peer][1][:site_id]).to eql(2)
     end
   end
 
@@ -67,4 +67,12 @@ describe BandwidthIris::Applications do
       expect(application[:application][:application_id]).to eql("d1")
     end
   end
+
+  describe '#delete' do
+    it 'should delete an application' do
+      client.stubs.delete("/v1.0/accounts/accountId/applications/id"){|env| [200, {}, '']}
+      Applications.delete_application(client, "id")
+    end
+  end
+
 end

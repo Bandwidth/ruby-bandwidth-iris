@@ -828,3 +828,67 @@ note_data = {
 
 BandwidthIris::Csr.update_note("csr_id", "note_id", note_data)
 ```
+
+## Application Management
+
+### Create Application
+
+```ruby
+data = {
+  :service_type => "Messaging-V2",
+  :app_name => "Name",
+  :msg_callback_url => "https://test.com"
+}
+application = Applications.create_application(data)[0]
+puts application[:application][:application_id]
+```
+
+### Get Applications
+
+```ruby
+applications = Applications.get_applications()[0]
+puts applications[:application_list][:application][0][:application_id]
+puts applications[:application_list][:application][1][:application_id]
+```
+
+### Get An Application
+
+```ruby
+application = Applications.get_application("id")[0]
+puts application[:application][:application_id]
+```
+
+### Partially Update An Application
+
+```ruby
+data = {
+  :app_name => "Name2"
+}
+application = Applications.partial_update_application("id", data)[0]
+puts application[:application][:application_id]
+```
+
+### Completely Update An Application
+
+```ruby
+data = {
+  :service_type => "Messaging-V2",
+  :app_name => "Name2",
+  :msg_callback_url => "https://test2.com"
+}
+application = Applications.complete_update_application("id", data)[0]
+puts application[:application][:application_id]
+```
+
+### Remove An Application
+
+```ruby
+Applications.delete_application("id")
+```
+
+### List Application Sippeers
+
+```ruby
+sippeers = Applications.get_application_sippeers("id")[0]
+puts sippeers[:associated_sip_peers][:associated_sip_peer][0][:site_id]
+```

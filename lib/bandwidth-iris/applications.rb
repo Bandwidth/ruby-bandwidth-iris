@@ -35,10 +35,10 @@ module BandwidthIris
     end
     wrap_client_arg :complete_update_application
 
-    def self.remove_application(client, application_id)
+    def self.delete_application(client, application_id)
       client.make_request(:delete, client.concat_account_path("#{APPLICATIONS_PATH}/#{application_id}"))
     end
-    wrap_client_arg :remove_application
+    wrap_client_arg :delete_application
 
     def self.get_application_sippeers(client, application_id)
       data = client.make_request(:get, client.concat_account_path("#{APPLICATIONS_PATH}/#{application_id}/associatedsippeers"))
