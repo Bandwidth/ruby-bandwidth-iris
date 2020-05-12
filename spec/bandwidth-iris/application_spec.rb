@@ -17,6 +17,12 @@ describe BandwidthIris::Applications do
       expect(applications[1][:application_id]).to eql("d2")
     end
 
+    it 'should get applications with one item' do
+      client.stubs.get("/v1.0/accounts/accountId/applications", ){|env| [200, {},  Helper.xml['applicationListOne']]}
+      applications = Applications.get_applications(client)
+      expect(applications[0][:application_id]).to eql("d1")
+    end
+
     it 'should get an application' do
       client.stubs.get("/v1.0/accounts/accountId/applications/id", ){|env| [200, {},  Helper.xml['application']]}
       application = Applications.get_application(client, "id")
@@ -28,6 +34,12 @@ describe BandwidthIris::Applications do
       sippeers = Applications.get_application_sippeers(client, "id")
       expect(sippeers[0][:site_id]).to eql(1)
       expect(sippeers[1][:site_id]).to eql(2)
+    end
+
+    it 'should get an application\'s sippeers with one item' do
+      client.stubs.get("/v1.0/accounts/accountId/applications/id/associatedsippeers", ){|env| [200, {},  Helper.xml['applicationSippeersOne']]}
+      sippeers = Applications.get_application_sippeers(client, "id")
+      expect(sippeers[0][:site_id]).to eql(1)
     end
   end
 

@@ -847,11 +847,7 @@ puts application
 
 ```ruby
 applications = BandwidthIris::Applications.get_applications()
-#1 application found
-puts applications
-#more than 1 application found
 puts applications[0]
-puts applications[1]
 ```
 
 ### Get An Application
@@ -893,8 +889,5 @@ BandwidthIris::Applications.delete_application("id")
 
 ```ruby
 sippeers = BandwidthIris::Applications.get_application_sippeers("id")
-#1 sip peer found
-puts sippeers
-#more than 1 sip peer found
 puts sippeers[0]
 ```

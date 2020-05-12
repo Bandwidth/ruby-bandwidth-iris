@@ -49,4 +49,6 @@
   csr: '<?xml version="1.0" encoding="UTF-8"?><CsrResponse><Status>RECEIVED</Status></CsrResponse>'
   application: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ApplicationProvisioningResponse><Application><ApplicationId>d1</ApplicationId></Application></ApplicationProvisioningResponse>'
   applicationList: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ApplicationProvisioningResponse><ApplicationList><Application><ApplicationId>d1</ApplicationId></Application><Application><ApplicationId>d2</ApplicationId></Application></ApplicationList></ApplicationProvisioningResponse>'
+  applicationListOne: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ApplicationProvisioningResponse><ApplicationList><Application><ApplicationId>d1</ApplicationId></Application></ApplicationList></ApplicationProvisioningResponse>'
   applicationSippeers: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><AssociatedSipPeersResponse><AssociatedSipPeers><AssociatedSipPeer><SiteId>1</SiteId></AssociatedSipPeer><AssociatedSipPeer><SiteId>2</SiteId></AssociatedSipPeer></AssociatedSipPeers></AssociatedSipPeersResponse>'
+  applicationSippeersOne: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><AssociatedSipPeersResponse><AssociatedSipPeers><AssociatedSipPeer><SiteId>1</SiteId></AssociatedSipPeer></AssociatedSipPeers></AssociatedSipPeersResponse>'

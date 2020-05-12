@@ -7,7 +7,13 @@ module BandwidthIris
 
     def self.get_applications(client)
       data = client.make_request(:get, client.concat_account_path(APPLICATIONS_PATH))
-      return data[0][:application_list][:application]
+      list = data[0][:application_list][:application]
+      return [] if !list
+      if list.is_a?(Array) then
+        return list
+      else
+        return [list]
+      end
     end
     wrap_client_arg :get_applications
 
@@ -42,7 +48,13 @@ module BandwidthIris
 
     def self.get_application_sippeers(client, application_id)
       data = client.make_request(:get, client.concat_account_path("#{APPLICATIONS_PATH}/#{application_id}/associatedsippeers"))
-      return data[0][:associated_sip_peers][:associated_sip_peer]
+      list = data[0][:associated_sip_peers][:associated_sip_peer]
+      return [] if !list
+      if list.is_a?(Array) then
+        return list
+      else
+        return [list]
+      end
     end
     wrap_client_arg :get_application_sippeers
   end
