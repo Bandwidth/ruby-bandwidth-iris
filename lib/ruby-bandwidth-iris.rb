@@ -31,5 +31,6 @@ require 'bandwidth-iris/import_tn_checker'
 require 'bandwidth-iris/remove_imported_tn_orders'
 require 'bandwidth-iris/csr'
 require 'bandwidth-iris/applications'
+require 'bandwidth-iris/sip_peer_products'
 
 require 'bandwidth-iris/version'
