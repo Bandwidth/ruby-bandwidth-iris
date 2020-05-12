@@ -839,26 +839,22 @@ data = {
   :app_name => "Name",
   :msg_callback_url => "https://test.com"
 }
-application = BandwidthIris::Applications.create_application(data)[0]
-puts application[:application]
+application = BandwidthIris::Applications.create_application(data)
+puts application
 ```
 
 ### Get Applications
 
 ```ruby
-applications = BandwidthIris::Applications.get_applications()[0]
-#1 application found
-puts applications[:application_list][:application]
-#more than 1 application found
-puts applications[:application_list][:application][0]
-puts applications[:application_list][:application][1]
+applications = BandwidthIris::Applications.get_applications()
+puts applications[0]
 ```
 
 ### Get An Application
 
 ```ruby
-application = BandwidthIris::Applications.get_application("id")[0]
-puts application[:application]
+application = BandwidthIris::Applications.get_application("id")
+puts application
 ```
 
 ### Partially Update An Application
@@ -867,8 +863,8 @@ puts application[:application]
 data = {
   :app_name => "Name2"
 }
-application = BandwidthIris::Applications.partial_update_application("id", data)[0]
-puts application[:application]
+application = BandwidthIris::Applications.partial_update_application("id", data)
+puts application
 ```
 
 ### Completely Update An Application
@@ -879,8 +875,8 @@ data = {
   :app_name => "Name2",
   :msg_callback_url => "https://test2.com"
 }
-application = BandwidthIris::Applications.complete_update_application("id", data)[0]
-puts application[:application]
+application = BandwidthIris::Applications.complete_update_application("id", data)
+puts application
 ```
 
 ### Remove An Application
@@ -892,9 +888,6 @@ BandwidthIris::Applications.delete_application("id")
 ### List Application Sippeers
 
 ```ruby
-sippeers = BandwidthIris::Applications.get_application_sippeers("id")[0]
-#1 sip peer found
-puts sippeers[:associated_sip_peers][:associated_sip_peer]
-#more than 1 sip peer found
-puts sippeers[:associated_sip_peers][:associated_sip_peer][0]
+sippeers = BandwidthIris::Applications.get_application_sippeers("id")
+puts sippeers[0]
 ```
