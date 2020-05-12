@@ -87,12 +87,11 @@ module BandwidthIris
     end
     wrap_client_arg :delete_mms_feature_settings
 
-    #TODO: Come up with a better name
-    def self.get_mms_feature_settings_duplicate(client, site_id, sippeer_id)
+    def self.get_mms_feature_mms_settings_duplicate(client, site_id, sippeer_id)
       data = client.make_request(:get, "#{client.concat_account_path(SITE_PATH)}/#{site_id}/#{SIPPEER_PATH}/#{sippeer_id}/#{SIPPEER_PRODUCTS_PATH}/messaging/features/mms/settings")
       return data
     end
-    wrap_client_arg :get_mms_feature_settings_duplicate
+    wrap_client_arg :get_mms_feature_mms_settings_duplicate
 
     def self.get_messaging_application_settings(client, site_id, sippeer_id)
       data = client.make_request(:get, "#{client.concat_account_path(SITE_PATH)}/#{site_id}/#{SIPPEER_PATH}/#{sippeer_id}/#{SIPPEER_PRODUCTS_PATH}/messaging/applicationSettings")
