@@ -18,8 +18,7 @@ module BandwidthIris
     wrap_client_arg :set_origination_settings
 
     def self.update_origination_settings(client, site_id, sippeer_id, data)
-      data = client.make_request(:put, "#{client.concat_account_path(SITE_PATH)}/#{site_id}/#{SIPPEER_PATH}/#{sippeer_id}/#{SIPPEER_PRODUCTS_PATH}/origination/settings")
-      return data
+      client.make_request(:put, "#{client.concat_account_path(SITE_PATH)}/#{site_id}/#{SIPPEER_PATH}/#{sippeer_id}/#{SIPPEER_PRODUCTS_PATH}/origination/settings")
     end
     wrap_client_arg :update_origination_settings
 
@@ -36,8 +35,7 @@ module BandwidthIris
     wrap_client_arg :create_termination_settings
 
     def self.update_termination_settings(client, site_id, sippeer_id, data)
-      data = client.make_request(:put, "#{client.concat_account_path(SITE_PATH)}/#{site_id}/#{SIPPEER_PATH}/#{sippeer_id}/#{SIPPEER_PRODUCTS_PATH}/termination/settings")
-      return data
+      client.make_request(:put, "#{client.concat_account_path(SITE_PATH)}/#{site_id}/#{SIPPEER_PATH}/#{sippeer_id}/#{SIPPEER_PRODUCTS_PATH}/termination/settings")
     end
     wrap_client_arg :update_termination_settings
 
