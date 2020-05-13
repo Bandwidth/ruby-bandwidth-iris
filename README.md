@@ -891,3 +891,189 @@ BandwidthIris::Applications.delete_application("id")
 sippeers = BandwidthIris::Applications.get_application_sippeers("id")
 puts sippeers[0]
 ```
+
+## SipPeer Products
+
+### Get Origination Settings
+
+```ruby
+puts BandwidthIris::SipPeerProducts.get_origination_settings("site_id", "sippeer_id")
+```
+
+### Create Origination Settings
+
+```ruby
+data = {
+  :voice_protocol => "HTTP"
+}
+puts BandwidthIris::SipPeerProducts.create_origination_settings("site_id", "sippeer_id", data)
+```
+
+### Update Origination Settings
+
+```ruby
+data = {
+  :voice_protocol => "HTTP"
+}
+BandwidthIris::SipPeerProducts.update_origination_settings("site_id", "sippeer_id", data)
+```
+
+### Get Termination Settings
+
+```ruby
+puts BandwidthIris::SipPeerProducts.get_termination_settings("site_id", "sippeer_id")
+```
+
+### Create Termination Settings
+
+```ruby
+data = {
+  :voice_protocol => "HTTP"
+}
+puts BandwidthIris::SipPeerProducts.create_termination_settings("site_id", "sippeer_id", data)
+```
+
+### Update Termination Settings
+
+```ruby
+data = {
+  :voice_protocol => "HTTP"
+}
+BandwidthIris::SipPeerProducts.update_termination_settings("site_id", "sippeer_id", data)
+```
+
+### Get Sms Feature Settings
+
+```ruby
+puts BandwidthIris::SipPeerProducts.get_sms_feature_settings("site_id", "sippeer_id")
+```
+
+### Create Sms Feature Settings
+
+```ruby
+data = {
+  :sip_peer_sms_feature_settings => {
+    :toll_free => true,
+    :protocol => "HTTP",
+    :zone_1 => true,
+    :zone_2 => false,
+    :zone_3 => false,
+    :zone_4 => false,
+    :zone_5 => false
+  },
+  :http_settings => {}
+}
+
+puts BandwidthIris::SipPeerProducts.create_sms_feature_settings("site_id", "sippeer_id", data)
+```
+
+### Update Sms Feature Settings
+
+```ruby
+data = {
+  :sip_peer_sms_feature_settings => {
+    :toll_free => true,
+    :protocol => "HTTP",
+    :zone_1 => true,
+    :zone_2 => false,
+    :zone_3 => false,
+    :zone_4 => false,
+    :zone_5 => false
+  },
+  :http_settings => {}
+}
+
+puts BandwidthIris::SipPeerProducts.update_sms_feature_settings("site_id", "sippeer_id", data)
+```
+
+### Delete Sms Feature Settings
+
+```ruby
+BandwidthIris::SipPeerProducts.delete_sms_feature_settings("site_id", "sippeer_id")
+```
+
+### Get Mms Feature Settings
+
+```ruby
+puts BandwidthIris::SipPeerProducts.get_mms_feature_settings("site_id", "sippeer_id")
+```
+
+### Create Mms Feature Settings
+
+```ruby
+data = {
+  :mms_settings => {
+    :protocol => "HTTP"
+  },
+  :protocols => {
+    :HTTP => {
+      :http_settings => {}
+    }
+  }
+}
+
+puts BandwidthIris::SipPeerProducts.create_mms_feature_settings("site_id", "sippeer_id", data)
+```
+
+### Update Mms Feature Settings
+
+```ruby
+data = {
+  :mms_settings => {
+    :protocol => "HTTP"
+  },
+  :protocols => {
+    :HTTP => {
+      :http_settings => {}
+    }
+  }
+}
+
+BandwidthIris::SipPeerProducts.update_mms_feature_settings("site_id", "sippeer_id", data)
+```
+
+### Delete Mms Feature Settings
+
+```ruby
+BandwidthIris::SipPeerProducts.delete_mms_feature_settings("site_id", "sippeer_id")
+```
+
+### Get Mms Feature Mms Settings
+
+```ruby
+puts BandwidthIris::SipPeerProducts.get_mms_feature_mms_settings("site_id", "sippeer_id")
+```
+
+### Get Messaging Application Settings
+
+```ruby
+puts BandwidthIris::SipPeerProducts.get_messaging_application_settings("site_id", "sippeer_id")
+```
+
+### Update Messaging Application Settings
+
+```ruby
+data = {
+  :http_messaging_v2_app_id => "4-d-4-8-5"
+}
+
+puts BandwidthIris::SipPeerProducts.update_messaging_application_settings("site_id", "sippeer_id", data)
+```
+
+### Get Messaging Settings
+
+```ruby
+puts BandwidthIris::SipPeerProducts.get_messaging_settings("site_id", "sippeer_id")
+```
+
+### Update Messaging Settings
+
+```ruby
+data = {
+  :break_out_countries => {
+    :country => "CAN"
+  }
+}
+
+puts BandwidthIris::SipPeerProducts.update_messaging_settings("site_id", "sippeer_id", data)
+```
