@@ -14,6 +14,7 @@ Ruby Client library for IRIS / BBS API
 | 2.1.0 | Added `csrs` endpoints |
 | 2.2.0 | Added `loas` endpoints to `importTnOrders` |
 | 2.3.0 | Added `get_tns_by_order_id` to the Orders class |
+| 2.4.0 | Added application management endpoints |
 
 ## Install
 
@@ -826,4 +827,67 @@ note_data = {
 }
 
 BandwidthIris::Csr.update_note("csr_id", "note_id", note_data)
+```
+
+## Application Management
+
+### Create Application
+
+```ruby
+data = {
+  :service_type => "Messaging-V2",
+  :app_name => "Name",
+  :msg_callback_url => "https://test.com"
+}
+application = BandwidthIris::Applications.create_application(data)
+puts application
+```
+
+### Get Applications
+
+```ruby
+applications = BandwidthIris::Applications.get_applications()
+puts applications[0]
+```
+
+### Get An Application
+
+```ruby
+application = BandwidthIris::Applications.get_application("id")
+puts application
+```
+
+### Partially Update An Application
+
+```ruby
+data = {
+  :app_name => "Name2"
+}
+application = BandwidthIris::Applications.partial_update_application("id", data)
+puts application
+```
+
+### Completely Update An Application
+
+```ruby
+data = {
+  :service_type => "Messaging-V2",
+  :app_name => "Name2",
+  :msg_callback_url => "https://test2.com"
+}
+application = BandwidthIris::Applications.complete_update_application("id", data)
+puts application
+```
+
+### Remove An Application
+
+```ruby
+BandwidthIris::Applications.delete_application("id")
+```
+
+### List Application Sippeers
+
+```ruby
+sippeers = BandwidthIris::Applications.get_application_sippeers("id")
+puts sippeers[0]
 ```
