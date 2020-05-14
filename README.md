@@ -14,7 +14,7 @@ Ruby Client library for IRIS / BBS API
 | 2.1.0 | Added `csrs` endpoints |
 | 2.2.0 | Added `loas` endpoints to `importTnOrders` |
 | 2.3.0 | Added `get_tns_by_order_id` to the Orders class |
-| 2.4.0 | Added application management and sippeer products endpoints |
+| 2.4.0.pre | Added application management and sippeer products endpoints |
 
 ## Install
 
