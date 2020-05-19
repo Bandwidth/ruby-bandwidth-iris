@@ -13,6 +13,14 @@ module BandwidthIris
 
     def self.get(client, id)
       data = client.make_request(:get, "#{client.concat_account_path(ORDER_PATH)}/#{id}")[0][:order]
+      data[:id] = id
+      Order.new(data, client)
+    end
+    wrap_client_arg :get
+
+    def self.get_order_response(client, id)
+      data = client.make_request(:get, "#{client.concat_account_path(ORDER_PATH)}/#{id}")[0]
+      data[:id] = id
       Order.new(data, client)
     end
     wrap_client_arg :get

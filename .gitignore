@@ -10,3 +10,4 @@ coverage
 *.swo
 .yardoc
 examples/config.yml
+.idea/*
