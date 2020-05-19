@@ -78,6 +78,7 @@ When fetching objects from the API, it will always return an object that has the
 instantiated so that you can call dependent methods as well as update, delete.
 
 Example:
+
 ```ruby
 site = BandwidthIris::Site.create({siteObject})
 
@@ -312,6 +313,16 @@ BandwidthIris::Order.create(order_data)
 ```ruby
 order = BandwidthIris::Order.get("order_id")
 ```
+
+### Get Order Response
+
+The order response object contains more details returned in the `GET` `/orders/order-id` API.
+
+```ruby
+order = BandwidthIris::Order.get_order_response(client, "101")
+completed_number = order.completed_numbers[:telephone_number][:full_number]
+```
+
 ### List Orders
 ```ruby
 BandwidthIris::Order.list(query)
@@ -464,7 +475,7 @@ sipPeer.delete()
 ### SipPeer TN Methods
 ```ruby
 # get TN for this peer
-sipPeer.get_tns(number)  
+sipPeer.get_tns(number)
 
 # get all TNs for this peer
 sipPeer.get_tns()
@@ -757,7 +768,7 @@ puts response[0][:file_name]
 ```ruby
 metadata = {
     :document_name => "file_name",
-    :document_type => "LOA"    
+    :document_type => "LOA"
 }
 BandwidthIris::ImportTnOrders.update_loa_file_metadata("order_id", "file_id", metadata)
 ```
