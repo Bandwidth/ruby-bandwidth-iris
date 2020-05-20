@@ -12,18 +12,18 @@ describe BandwidthIris::Order do
   describe '#create' do
     it 'should create an order' do
       data = {
-        :name => "Test",
-        :siteId => "10",
-        :customerOrderId => "11",
-        :lataSearchAndOrderType => {
-          :lata => "224",
+        :name => "Local Order",
+        :siteId => "29976",
+        :customerOrderId => "123456789",
+        :area_code_search_and_order_type => {
+          :area_code => 919,
           :quantity => 1
         }
       }
-      client.stubs.post("/v1.0/accounts/accountId/orders", client.build_xml({:order => data})){|env| [200, {},  Helper.xml['order']]}
+      client.stubs.post("/v1.0/accounts/accountId/orders", client.build_xml({:order => data})){|env| [200, {},  Helper.xml['create_order_response']]}
       order = Order.create(client, data)
-      expect(order.id).to eql(101)
-      expect(order.name).to eql("Test")
+      expect(order.id).to eql("a7af704e-2ec0-4c4d-9dc5-1b77fa62c92a")
+      expect(order.name).to eql("Local Order")
     end
   end
 
@@ -31,8 +31,17 @@ describe BandwidthIris::Order do
     it 'should return an order' do
       client.stubs.get("/v1.0/accounts/accountId/orders/101"){|env| [200, {}, Helper.xml['order']]}
       order = Order.get(client, "101")
-      expect(order.id).to eql(101)
+      expect(order.id).to eql("101")
       expect(order.name).to eql("Test")
+    end
+  end
+
+  describe '#get_order_response' do
+    it 'should return an order with details' do
+      client.stubs.get("/v1.0/accounts/accountId/orders/101"){|env| [200, {}, Helper.xml['order']]}
+      order = Order.get_order_response(client, "101")
+      completed_number = order.completed_numbers[:telephone_number][:full_number]
+      expect(completed_number).to eql("9194464166")
     end
   end
 
