@@ -6,16 +6,17 @@ Ruby Client library for IRIS / BBS API
 
 ## Release Notes
 
-| Relea| se Version | Notes                                                                                                                                                                                                                                                       |
-|:-----------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1.0.5      | Fixed incorrect generation of XML for a Disconnect request                                                                                                                                                                                                  |
-| 2.0.0      | Added `importTnOrders`, `removeImportedTnOrders`, `inserviceNumbers`, and `importTnChecker` endpoints. This release also changed the response body of `BandwidthIris::InServiceNumber.list()`. Please make sure to update your code to include this change. |
-| 2.0.1      | Updated gem dependencies to be less restrictive                                                                                                                                                                                                             |
-| 2.1.0      | Added `csrs` endpoints                                                                                                                                                                                                                                      |
-| 2.2.0      | Added `loas` endpoints to `importTnOrders`                                                                                                                                                                                                                  |
-| 2.3.0      | Added `get_tns_by_order_id` to the Orders class                                                                                                                                                                                                             |
-| 2.4.0.pre  | Added application management and sippeer products endpoints                                                                                                                                                                                                 |
-| 2.5.0      | Added `get_order_response` to pull full `<OrderResponse>` object from API, added `id` back to order object on get requests                                                                                                                                  |
+| Release Version | Notes                                                                                                                                                                                                                                                       |
+|:----------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1.0.5           | Fixed incorrect generation of XML for a Disconnect request                                                                                                                                                                                                  |
+| 2.0.0           | Added `importTnOrders`, `removeImportedTnOrders`, `inserviceNumbers`, and `importTnChecker` endpoints. This release also changed the response body of `BandwidthIris::InServiceNumber.list()`. Please make sure to update your code to include this change. |
+| 2.0.1           | Updated gem dependencies to be less restrictive                                                                                                                                                                                                             |
+| 2.1.0           | Added `csrs` endpoints                                                                                                                                                                                                                                      |
+| 2.2.0           | Added `loas` endpoints to `importTnOrders`                                                                                                                                                                                                                  |
+| 2.3.0           | Added `get_tns_by_order_id` to the Orders class                                                                                                                                                                                                             |
+| 2.4.0.pre       | Added application management and sippeer products endpoints                                                                                                                                                                                                 |
+| 2.5.0           | Added `get_order_response` to pull full `<OrderResponse>` object from API, added `id` back to order object on get requests                                                                                                                                  |
+| 2.6.0           | Fixed TN Reservation and updated tests to match reality                                                                                                                                                                                                     |
 
 ## Install
 
@@ -601,7 +602,7 @@ tn.get_rate_center()
 
 ### Create TN Reservation
 ```ruby
-BandwidthIris::TnReservation.create({:reserved_tn => "9195551212"})
+BandwidthIris::TnReservation.create("9195551212")
 ```
 
 ### Get TN Reservation

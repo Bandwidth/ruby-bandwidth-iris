@@ -20,11 +20,11 @@ describe BandwidthIris::TnReservation do
 
   describe '#create' do
     it 'should create a reservation' do
-      data = {:account_id => "111", :reserved_tn => "000"}
-      client.stubs.post('/v1.0/accounts/accountId/tnreservation', client.build_xml({:tn_reservation => data})) {|env| [200, {'Location' => '/v1.0/accounts/accountId/tnreservations/1'}, '']}
-      client.stubs.get('/v1.0/accounts/accountId/tnreservation/1') {|env| [200, {}, Helper.xml['tn_reservation']]}
-      item = TnReservation.create(client, data)
-      expect(item[:id]).to eql(1)
+      number = "9198975719"
+      client.stubs.post('/v1.0/accounts/accountId/tnreservation', client.build_xml({:reservation => {:reserved_tn => number } })) {|env| [200, {'Location' => '/v1.0/accounts/accountId/tnreservations/e34474d6-1d47-486d-af32-be9f2eefdff4'}, '']}
+      client.stubs.get('/v1.0/accounts/accountId/tnreservation/e34474d6-1d47-486d-af32-be9f2eefdff4') {|env| [200, {}, Helper.xml['tn_reservation']]}
+      item = TnReservation.create(client, number)
+      expect(item[:id]).to eql("e34474d6-1d47-486d-af32-be9f2eefdff4")
       expect(item[:account_id]).to eql(111)
     end
   end
