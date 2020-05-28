@@ -77,7 +77,8 @@ module BandwidthIris
                       req.params = d unless d == nil || d.empty?
                     end
                   else
-                    connection.run_request(method, @build_path.call(path), build_xml(data), {'Content-Type' => 'application/xml'})
+                    xml_to_send = build_xml(data) # help debug
+                    connection.run_request(method, @build_path.call(path), xml_to_send, {'Content-Type' => 'application/xml'})
                   end
       body = check_response(response)
       [body || {}, symbolize(response.headers || {})]
@@ -86,7 +87,7 @@ module BandwidthIris
     # Makes an HTTP request for file uploads
     # @param method [Symbol] http method to make
     # @param path [string] path of url (exclude api verion and endpoint) to make call
-    # @param data [string] the raw binary string representing the file to upload 
+    # @param data [string] the raw binary string representing the file to upload
     # @param content_type [string] the content type of the request
     # @return [Array] array with 2 elements: parsed  data of response and response headers
     def make_request_file_upload(method, path, data, content_type)
@@ -100,7 +101,7 @@ module BandwidthIris
     # @param method [Symbol] http method to make
     # @param path [string] path of url (exclude api verion and endpoint) to make call
     # @param data [Hash] data  which will be sent with request (for :get and :delete request they will be sent with query in url)
-    # @return [string] raw response from the API 
+    # @return [string] raw response from the API
     def make_request_file_download(method, path, data = {})
       connection = @create_connection.call()
       response =  if method == :get || method == :delete
