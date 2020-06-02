@@ -5,7 +5,7 @@ module BandwidthIris
     extend ClientWrapper
     include ApiItem
 
-    def self.create_emergency_notification_endpoint_order(client)
+    def self.create_emergency_notification_endpoint_order(client, data)
       response = client.make_request(:post, "#{client.concat_account_path(ENE_ORDERS_PATH)}", {:emergency_notification_endpoint_order => data})
       return response[0][:emergency_notification_endpoint_order]
     end
@@ -24,4 +24,3 @@ module BandwidthIris
     wrap_client_arg :get_emergency_notification_endpoint_order
   end
 end
-
