@@ -16,7 +16,7 @@ Ruby Client library for IRIS / BBS API
 | 2.3.0           | Added `get_tns_by_order_id` to the Orders class                                                                                                                                                                                                             |
 | 2.4.0.pre       | Added application management and sippeer products endpoints                                                                                                                                                                                                 |
 | 2.5.0           | Added `get_order_response` to pull full `<OrderResponse>` object from API, added `id` back to order object on get requests. Fixed TN Reservation and updated tests to match reality  |
-| 2.6.0 | Added Emergency Calling Notification, Emergeny Notification Group, and Emergency Notification Endpoint methods |
+| 2.6.0 | Added Emergency Calling Notification, Emergeny Notification Group, Emergency Notification Endpoint, and Alternate End User Identity methods |
 
 ## Install
 
@@ -1122,3 +1122,9 @@ puts BandwidthIris::SipPeerProducts.update_messaging_settings("site_id", "sippee
 ### Get Emergency Notification Endpoint Orders
 
 ### Get Emergency Notification Endpoint Order
+
+## Alternate End User Identiy
+
+### Get Alternate End User Information
+
+### Get Alternate Caller Information
