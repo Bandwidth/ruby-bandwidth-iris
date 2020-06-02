@@ -16,19 +16,19 @@ describe BandwidthIris::EmergencyNotificationRecipients do
       }
       client.stubs.post("/v1.0/accounts/accountId/emergencyNotificationRecipients", client.build_xml({:emergency_notification_recipient => data})) {|env| [200, {}, Helper.xml['emergencyNotificationRecipient']]}
       enr = EmergencyNotificationRecipients.create_emergency_notification_recipient(client, data)
-      puts enr
+      expect(enr[:identifier]).to eql(" 63865500-0904-46b1-9b4f-7bd237a26363 ")
     end
 
     it 'should get enrs' do
       client.stubs.get("/v1.0/accounts/accountId/emergencyNotificationRecipients") {|env| [200, {}, Helper.xml['emergencyNotificationRecipients']]}
       enrs = EmergencyNotificationRecipients.get_emergency_notification_recipients(client)
-      puts enrs
+      expect(enrs[:emergency_notification_recipients][:emergency_notification_recipient][0][:identifier]).to eql(" 63865500-0904-46b1-9b4f-7bd237a26363 ")
     end
 
     it 'should get enr' do
       client.stubs.get("/v1.0/accounts/accountId/emergencyNotificationRecipients/id") {|env| [200, {}, Helper.xml['emergencyNotificationRecipient']]}
       enr = EmergencyNotificationRecipients.get_emergency_notification_recipient(client, "id")
-      puts enr
+      expect(enr[:identifier]).to eql(" 63865500-0904-46b1-9b4f-7bd237a26363 ")
     end
 
     it 'should replace enr' do
@@ -37,8 +37,7 @@ describe BandwidthIris::EmergencyNotificationRecipients do
       }
       client.stubs.put("/v1.0/accounts/accountId/emergencyNotificationRecipients/id", client.build_xml({:emergency_notification_recipient => data})) {|env| [200, {}, Helper.xml['emergencyNotificationRecipient']]}
       enr = EmergencyNotificationRecipients.replace_emergency_notification_recipient(client, "id", data)
-      puts enr
-
+      expect(enr[:identifier]).to eql(" 63865500-0904-46b1-9b4f-7bd237a26363 ")
     end
 
     it 'should delete enr' do

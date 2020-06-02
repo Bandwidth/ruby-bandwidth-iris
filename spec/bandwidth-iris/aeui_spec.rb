@@ -13,13 +13,13 @@ describe BandwidthIris::AlternateEndUserIdentity do
     it 'should get aeuis' do
       client.stubs.get("/v1.0/accounts/accountId/aeuis") {|env| [200, {}, Helper.xml['aeuis']]}
       aeuis = AlternateEndUserIdentity.get_alternate_end_user_information(client)
-      puts aeuis
+      expect(aeuis[:alternate_end_user_identifiers][:alternate_end_user_identifier][0][:identifier]).to eql("DavidAcid")
     end
 
     it 'should get aeui' do
       client.stubs.get("/v1.0/accounts/accountId/aeuis/id") {|env| [200, {}, Helper.xml['aeui']]}
       aeui = AlternateEndUserIdentity.get_alternate_caller_information(client, "id")
-      puts aeui
+      expect(aeui[:identifier]).to eql("DavidAcid")
     end
   end
 end

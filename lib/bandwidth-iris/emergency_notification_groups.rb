@@ -20,7 +20,7 @@ module BandwidthIris
 
     def self.get_emergency_notification_group_order(client, order_id)
       response = client.make_request(:get, "#{client.concat_account_path(ENG_ORDERS_PATH)}/#{order_id}")
-      return response[0][:emergency_notification_group]
+      return response[0]
     end
     wrap_client_arg :get_emergency_notification_group_order
 
