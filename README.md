@@ -1097,7 +1097,9 @@ puts BandwidthIris::SipPeerProducts.update_messaging_settings("site_id", "sippee
 
 ```ruby
 data = {
-  :value => "value"
+  :description => "Email to Bldg. 3 Front Desk",
+  :type => "EMAIL",
+  :email_address => "foo@bar.com"
 }
 
 enr = BandwidthIris::EmergencyNotificationRecipients.create_emergency_notification_recipient(data)
@@ -1121,7 +1123,9 @@ puts enr
 
 ```ruby
 data = {
-  :value => "value"
+  :description => "Email to Bldg. 3 Front Desk",
+  :type => "EMAIL",
+  :email_address => "foo@bar.com"
 }
 
 enr = BandwidthIris::EmergencyNotificationRecipients.replace_emergency_notification_recipient("id", data)
@@ -1140,7 +1144,17 @@ BandwidthIris::EmergencyNotificationRecipients.delete_emergency_notification_rec
 
 ```ruby
 data = {
-  :value => "value"
+  :customer_order_id => "value",
+  :added_emergency_notification_group => {
+    :description => "description",
+    :added_emergency_notification_recipients => {
+      :emergency_notification_recipient => [
+        {
+          :identifier => "123"
+        }
+      ]
+    }
+  }
 }
 
 order = BandwidthIris::EmergencyNotificationGroups.create_emergency_notification_group_order(data)
@@ -1181,7 +1195,12 @@ puts group
 
 ```ruby
 data = {
-  :value => "value"
+  :customer_order_id => "123",
+  :emergency_notification_endpoint_associations => {
+    :emergency_notification_group => {
+      :identifier => "456"
+    }
+  }
 }
 
 order = BandwidthIris::EmergencyNotificationEndpoints.create_emergency_notification_endpoint_order(data)
