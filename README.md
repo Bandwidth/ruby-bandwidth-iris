@@ -546,7 +546,7 @@ site.create_sip_peer(sipPeer)
 ```ruby
 subscription = {
   :order_type => "orders",
-  :callback_subcription => {
+  :callback_subscription => {
     :URL => "http://mycallbackurl.com",
     :user => "userid",
     :expiry => 12000
