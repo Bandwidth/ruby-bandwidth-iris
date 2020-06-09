@@ -16,6 +16,7 @@ Ruby Client library for IRIS / BBS API
 | 2.3.0           | Added `get_tns_by_order_id` to the Orders class                                                                                                                                                                                                             |
 | 2.4.0.pre       | Added application management and sippeer products endpoints                                                                                                                                                                                                 |
 | 2.5.0           | Added `get_order_response` to pull full `<OrderResponse>` object from API, added `id` back to order object on get requests. Fixed TN Reservation and updated tests to match reality  |
+| 2.6.0 | Added Emergency Calling Notification, Emergeny Notification Group, Emergency Notification Endpoint, and Alternate End User Identity methods |
 
 ## Install
 
@@ -1088,4 +1089,150 @@ data = {
 }
 
 puts BandwidthIris::SipPeerProducts.update_messaging_settings("site_id", "sippeer_id", data)
+```
+
+## Emergency Notification Recipients
+
+### Create Emergency Notification Recipient
+
+```ruby
+data = {
+  :description => "Email to Bldg. 3 Front Desk",
+  :type => "EMAIL",
+  :email_address => "foo@bar.com"
+}
+
+enr = BandwidthIris::EmergencyNotificationRecipients.create_emergency_notification_recipient(data)
+puts enr
+```
+### Get Emergency Notification Recipients
+
+```ruby
+enrs = BandwidthIris::EmergencyNotificationRecipients.get_emergency_notification_recipients()
+puts enrs
+```
+
+### Get Emergency Notification Recipient
+
+```ruby
+enr = BandwidthIris::EmergencyNotificationRecipients.get_emergency_notification_recipient("id")
+puts enr
+```
+
+### Replace Emergency Notification Recipient
+
+```ruby
+data = {
+  :description => "Email to Bldg. 3 Front Desk",
+  :type => "EMAIL",
+  :email_address => "foo@bar.com"
+}
+
+enr = BandwidthIris::EmergencyNotificationRecipients.replace_emergency_notification_recipient("id", data)
+puts enr
+```
+
+### Delete Emergency Notification Recipient
+
+```ruby
+BandwidthIris::EmergencyNotificationRecipients.delete_emergency_notification_recipient("id")
+```
+
+## Emergeny Notification Group
+
+### Create Emergency Notification Group Order
+
+```ruby
+data = {
+  :customer_order_id => "value",
+  :added_emergency_notification_group => {
+    :description => "description",
+    :added_emergency_notification_recipients => {
+      :emergency_notification_recipient => [
+        {
+          :identifier => "123"
+        }
+      ]
+    }
+  }
+}
+
+order = BandwidthIris::EmergencyNotificationGroups.create_emergency_notification_group_order(data)
+puts order
+```
+
+### Get Emergency Notification Group Orders
+
+```ruby
+orders = BandwidthIris::EmergencyNotificationGroups.get_emergency_notification_group_orders()
+puts orders
+```
+
+### Get Emergency Notification Group Order
+
+```ruby
+order = BandwidthIris::EmergencyNotificationGroups.get_emergency_notification_group_order("id")
+puts order
+```
+
+### Get Emergency Notification Groups
+
+```ruby
+groups = BandwidthIris::EmergencyNotificationGroups.get_emergency_notification_groups()
+puts groups
+```
+
+### Get Emergency Notification Group
+
+```ruby
+group = BandwidthIris::EmergencyNotificationGroups.get_emergency_notification_group("id")
+puts group
+```
+
+## Emergency Notification Endpoint
+
+### Create Emergency Notification Endpoint Order
+
+```ruby
+data = {
+  :customer_order_id => "123",
+  :emergency_notification_endpoint_associations => {
+    :emergency_notification_group => {
+      :identifier => "456"
+    }
+  }
+}
+
+order = BandwidthIris::EmergencyNotificationEndpoints.create_emergency_notification_endpoint_order(data)
+puts order
+```
+
+### Get Emergency Notification Endpoint Orders
+
+```ruby
+orders = BandwidthIris::EmergencyNotificationEndpoints.get_emergency_notification_endpoint_orders()
+puts orders
+```
+
+### Get Emergency Notification Endpoint Order
+
+```ruby
+order = BandwidthIris::EmergencyNotificationEndpoints.get_emergency_notification_endpoint_order("id")
+puts order
+```
+
+## Alternate End User Identiy
+
+### Get Alternate End User Information
+
+```ruby
+aeuis = BandwidthIris::AlternateEndUserIdentity.get_alternate_end_user_information()
+puts aeuis
+```
+
+### Get Alternate Caller Information
+
+```ruby
+aeui = AlternateEndUserIdentity.get_alternate_caller_information("id")
+puts aeui
 ```
