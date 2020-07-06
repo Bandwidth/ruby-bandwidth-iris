@@ -36,5 +36,6 @@ require 'bandwidth-iris/emergency_notification_endpoints'
 require 'bandwidth-iris/emergency_notification_groups'
 require 'bandwidth-iris/emergency_notification_recipients'
 require 'bandwidth-iris/aeui'
+require 'bandwidth-iris/tn_options'
 
 require 'bandwidth-iris/version'

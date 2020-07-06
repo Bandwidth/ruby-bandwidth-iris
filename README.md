@@ -17,6 +17,7 @@ Ruby Client library for IRIS / BBS API
 | 2.4.0.pre       | Added application management and sippeer products endpoints                                                                                                                                                                                                 |
 | 2.5.0           | Added `get_order_response` to pull full `<OrderResponse>` object from API, added `id` back to order object on get requests. Fixed TN Reservation and updated tests to match reality  |
 | 2.6.0 | Added Emergency Calling Notification, Emergeny Notification Group, Emergency Notification Endpoint, and Alternate End User Identity methods |
+| 2.7.0 | Added TNOptions endpoints |
 
 ## Install
 
@@ -1235,4 +1236,95 @@ puts aeuis
 ```ruby
 aeui = AlternateEndUserIdentity.get_alternate_caller_information("id")
 puts aeui
+```
+
+## TN Option Orders
+
+### Get TN Option Orders
+
+```ruby
+orders = BandwidthIris::TnOptions.get_tn_option_orders()
+puts orders
+```
+
+### Get TN Option Order
+
+```ruby
+order = BandwidthIris::TnOptions.get_tn_option_order("order_id")
+puts order
+```
+
+### Get TN Option Order (error)
+
+```ruby
+begin
+  order = BandwidthIris::TnOptions.get_tn_option_order("error_id")
+rescue BandwidthIris::Errors::GenericError => e
+  puts e
+end
+```
+
+### Create PortOut Passcode
+
+```ruby
+data = {
+  :customer_order_id => "custom order",
+  :tn_option_groups => {
+    :tn_option_group => [
+      {
+        :port_out_passcode => "12abd38",
+        :telephone_numbers => {
+          :telephone_number => ["2018551020"]
+        }
+      }
+    ]
+  }
+}
+
+
+order = BandwidthIris::TnOptions.create_tn_option_order(data)
+puts order
+```
+
+### Create Call Forward Number
+
+```ruby
+data = {
+  :customer_order_id => "custom order",
+  :tn_option_groups => {
+    :tn_option_group => [
+      {
+        :call_forward => "2018551022",
+        :telephone_numbers => {
+          :telephone_number => ["2018551020"]
+        }
+      }
+    ]
+  }
+}
+
+
+order = BandwidthIris::TnOptions.create_tn_option_order(data)
+puts order
+```
+### Enable SMS
+
+```ruby
+data = {
+  :customer_order_id => "custom order",
+  :tn_option_groups => {
+    :tn_option_group => [
+      {
+        :sms => "on",
+        :telephone_numbers => {
+          :telephone_number => ["2018551020"]
+        }
+      }
+    ]
+  }
+}
+
+
+order = BandwidthIris::TnOptions.create_tn_option_order(data)
+puts order
 ```

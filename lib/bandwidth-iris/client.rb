@@ -32,6 +32,7 @@ module BandwidthIris
           faraday.basic_auth(user_name, password)
           #faraday.response :logger
           faraday.headers['Accept'] = 'application/xml'
+          faraday.headers['user-agent'] = 'Ruby-Bandwidth-Iris'
           faraday.use FaradayMiddleware::FollowRedirects
           @set_adapter.call(faraday)
         }
