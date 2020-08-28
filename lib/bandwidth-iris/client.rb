@@ -22,7 +22,7 @@ module BandwidthIris
       password = options[:password] unless password
       options[:api_endpoint] = @@global_options[:api_endpoint] unless options[:api_endpoint]
       options[:api_version] = @@global_options[:api_version] unless options[:api_version]
-      api_endpoint = options[:api_endpoint] || "https://api.inetwork.com"
+      api_endpoint = options[:api_endpoint] || "https://dasbhoard.bandwidth.com"
       api_version = options[:api_version] || "v1.0"
 
       @build_path = lambda {|path| "/#{api_version}" + (if path[0] == "/" then path else "/#{path}" end) }
