@@ -44,12 +44,6 @@ Messaging route of External Third Party TNs is not configured.
 ```
 {:customer_order_id=>"custom_id", :order_create_date=>Mon, 02 Mar 2020 20:56:48 +0000, :account_id=>123, :created_by_user=>"user", :order_id=>"0f2", :last_modified_date=>Mon, 02 Mar 2020 20:56:48 +0000, :site_id=>123, :subscriber=>{:name=>"Company INC", :service_address=>{:house_number=>123, :street_name=>"Street", :city=>"City", :state_code=>"XY", :zip=>12345, :county=>"County", :country=>"Country", :address_type=>"Service"}}, :loa_authorizing_person=>"Person", :telephone_numbers=>{:telephone_number=>"5554443333"}, :processing_status=>"FAILED", :errors=>{:error=>{:code=>19005, :description=>"Messaging route of External Third Party TNs is not configured.", :telephone_numbers=>{:telephone_number=>"5554443333"}}}, :sip_peer_id=>123}
 ```
-| Release Version | Notes                                                                                                                                                                                                                                                       |
-|:----------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1.0.5           | Fixed incorrect generation of XML for a Disconnect request                                                                                                                                                                                                  |
-| 2.0.0           | Added `importTnOrders`, `removeImportedTnOrders`, `inserviceNumbers`, and `importTnChecker` endpoints. This release also changed the response body of `BandwidthIris::InServiceNumber.list()`. Please make sure to update your code to include this change. |
-| 2.0.1           | Updated gem dependencies to be less restrictive                                                                                                                                                                                                             |
-| 2.1.0           | Added `csrs` endpoints                                                                                                                                                                                                                                      |
 
 ## Install
 
