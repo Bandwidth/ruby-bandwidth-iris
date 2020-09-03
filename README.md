@@ -13,7 +13,13 @@ Ruby Client library for IRIS / BBS API
 | 2.0.1 | Updated gem dependencies to be less restrictive |
 | 2.1.0 | Added `csrs` endpoints |
 | 2.2.0 | Added `loas` endpoints to `importTnOrders` |
-| 3.0.0.pre | Removed functionality that causes an error to be raised when some type of `error` field is returned in the XML body response. This change reduces the situations that cause an error to be thrown to simply be 4XX and 5XX http responses. This change was made to improve communication when an error is found. Please update your code to handle this change. |
+| 2.2.0           | Added `loas` endpoints to `importTnOrders`                                                                                                                                                                                                                  |
+| 2.3.0           | Added `get_tns_by_order_id` to the Orders class                                                                                                                                                                                                             |
+| 2.4.0.pre       | Added application management and sippeer products endpoints                                                                                                                                                                                                 |
+| 2.5.0           | Added `get_order_response` to pull full `<OrderResponse>` object from API, added `id` back to order object on get requests. Fixed TN Reservation and updated tests to match reality  |
+| 2.6.0 | Added Emergency Calling Notification, Emergeny Notification Group, Emergency Notification Endpoint, and Alternate End User Identity methods |
+| 2.7.0 | Added TNOptions endpoints |
+| 3.0.0 | Removed functionality that causes an error to be raised when some type of `error` field is returned in the XML body response. This change reduces the situations that cause an error to be thrown to simply be 4XX and 5XX http responses. This change was made to improve communication when an error is found. Please update your code to handle this change. |
 
 ### 3.x.x release
 
@@ -38,6 +44,12 @@ Messaging route of External Third Party TNs is not configured.
 ```
 {:customer_order_id=>"custom_id", :order_create_date=>Mon, 02 Mar 2020 20:56:48 +0000, :account_id=>123, :created_by_user=>"user", :order_id=>"0f2", :last_modified_date=>Mon, 02 Mar 2020 20:56:48 +0000, :site_id=>123, :subscriber=>{:name=>"Company INC", :service_address=>{:house_number=>123, :street_name=>"Street", :city=>"City", :state_code=>"XY", :zip=>12345, :county=>"County", :country=>"Country", :address_type=>"Service"}}, :loa_authorizing_person=>"Person", :telephone_numbers=>{:telephone_number=>"5554443333"}, :processing_status=>"FAILED", :errors=>{:error=>{:code=>19005, :description=>"Messaging route of External Third Party TNs is not configured.", :telephone_numbers=>{:telephone_number=>"5554443333"}}}, :sip_peer_id=>123}
 ```
+| Release Version | Notes                                                                                                                                                                                                                                                       |
+|:----------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1.0.5           | Fixed incorrect generation of XML for a Disconnect request                                                                                                                                                                                                  |
+| 2.0.0           | Added `importTnOrders`, `removeImportedTnOrders`, `inserviceNumbers`, and `importTnChecker` endpoints. This release also changed the response body of `BandwidthIris::InServiceNumber.list()`. Please make sure to update your code to include this change. |
+| 2.0.1           | Updated gem dependencies to be less restrictive                                                                                                                                                                                                             |
+| 2.1.0           | Added `csrs` endpoints                                                                                                                                                                                                                                      |
 
 ## Install
 
@@ -101,6 +113,7 @@ When fetching objects from the API, it will always return an object that has the
 instantiated so that you can call dependent methods as well as update, delete.
 
 Example:
+
 ```ruby
 site = BandwidthIris::Site.create({siteObject})
 
@@ -335,6 +348,16 @@ BandwidthIris::Order.create(order_data)
 ```ruby
 order = BandwidthIris::Order.get("order_id")
 ```
+
+### Get Order Response
+
+The order response object contains more details returned in the `GET` `/orders/order-id` API.
+
+```ruby
+order = BandwidthIris::Order.get_order_response(client, "101")
+completed_number = order.completed_numbers[:telephone_number][:full_number]
+```
+
 ### List Orders
 ```ruby
 BandwidthIris::Order.list(query)
@@ -356,6 +379,8 @@ order.get_totals()
 
 // get all Tns for an order
 order.get_tns()
+##Use the below method to grab TNs via an already existing Order ID##
+BandwidthIris::Order.get_tns_by_order_id("id")
 
 // get order history
 order.get_history()
@@ -485,7 +510,7 @@ sipPeer.delete()
 ### SipPeer TN Methods
 ```ruby
 # get TN for this peer
-sipPeer.get_tns(number)  
+sipPeer.get_tns(number)
 
 # get all TNs for this peer
 sipPeer.get_tns()
@@ -555,7 +580,7 @@ site.create_sip_peer(sipPeer)
 ```ruby
 subscription = {
   :order_type => "orders",
-  :callback_subcription => {
+  :callback_subscription => {
     :URL => "http://mycallbackurl.com",
     :user => "userid",
     :expiry => 12000
@@ -610,7 +635,7 @@ tn.get_rate_center()
 
 ### Create TN Reservation
 ```ruby
-BandwidthIris::TnReservation.create({:reserved_tn => "9195551212"})
+BandwidthIris::TnReservation.create("9195551212")
 ```
 
 ### Get TN Reservation
@@ -778,7 +803,7 @@ puts response[0][:file_name]
 ```ruby
 metadata = {
     :document_name => "file_name",
-    :document_type => "LOA"    
+    :document_type => "LOA"
 }
 BandwidthIris::ImportTnOrders.update_loa_file_metadata("order_id", "file_id", metadata)
 ```
@@ -848,4 +873,490 @@ note_data = {
 }
 
 BandwidthIris::Csr.update_note("csr_id", "note_id", note_data)
+```
+
+## Application Management
+
+### Create Application
+
+```ruby
+data = {
+  :service_type => "Messaging-V2",
+  :app_name => "Name",
+  :msg_callback_url => "https://test.com"
+}
+application = BandwidthIris::Applications.create_application(data)
+puts application
+```
+
+### Get Applications
+
+```ruby
+applications = BandwidthIris::Applications.get_applications()
+puts applications[0]
+```
+
+### Get An Application
+
+```ruby
+application = BandwidthIris::Applications.get_application("id")
+puts application
+```
+
+### Partially Update An Application
+
+```ruby
+data = {
+  :app_name => "Name2"
+}
+application = BandwidthIris::Applications.partial_update_application("id", data)
+puts application
+```
+
+### Completely Update An Application
+
+```ruby
+data = {
+  :service_type => "Messaging-V2",
+  :app_name => "Name2",
+  :msg_callback_url => "https://test2.com"
+}
+application = BandwidthIris::Applications.complete_update_application("id", data)
+puts application
+```
+
+### Remove An Application
+
+```ruby
+BandwidthIris::Applications.delete_application("id")
+```
+
+### List Application Sippeers
+
+```ruby
+sippeers = BandwidthIris::Applications.get_application_sippeers("id")
+puts sippeers[0]
+```
+
+## SipPeer Products
+
+### Get Origination Settings
+
+```ruby
+puts BandwidthIris::SipPeerProducts.get_origination_settings("site_id", "sippeer_id")
+```
+
+### Create Origination Settings
+
+```ruby
+data = {
+  :voice_protocol => "HTTP"
+}
+puts BandwidthIris::SipPeerProducts.create_origination_settings("site_id", "sippeer_id", data)
+```
+
+### Update Origination Settings
+
+```ruby
+data = {
+  :voice_protocol => "HTTP"
+}
+BandwidthIris::SipPeerProducts.update_origination_settings("site_id", "sippeer_id", data)
+```
+
+### Get Termination Settings
+
+```ruby
+puts BandwidthIris::SipPeerProducts.get_termination_settings("site_id", "sippeer_id")
+```
+
+### Create Termination Settings
+
+```ruby
+data = {
+  :voice_protocol => "HTTP"
+}
+puts BandwidthIris::SipPeerProducts.create_termination_settings("site_id", "sippeer_id", data)
+```
+
+### Update Termination Settings
+
+```ruby
+data = {
+  :voice_protocol => "HTTP"
+}
+BandwidthIris::SipPeerProducts.update_termination_settings("site_id", "sippeer_id", data)
+```
+
+### Get Sms Feature Settings
+
+```ruby
+puts BandwidthIris::SipPeerProducts.get_sms_feature_settings("site_id", "sippeer_id")
+```
+
+### Create Sms Feature Settings
+
+```ruby
+data = {
+  :sip_peer_sms_feature_settings => {
+    :toll_free => true,
+    :protocol => "HTTP",
+    :zone_1 => true,
+    :zone_2 => false,
+    :zone_3 => false,
+    :zone_4 => false,
+    :zone_5 => false
+  },
+  :http_settings => {}
+}
+
+puts BandwidthIris::SipPeerProducts.create_sms_feature_settings("site_id", "sippeer_id", data)
+```
+
+### Update Sms Feature Settings
+
+```ruby
+data = {
+  :sip_peer_sms_feature_settings => {
+    :toll_free => true,
+    :protocol => "HTTP",
+    :zone_1 => true,
+    :zone_2 => false,
+    :zone_3 => false,
+    :zone_4 => false,
+    :zone_5 => false
+  },
+  :http_settings => {}
+}
+
+puts BandwidthIris::SipPeerProducts.update_sms_feature_settings("site_id", "sippeer_id", data)
+```
+
+### Delete Sms Feature Settings
+
+```ruby
+BandwidthIris::SipPeerProducts.delete_sms_feature_settings("site_id", "sippeer_id")
+```
+
+### Get Mms Feature Settings
+
+```ruby
+puts BandwidthIris::SipPeerProducts.get_mms_feature_settings("site_id", "sippeer_id")
+```
+
+### Create Mms Feature Settings
+
+```ruby
+data = {
+  :mms_settings => {
+    :protocol => "HTTP"
+  },
+  :protocols => {
+    :HTTP => {
+      :http_settings => {}
+    }
+  }
+}
+
+puts BandwidthIris::SipPeerProducts.create_mms_feature_settings("site_id", "sippeer_id", data)
+```
+
+### Update Mms Feature Settings
+
+```ruby
+data = {
+  :mms_settings => {
+    :protocol => "HTTP"
+  },
+  :protocols => {
+    :HTTP => {
+      :http_settings => {}
+    }
+  }
+}
+
+BandwidthIris::SipPeerProducts.update_mms_feature_settings("site_id", "sippeer_id", data)
+```
+
+### Delete Mms Feature Settings
+
+```ruby
+BandwidthIris::SipPeerProducts.delete_mms_feature_settings("site_id", "sippeer_id")
+```
+
+### Get Mms Feature Mms Settings
+
+```ruby
+puts BandwidthIris::SipPeerProducts.get_mms_feature_mms_settings("site_id", "sippeer_id")
+```
+
+### Get Messaging Application Settings
+
+```ruby
+puts BandwidthIris::SipPeerProducts.get_messaging_application_settings("site_id", "sippeer_id")
+```
+
+### Update Messaging Application Settings
+
+```ruby
+data = {
+  :http_messaging_v2_app_id => "4-d-4-8-5"
+}
+
+puts BandwidthIris::SipPeerProducts.update_messaging_application_settings("site_id", "sippeer_id", data)
+```
+
+### Get Messaging Settings
+
+```ruby
+puts BandwidthIris::SipPeerProducts.get_messaging_settings("site_id", "sippeer_id")
+```
+
+### Update Messaging Settings
+
+```ruby
+data = {
+  :break_out_countries => {
+    :country => "CAN"
+  }
+}
+
+puts BandwidthIris::SipPeerProducts.update_messaging_settings("site_id", "sippeer_id", data)
+```
+
+## Emergency Notification Recipients
+
+### Create Emergency Notification Recipient
+
+```ruby
+data = {
+  :description => "Email to Bldg. 3 Front Desk",
+  :type => "EMAIL",
+  :email_address => "foo@bar.com"
+}
+
+enr = BandwidthIris::EmergencyNotificationRecipients.create_emergency_notification_recipient(data)
+puts enr
+```
+### Get Emergency Notification Recipients
+
+```ruby
+enrs = BandwidthIris::EmergencyNotificationRecipients.get_emergency_notification_recipients()
+puts enrs
+```
+
+### Get Emergency Notification Recipient
+
+```ruby
+enr = BandwidthIris::EmergencyNotificationRecipients.get_emergency_notification_recipient("id")
+puts enr
+```
+
+### Replace Emergency Notification Recipient
+
+```ruby
+data = {
+  :description => "Email to Bldg. 3 Front Desk",
+  :type => "EMAIL",
+  :email_address => "foo@bar.com"
+}
+
+enr = BandwidthIris::EmergencyNotificationRecipients.replace_emergency_notification_recipient("id", data)
+puts enr
+```
+
+### Delete Emergency Notification Recipient
+
+```ruby
+BandwidthIris::EmergencyNotificationRecipients.delete_emergency_notification_recipient("id")
+```
+
+## Emergeny Notification Group
+
+### Create Emergency Notification Group Order
+
+```ruby
+data = {
+  :customer_order_id => "value",
+  :added_emergency_notification_group => {
+    :description => "description",
+    :added_emergency_notification_recipients => {
+      :emergency_notification_recipient => [
+        {
+          :identifier => "123"
+        }
+      ]
+    }
+  }
+}
+
+order = BandwidthIris::EmergencyNotificationGroups.create_emergency_notification_group_order(data)
+puts order
+```
+
+### Get Emergency Notification Group Orders
+
+```ruby
+orders = BandwidthIris::EmergencyNotificationGroups.get_emergency_notification_group_orders()
+puts orders
+```
+
+### Get Emergency Notification Group Order
+
+```ruby
+order = BandwidthIris::EmergencyNotificationGroups.get_emergency_notification_group_order("id")
+puts order
+```
+
+### Get Emergency Notification Groups
+
+```ruby
+groups = BandwidthIris::EmergencyNotificationGroups.get_emergency_notification_groups()
+puts groups
+```
+
+### Get Emergency Notification Group
+
+```ruby
+group = BandwidthIris::EmergencyNotificationGroups.get_emergency_notification_group("id")
+puts group
+```
+
+## Emergency Notification Endpoint
+
+### Create Emergency Notification Endpoint Order
+
+```ruby
+data = {
+  :customer_order_id => "123",
+  :emergency_notification_endpoint_associations => {
+    :emergency_notification_group => {
+      :identifier => "456"
+    }
+  }
+}
+
+order = BandwidthIris::EmergencyNotificationEndpoints.create_emergency_notification_endpoint_order(data)
+puts order
+```
+
+### Get Emergency Notification Endpoint Orders
+
+```ruby
+orders = BandwidthIris::EmergencyNotificationEndpoints.get_emergency_notification_endpoint_orders()
+puts orders
+```
+
+### Get Emergency Notification Endpoint Order
+
+```ruby
+order = BandwidthIris::EmergencyNotificationEndpoints.get_emergency_notification_endpoint_order("id")
+puts order
+```
+
+## Alternate End User Identiy
+
+### Get Alternate End User Information
+
+```ruby
+aeuis = BandwidthIris::AlternateEndUserIdentity.get_alternate_end_user_information()
+puts aeuis
+```
+
+### Get Alternate Caller Information
+
+```ruby
+aeui = AlternateEndUserIdentity.get_alternate_caller_information("id")
+puts aeui
+```
+
+## TN Option Orders
+
+### Get TN Option Orders
+
+```ruby
+orders = BandwidthIris::TnOptions.get_tn_option_orders()
+puts orders
+```
+
+### Get TN Option Order
+
+```ruby
+order = BandwidthIris::TnOptions.get_tn_option_order("order_id")
+puts order
+```
+
+### Get TN Option Order (error)
+
+```ruby
+begin
+  order = BandwidthIris::TnOptions.get_tn_option_order("error_id")
+rescue BandwidthIris::Errors::GenericError => e
+  puts e
+end
+```
+
+### Create PortOut Passcode
+
+```ruby
+data = {
+  :customer_order_id => "custom order",
+  :tn_option_groups => {
+    :tn_option_group => [
+      {
+        :port_out_passcode => "12abd38",
+        :telephone_numbers => {
+          :telephone_number => ["2018551020"]
+        }
+      }
+    ]
+  }
+}
+
+
+order = BandwidthIris::TnOptions.create_tn_option_order(data)
+puts order
+```
+
+### Create Call Forward Number
+
+```ruby
+data = {
+  :customer_order_id => "custom order",
+  :tn_option_groups => {
+    :tn_option_group => [
+      {
+        :call_forward => "2018551022",
+        :telephone_numbers => {
+          :telephone_number => ["2018551020"]
+        }
+      }
+    ]
+  }
+}
+
+
+order = BandwidthIris::TnOptions.create_tn_option_order(data)
+puts order
+```
+### Enable SMS
+
+```ruby
+data = {
+  :customer_order_id => "custom order",
+  :tn_option_groups => {
+    :tn_option_group => [
+      {
+        :sms => "on",
+        :telephone_numbers => {
+          :telephone_number => ["2018551020"]
+        }
+      }
+    ]
+  }
+}
+
+
+order = BandwidthIris::TnOptions.create_tn_option_order(data)
+puts order
 ```
