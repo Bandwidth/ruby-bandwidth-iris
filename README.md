@@ -6,18 +6,44 @@ Ruby Client library for IRIS / BBS API
 
 ## Release Notes
 
-| Release Version | Notes                                                                                                                                                                                                                                                       |
-|:----------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1.0.5           | Fixed incorrect generation of XML for a Disconnect request                                                                                                                                                                                                  |
-| 2.0.0           | Added `importTnOrders`, `removeImportedTnOrders`, `inserviceNumbers`, and `importTnChecker` endpoints. This release also changed the response body of `BandwidthIris::InServiceNumber.list()`. Please make sure to update your code to include this change. |
-| 2.0.1           | Updated gem dependencies to be less restrictive                                                                                                                                                                                                             |
-| 2.1.0           | Added `csrs` endpoints                                                                                                                                                                                                                                      |
+| Release Version | Notes |
+|--|--|
+| 1.0.5 | Fixed incorrect generation of XML for a Disconnect request |
+| 2.0.0 | Added `importTnOrders`, `removeImportedTnOrders`, `inserviceNumbers`, and `importTnChecker` endpoints. This release also changed the response body of `BandwidthIris::InServiceNumber.list()`. Please make sure to update your code to include this change. |
+| 2.0.1 | Updated gem dependencies to be less restrictive |
+| 2.1.0 | Added `csrs` endpoints |
+| 2.2.0 | Added `loas` endpoints to `importTnOrders` |
 | 2.2.0           | Added `loas` endpoints to `importTnOrders`                                                                                                                                                                                                                  |
 | 2.3.0           | Added `get_tns_by_order_id` to the Orders class                                                                                                                                                                                                             |
 | 2.4.0.pre       | Added application management and sippeer products endpoints                                                                                                                                                                                                 |
 | 2.5.0           | Added `get_order_response` to pull full `<OrderResponse>` object from API, added `id` back to order object on get requests. Fixed TN Reservation and updated tests to match reality  |
 | 2.6.0 | Added Emergency Calling Notification, Emergeny Notification Group, Emergency Notification Endpoint, and Alternate End User Identity methods |
 | 2.7.0 | Added TNOptions endpoints |
+| 3.0.0 | Removed functionality that causes an error to be raised when some type of `error` field is returned in the XML body response. This change reduces the situations that cause an error to be thrown to simply be 4XX and 5XX http responses. This change was made to improve communication when an error is found. Please update your code to handle this change. |
+
+### 3.x.x release
+
+```ruby
+failed_import_tn_order = "some_id"
+begin
+    response = BandwidthIris::ImportTnOrders.get_import_tn_order(failed_import_tn_order)
+    puts response[0]
+rescue BandwidthIris::Errors::GenericError => e
+    puts e
+end
+```
+
+#### 2.x.x result
+
+```
+Messaging route of External Third Party TNs is not configured.
+```
+
+#### 3.x.x result
+
+```
+{:customer_order_id=>"custom_id", :order_create_date=>Mon, 02 Mar 2020 20:56:48 +0000, :account_id=>123, :created_by_user=>"user", :order_id=>"0f2", :last_modified_date=>Mon, 02 Mar 2020 20:56:48 +0000, :site_id=>123, :subscriber=>{:name=>"Company INC", :service_address=>{:house_number=>123, :street_name=>"Street", :city=>"City", :state_code=>"XY", :zip=>12345, :county=>"County", :country=>"Country", :address_type=>"Service"}}, :loa_authorizing_person=>"Person", :telephone_numbers=>{:telephone_number=>"5554443333"}, :processing_status=>"FAILED", :errors=>{:error=>{:code=>19005, :description=>"Messaging route of External Third Party TNs is not configured.", :telephone_numbers=>{:telephone_number=>"5554443333"}}}, :sip_peer_id=>123}
+```
 
 ## Install
 

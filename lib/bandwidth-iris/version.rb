@@ -1,4 +1,4 @@
 module BandwidthIris
   # Version of this gem
-  VERSION = "2.7.1"
+  VERSION = "3.0.1"
 end

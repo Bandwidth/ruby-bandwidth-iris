@@ -22,7 +22,7 @@ module BandwidthIris
       password = options[:password] unless password
       options[:api_endpoint] = @@global_options[:api_endpoint] unless options[:api_endpoint]
       options[:api_version] = @@global_options[:api_version] unless options[:api_version]
-      api_endpoint = options[:api_endpoint] || "https://dasbhoard.bandwidth.com"
+      api_endpoint = options[:api_endpoint] || "https://dashboard.bandwidth.com"
       api_version = options[:api_version] || "v1.0"
 
       @build_path = lambda {|path| "/#{api_version}" + (if path[0] == "/" then path else "/#{path}" end) }
@@ -120,25 +120,6 @@ module BandwidthIris
     # @param response response object
     def check_response(response)
       parsed_body = parse_xml(response.body || '')
-      code = find_first_descendant(parsed_body, :error_code)
-      description = find_first_descendant(parsed_body, :description)
-      unless code
-        error = find_first_descendant(parsed_body, :error)
-        if error
-          code = error[:code]
-          description = error[:description]
-        else
-          errors = find_first_descendant(parsed_body, :errors)
-          if errors == nil || errors.length == 0
-            code = find_first_descendant(parsed_body, :result_code)
-            description = find_first_descendant(parsed_body, :result_message)
-          else
-            errors = [errors] if errors.is_a?(Hash)
-            raise Errors::AgregateError.new(errors.map {|e| Errors::GenericError.new(e[:code], e[:description], response.status)})
-          end
-        end
-      end
-      raise Errors::GenericError.new(code, description, response.status) if code && description && code != '0' && code != 0
       raise Errors::GenericError.new('', "Http code #{response.status}", response.status) if response.status >= 400
       parsed_body
     end
