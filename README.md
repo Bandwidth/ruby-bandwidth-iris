@@ -459,6 +459,7 @@ BandwidthIris::RateCenter.list(query)
 
 ## SIP Peers
 ### Create SIP Peer
+A Sip Peer is what is called Location in the web UI.
 ```ruby
 data = {
   :peer_name => "A New SIP Peer",
@@ -521,7 +522,7 @@ sipPeer.move_tns(numbers_to_move)
 ## Sites
 
 ### Create A Site
-A site is what is called Location in the web UI.
+A site is what is called Sub-Account in the web UI.
 ```ruby
 site = {
   :name =>"A new site",
