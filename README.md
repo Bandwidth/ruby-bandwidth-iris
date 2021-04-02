@@ -20,6 +20,7 @@ Ruby Client library for IRIS / BBS API
 | 2.6.0 | Added Emergency Calling Notification, Emergeny Notification Group, Emergency Notification Endpoint, and Alternate End User Identity methods |
 | 2.7.0 | Added TNOptions endpoints |
 | 3.0.0 | Removed functionality that causes an error to be raised when some type of `error` field is returned in the XML body response. This change reduces the situations that cause an error to be thrown to simply be 4XX and 5XX http responses. This change was made to improve communication when an error is found. Please update your code to handle this change. |
+| 3.0.2 | Fixed an incorrect retrieval of DLDA objects |
 
 ### 3.x.x release
 
