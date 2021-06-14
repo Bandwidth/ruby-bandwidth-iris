@@ -19,7 +19,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "faraday_middleware"
   spec.add_dependency "nori"
   spec.add_dependency "activesupport",">= 4.2.7"
-  spec.add_dependency "certified"
 
   spec.add_development_dependency "bundler", ">= 1.3"
   spec.add_development_dependency "rake", ">= 11.1.0"
