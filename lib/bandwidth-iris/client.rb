@@ -1,6 +1,5 @@
 require 'faraday'
 require 'faraday_middleware'
-require 'certified'
 require 'active_support/xml_mini'
 require 'active_support/core_ext/hash/conversions'
 require 'active_support/core_ext/string/inflections'
