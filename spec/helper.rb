@@ -2,10 +2,10 @@ require 'simplecov'
 require 'coveralls'
 require 'yaml'
 
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
-  SimpleCov::Formatter::HTMLFormatter,
-  Coveralls::SimpleCov::Formatter
-]
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter::new
+SimpleCov::Formatter::HTMLFormatter
+Coveralls::SimpleCov::Formatter
+
 SimpleCov.start()
 
 require 'ruby-bandwidth-iris'
