@@ -11,7 +11,7 @@ module BandwidthIris
     wrap_client_arg :list
 
     def self.get(client, number)
-      client.make_request(:get, "#{client.concat_account_path(INSERVICE_NUMBER_PATH)}/#{URI.escape(number)}")[0]
+      client.make_request(:get, "#{client.concat_account_path(INSERVICE_NUMBER_PATH)}/#{CGI.escape(number)}")[0]
     end
     wrap_client_arg :get
 

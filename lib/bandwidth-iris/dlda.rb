@@ -18,7 +18,7 @@ module BandwidthIris
 
     def self.get(client, id)
       data  = client.make_request(:get, "#{client.concat_account_path(DLDA_PATH)}/#{id}")[0]
-      data[:id] = data[:order_id]
+      data[:id] = data[:dlda_order][:order_id]
       Dlda.new(data, client)
     end
     wrap_client_arg :get

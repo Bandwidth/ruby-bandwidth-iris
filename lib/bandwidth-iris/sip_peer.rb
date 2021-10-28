@@ -26,7 +26,7 @@ module BandwidthIris
 
 
     def get_tns(number = nil)
-      r = @client.make_request(:get,"#{@client.concat_account_path(SITE_PATH)}/#{site_id}/#{SIPPEER_PATH}/#{id}/tns#{if number then '/' + URI.escape(number) else '' end}")[0]
+      r = @client.make_request(:get,"#{@client.concat_account_path(SITE_PATH)}/#{site_id}/#{SIPPEER_PATH}/#{id}/tns#{if number then '/' + CGI.escape(number) else '' end}")[0]
       if number
         r[:sip_peer_telephone_number]
       else
@@ -37,7 +37,7 @@ module BandwidthIris
     end
 
     def update_tns(number, data)
-      @client.make_request(:put,"#{@client.concat_account_path(SITE_PATH)}/#{site_id}/#{SIPPEER_PATH}/#{id}/tns/#{URI.escape(number)}", {:sip_peer_telephone_number => data})[0]
+      @client.make_request(:put,"#{@client.concat_account_path(SITE_PATH)}/#{site_id}/#{SIPPEER_PATH}/#{id}/tns/#{CGI.escape(number)}", {:sip_peer_telephone_number => data})[0]
     end
 
     def move_tns(numbers)

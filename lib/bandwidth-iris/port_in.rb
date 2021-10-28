@@ -64,12 +64,12 @@ module BandwidthIris
     end
 
     def get_file_metadata(file_name)
-      @client.make_request(:get, "#{@client.concat_account_path(PORT_IN_PATH)}/#{id}/#{LOAS_PATH}/#{URI.encode(file_name)}/metadata")[0]
+      @client.make_request(:get, "#{@client.concat_account_path(PORT_IN_PATH)}/#{id}/#{LOAS_PATH}/#{CGI.escape(file_name)}/metadata")[0]
     end
 
     def get_file(file_name)
       connection = @client.create_connection()
-      response = connection.get("/#{@client.api_version}#{@client.concat_account_path(PORT_IN_PATH)}/#{id}/#{LOAS_PATH}/#{URI.encode(file_name)}")
+      response = connection.get("/#{@client.api_version}#{@client.concat_account_path(PORT_IN_PATH)}/#{id}/#{LOAS_PATH}/#{CGI.escape(file_name)}")
       [response.body, response.headers['Content-Type'] || 'application/octet-stream']
     end
 
