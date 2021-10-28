@@ -22,7 +22,7 @@ Ruby Client library for IRIS / BBS API
 | 3.0.0 | Removed functionality that causes an error to be raised when some type of `error` field is returned in the XML body response. This change reduces the situations that cause an error to be thrown to simply be 4XX and 5XX http responses. This change was made to improve communication when an error is found. Please update your code to handle this change. |
 | 3.0.2 | Fixed an incorrect retrieval of DLDA objects |
 | 4.0.0 | Removed certify gem. Users will now need to set their own SSL settings |
-| 4.1.1 | Added support for SIP credentials.
+| 4.1.0 | Added support for SIP credentials.
 
 ### 3.x.x release
 
