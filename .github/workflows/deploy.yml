@@ -1,0 +1,37 @@
+name: Deploy SDK
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  deploy:
+    name: Deploy to Rubygems
+    if: ${{ !github.event.release.prerelease && github.event.release.target_commitish == 'main' }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.0'
+
+    - name: Install Packages
+      run: bundle install
+
+    - name: Test
+      run: rake
+      
+    - name: Deploy to Rubygems
+      uses: ./.github/actions/deploy
+      with:
+        rubygems-api-key: ${{ secrets.RUBYGEMS_API_KEY }}
+    - uses: Bandwidth/build-notify-slack-action@v1.0.0
+      if: always()
+      with:
+        job-status: ${{ job.status }}
+        slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
+        slack-channel: ${{ secrets.SLACK_CHANNEL }}
