@@ -5,6 +5,7 @@ on:
     types:
       - published
   push:
+  workflow_dispatch:
 
 jobs:
   deploy:
