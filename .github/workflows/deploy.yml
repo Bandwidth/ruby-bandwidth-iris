@@ -38,8 +38,6 @@ jobs:
           RUBYGEMS_API_KEY: ${{ secrets.rubygems-api-key }}
       shell: sh
 
-      with:
-        rubygems-api-key: ${{ secrets.RUBYGEMS_API_KEY }}
     - uses: Bandwidth/build-notify-slack-action@v1.0.0
       if: always()
       with:
