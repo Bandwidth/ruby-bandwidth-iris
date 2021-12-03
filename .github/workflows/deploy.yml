@@ -27,7 +27,7 @@ jobs:
       run: rake
       
     - name: Deploy to Rubygems
-      uses: ./.github/actions/deploy
+      uses: .github/actions/deploy
       with:
         rubygems-api-key: ${{ secrets.RUBYGEMS_API_KEY }}
     - uses: Bandwidth/build-notify-slack-action@v1.0.0
