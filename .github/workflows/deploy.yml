@@ -4,12 +4,11 @@ on:
   release:
     types:
       - published
-  push:
 
 jobs:
   deploy:
     name: Deploy to Rubygems
-    #if: ${{ !github.event.release.prerelease && github.event.release.target_commitish == 'master' }}
+    if: ${{ !github.event.release.prerelease && github.event.release.target_commitish == 'master' }}
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -28,15 +27,14 @@ jobs:
 
     - name: Deploy to Rubygems
       run: |
-        #mkdir ~/.gem #Rubygems needs this directory for auth
-        #echo "---\n:rubygems_api_key: $RUBYGEMS_API_KEY" > ~/.gem/credentials #The file to store rubygems auth. Must be in this format
-        #chmod 0600 ~/.gem/credentials #Rubygems expects this permissions
-        #gem build *.gemspec
-        #gem push *.gem -k rubygems
+        mkdir ~/.gem #Rubygems needs this directory for auth
+        echo "---\n:rubygems_api_key: $RUBYGEMS_API_KEY" > ~/.gem/credentials #The file to store rubygems auth. Must be in this format
+        chmod 0600 ~/.gem/credentials #Rubygems expects this permissions
+        gem build *.gemspec
+        gem push *.gem -k rubygems
         echo "test to make sure this runs"
       env:
           RUBYGEMS_API_KEY: ${{ secrets.rubygems-api-key }}
-      #shell: sh
 
     - uses: Bandwidth/build-notify-slack-action@v1.0.0
       if: always()
