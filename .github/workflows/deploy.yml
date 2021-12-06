@@ -32,7 +32,6 @@ jobs:
         chmod 0600 ~/.gem/credentials #Rubygems expects this permissions
         gem build *.gemspec
         gem push *.gem -k rubygems
-        echo "test to make sure this runs"
       env:
           RUBYGEMS_API_KEY: ${{ secrets.rubygems-api-key }}
 
