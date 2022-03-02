@@ -28,7 +28,7 @@ module BandwidthIris
       @set_adapter = lambda {|faraday| faraday.adapter(Faraday.default_adapter)}
       @create_connection = lambda{||
         Faraday.new(api_endpoint) { |faraday|
-          faraday.basic_auth(user_name, password)
+          faraday.request :basic_auth, user_name, password
           #faraday.response :logger
           faraday.headers['Accept'] = 'application/xml'
           faraday.headers['user-agent'] = 'Ruby-Bandwidth-Iris'
