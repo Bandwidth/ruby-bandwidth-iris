@@ -46,7 +46,6 @@ describe BandwidthIris::Client do
     it 'should create new faraday connection' do
       connection = client.create_connection()
       expect(connection).to be_a(Faraday::Connection)
-      expect(connection.headers['Authorization']).to eql("Basic #{Base64.strict_encode64('username:password')}")
     end
   end
 
@@ -58,6 +57,12 @@ describe BandwidthIris::Client do
 
     after :each do
       client.stubs.verify_stubbed_calls()
+    end
+
+    it 'should pass basic auth headers' do
+      # Note: This endpoint does not exist. It is stubbed in order to echo back the Authorization headers that are added by Faraday middleware.
+      client.stubs.get('/v1.0/test-auth') { |env| [200, {}, "<Result><EchoedAuth>#{env[:request_headers]['Authorization']}</EchoedAuth></Result>"] }
+      expect(client.make_request(:get, '/test-auth')).to eql([{:echoed_auth=>"Basic #{Base64.strict_encode64('username:password')}"}, {}])
     end
 
     it 'should make GET request and return xml  data' do
