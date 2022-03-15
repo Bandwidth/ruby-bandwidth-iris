@@ -33,7 +33,7 @@ jobs:
         gem build *.gemspec
         gem push *.gem -k rubygems
       env:
-          RUBYGEMS_API_KEY: ${{ secrets.rubygems-api-key }}
+          RUBYGEMS_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
 
     - uses: Bandwidth/build-notify-slack-action@v1.0.0
       if: always()
