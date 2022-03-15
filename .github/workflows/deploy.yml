@@ -27,13 +27,12 @@ jobs:
 
     - name: Deploy to Rubygems
       run: |
-        mkdir ~/.gem #Rubygems needs this directory for auth
-        echo "---\n:rubygems_api_key: $RUBYGEMS_API_KEY" > ~/.gem/credentials #The file to store rubygems auth. Must be in this format
-        chmod 0600 ~/.gem/credentials #Rubygems expects this permissions
+        mkdir -p $HOME/.gem
+        touch $HOME/.gem/credentials
+        chmod 0600 $HOME/.gem/credentials
+        printf -- "---\n:rubygems_api_key: ${{ secrets.RUBYGEMS_API_KEY }}\n" > $HOME/.gem/credentials
         gem build *.gemspec
-        gem push *.gem -k rubygems
-      env:
-          RUBYGEMS_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
+        gem push *.gem
 
     - uses: Bandwidth/build-notify-slack-action@v1.0.0
       if: always()
