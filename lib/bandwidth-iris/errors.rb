@@ -24,7 +24,7 @@ module BandwidthIris
         @headers = headers
         @body = body
         @code = '' # Iris Error Code can be accessed with body[:error][:code]
-        super message = "HTTP Error\nStatus Code: #{@http_status}\nReason: #{@reason}\nHTTP Headers: #{@headers}\nResponse Body: #{@body}"
+        super message = "Http code #{@http_status}"
       end
     end
 
