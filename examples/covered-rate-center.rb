@@ -12,8 +12,11 @@ BandwidthIris::Client.global_options = {
   :account_id => config['account_id']
 }
 
-
-BandwidthIris::CoveredRateCenter.list({:zip => '27609', :page=>1, :size=>100}).each do |c|
-  puts c.to_data
+begin
+  BandwidthIris::CoveredRateCenter.list({:zip => '27609', :page=>1, :size=>100}).each do |c|
+    puts c.to_data
+  end
+rescue BandwidthIris::Errors::GenericError => e
+  puts e.message
 end
 

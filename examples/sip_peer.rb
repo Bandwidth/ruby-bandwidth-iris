@@ -14,47 +14,51 @@ BandwidthIris::Client.global_options = {
 
 host = '10.20.30.41'
 
-
-site = BandwidthIris::Site.create({
-  :name => "Ruby Test Site",
-  :description => "A Site From Ruby SDK Examples",
-  :address => {
-    :house_number => "123",
-    :street_name => "Anywhere St",
-    :city => "Raleigh",
-    :state_code =>"NC",
-    :zip => "27609",
-    :address_type => "Service"
-  }
-})
-
-data = {
-  :peer_name => "A New SIP Peer",
-  :is_default_peer => true,
-  :short_messaging_protocol => "SMPP",
-  :site_id => site[:id],
-  :voice_hosts =>
-  {
-      :host => {
-        :host_name => host
-      }
-  },
-  :sms_hosts =>
-  {
-      :host => {
-        :host_name => host
-      }
-  },
-  :termination_hosts =>
-    {
-      :termination_host => {
-        :host_name => host,
-        :port => 5060,
-      }
+begin
+  site = BandwidthIris::Site.create({
+    :name => "Ruby Test Site",
+    :description => "A Site From Ruby SDK Examples",
+    :address => {
+      :house_number => "123",
+      :street_name => "Anywhere St",
+      :city => "Raleigh",
+      :state_code =>"NC",
+      :zip => "27609",
+      :address_type => "Service"
     }
+  })
 
-}
-sip_peer = BandwidthIris::SipPeer.create(site[:id], data)
+  data = {
+    :peer_name => "A New SIP Peer",
+    :is_default_peer => true,
+    :short_messaging_protocol => "SMPP",
+    :site_id => site[:id],
+    :voice_hosts =>
+    {
+        :host => {
+          :host_name => host
+        }
+    },
+    :sms_hosts =>
+    {
+        :host => {
+          :host_name => host
+        }
+    },
+    :termination_hosts =>
+      {
+        :termination_host => {
+          :host_name => host,
+          :port => 5060,
+        }
+      }
+
+  }
+  sip_peer = BandwidthIris::SipPeer.create(site[:id], data)
+rescue BandwidthIris::Errors::GenericError => e
+  puts e.message
+end
+
 
 
 sip_peer.delete(site[:id])

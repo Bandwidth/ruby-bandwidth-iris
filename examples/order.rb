@@ -14,35 +14,39 @@ BandwidthIris::Client.global_options = {
 
 number = '9195551212' #exisitng number for order
 
+begin
+  site = BandwidthIris::Site.create({
+    :name => "Ruby Test Site",
+    :description => "A Site From Ruby SDK Examples",
+    :address => {
+      :house_number => "123",
+      :street_name => "Anywhere St",
+      :city => "Raleigh",
+      :state_code =>"NC",
+      :zip => "27609",
+      :address_type => "Service"
+    }
+  })
 
-site = BandwidthIris::Site.create({
-  :name => "Ruby Test Site",
-  :description => "A Site From Ruby SDK Examples",
-  :address => {
-    :house_number => "123",
-    :street_name => "Anywhere St",
-    :city => "Raleigh",
-    :state_code =>"NC",
-    :zip => "27609",
-    :address_type => "Service"
-  }
-})
+  order =  BandwidthIris::Order.create({
+    :name =>"A Test Order",
+    :site_id => site.id,
+    :existing_telephone_number_order_type => {
+      :telephone_number_list =>
+        {
+          :telephone_number => [number]
+        }
 
-order =  BandwidthIris::Order.create({
-  :name =>"A Test Order",
-  :site_id => site.id,
-  :existing_telephone_number_order_type => {
-    :telephone_number_list =>
-      {
-        :telephone_number => [number]
-      }
+    }
+  })
 
-  }
-})
+  puts order.to_data
 
-puts order.to_data
+  order = BandwidthIris::Order.get(order.id)
+rescue BandwidthIris::Errors::GenericError => e
+  puts e.message
+end
 
-order = BandwidthIris::Order.get(order.id)
 
 puts order.to_data
 
