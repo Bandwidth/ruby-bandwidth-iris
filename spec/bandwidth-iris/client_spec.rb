@@ -89,7 +89,7 @@ describe BandwidthIris::Client do
 
     it 'should raise error if http status >= 400' do
       client.stubs.get('/v1.0/path1') { |env| [400, {}, ''] }
-      expect{client.make_request(:get, '/path1')}.to raise_error(Errors::GenericError, "Http code 400")
+      expect{client.make_request(:get, '/path1')}.to raise_error(an_instance_of(Errors::GenericError).and having_attributes(http_status: 400))
     end
   end
 end
