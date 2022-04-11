@@ -120,7 +120,7 @@ module BandwidthIris
     # @param response response object
     def check_response(response)
       parsed_body = parse_xml(response.body || '')
-      raise Errors::GenericError.new('', "Http code #{response.status}", response.status) if response.status >= 400
+      raise Errors::GenericError.new(response.status, response.reason_phrase, response.headers, parsed_body) if response.status >= 400
       parsed_body
     end
 
