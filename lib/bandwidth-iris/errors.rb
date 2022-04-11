@@ -2,17 +2,29 @@ module BandwidthIris
   module Errors
     # Generic error class
     class GenericError < StandardError
+      # @return [String] HTTP status code
+      attr_reader :http_status
+
+      # return [String] Reason
+      attr_reader :reason
+
+      # return [Hash] Headers
+      attr_reader :headers
+
+      # return [Hash] Body
+      attr_reader :body
+
       # @return [String] Error code
       attr_reader :code
 
-      # @return [String] Http status code
-      attr_reader :http_status
-
       # @api private
-      def initialize code, message, http_status
-        super message
-        @code = code
+      def initialize http_status, reason, headers, body
         @http_status = http_status
+        @reason = reason
+        @headers = headers
+        @body = body
+        @code = '' # Iris Error Code can be accessed with body[:error][:code]
+        super message = "Http code #{@http_status}"
       end
     end
 
