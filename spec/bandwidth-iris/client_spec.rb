@@ -88,8 +88,13 @@ describe BandwidthIris::Client do
     end
 
     it 'should raise error if http status >= 400' do
-      client.stubs.get('/v1.0/path1') { |env| [400, {}, ''] }
-      expect{client.make_request(:get, '/path1')}.to raise_error(an_instance_of(Errors::GenericError).and having_attributes(http_status: 400))
+      client.stubs.get('/v1.0/path1') { |env| [400, {'content-type'=>'application/xml'}, '<SearchResult><Error><Code>4010</Code><Description>The state abbreviation N is not valid.</Description></Error></SearchResult>'] }
+      expect{client.make_request(:get, '/path1')}.to raise_error(an_instance_of(Errors::GenericError).and having_attributes({
+        http_status: 400,
+        headers: {"content-type"=>"application/xml"},
+        code: 4010,
+        body: {:error=>{:code=>4010, :description=>"The state abbreviation N is not valid."}}
+      }))
     end
   end
 end
