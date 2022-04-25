@@ -12,4 +12,8 @@ BandwidthIris::Client.global_options = {
   :account_id => config['account_id']
 }
 
-puts BandwidthIris::AvailableNumber.list({:state => "NC", :quantity => 3, :enable_t_n_detail => true})
+begin
+  puts BandwidthIris::AvailableNumber.list({:state => "NC", :quantity => 3, :enable_t_n_detail => true})
+rescue BandwidthIris::Errors::GenericError => e
+  puts e.message
+end

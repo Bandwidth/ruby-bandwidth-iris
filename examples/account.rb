@@ -11,5 +11,10 @@ BandwidthIris::Client.global_options = {
   :password => config['password'],
   :account_id => config['account_id']
 }
-puts BandwidthIris::Account.get()
+
+begin
+  puts BandwidthIris::Account.get()
+rescue BandwidthIris::Errors::GenericError => e
+  puts e.message
+end
 

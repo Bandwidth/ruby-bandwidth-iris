@@ -13,8 +13,11 @@ BandwidthIris::Client.global_options = {
   :account_id => config['account_id']
 }
 
-list = BandwidthIris::Tn.list({:npa => '818', :page => 1, :size => 100}).each do |n|
-  puts n.to_data
+begin
+  list = BandwidthIris::Tn.list({:npa => '818', :page => 1, :size => 100}).each do |n|
+    puts n.to_data
+  end
+  puts BandwidthIris::Tn.get(list[0][:full_number]).to_data
+rescue BandwidthIris::Errors::GenericError => e
+  puts e.message
 end
-
-puts BandwidthIris::Tn.get(list[0][:full_number]).to_data

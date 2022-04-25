@@ -14,7 +14,7 @@ module BandwidthIris
       # return [Hash] Body
       attr_reader :body
 
-      # @return [String] Error code
+      # @return [String] Iris Error code
       attr_reader :code
 
       # @api private
@@ -23,8 +23,8 @@ module BandwidthIris
         @reason = reason
         @headers = headers
         @body = body
-        @code = '' # Iris Error Code can be accessed with body[:error][:code]
-        super message = "Http code #{@http_status}"
+        @code = body.nil? ? '' : body[:error][:code]
+        super message = "HTTP Error\nStatus Code: #{@http_status}\nReason: #{@reason}\nHTTP Headers: #{@headers}\nResponse Body: #{@body}\nIris Error Code: #{@code}"
       end
     end
 

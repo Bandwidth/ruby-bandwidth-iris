@@ -12,5 +12,9 @@ BandwidthIris::Client.global_options = {
   :account_id => config['account_id']
 }
 
-puts BandwidthIris::City.list({:available => true, :state => 'NC'})
+begin
+  puts BandwidthIris::City.list({:available => true, :state => 'NC'})
+rescue BandwidthIris::Errors::GenericError => e
+  puts e.message
+end
 
