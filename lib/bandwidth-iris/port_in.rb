@@ -13,6 +13,26 @@ module BandwidthIris
     end
     wrap_client_arg :create
 
+    def self.list_from_page_url(client, url, query=nil)
+      response = client.make_request(:get, url, query)[0]
+      items = response[:lnp_port_info_for_given_status]
+      items = items.is_a?(Array) ? items : [items]
+      PaginatedResult.new(
+        items.map { |item| PortIn.new(item, client) },
+        response[:links]
+      ) do |next_url|
+        list_from_page_url(client, next_url)
+      end
+    end
+
+    def self.list(client, query=nil)
+      list_from_page_url(client, client.concat_account_path(PORT_IN_PATH), query)
+    end
+    wrap_client_arg :list
+
+    def tns
+      Array(@client.make_request(:get, "#{@client.concat_account_path(PORT_IN_PATH)}/#{order_id}/tns")[0][:telephone_number])
+    end
 
     def update(data)
       @client.make_request(:put,"#{@client.concat_account_path(PORT_IN_PATH)}/#{id}", {:lnp_order_supp => data})
