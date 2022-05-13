@@ -37,5 +37,13 @@ module BandwidthIris
     def get_details()
       @client.make_request(:get, "#{TN_PATH}/#{CGI.escape(telephone_number)}/tndetails")[0][:telephone_number_details]
     end
+
+    def move(params)
+      @client.make_request(
+        :post,
+        @client.concat_account_path("moveTns"),
+        MoveTnsOrder: params.merge(TelephoneNumbers: { TelephoneNumber: telephone_number })
+      )
+    end
   end
 end

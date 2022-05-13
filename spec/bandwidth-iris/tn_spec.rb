@@ -27,6 +27,19 @@ describe BandwidthIris::Tn do
     end
   end
 
+  describe '#move' do
+    it 'should move a number' do
+      client.stubs.get('/v1.0/tns/1234') {|env| [200, {}, Helper.xml['tn']]}
+      tn = Tn.get(client, '1234')
+      client.stubs.post('/v1.0/accounts/accountId/moveTns') {|env| [201, {}, Helper.xml['tn_move']]}
+      order = tn.move({'SiteId': 12345, 'SipPeerId': 123450})[0][:move_tns_order]
+      expect(order[:created_by_user]).to eql('userapi')
+      expect(order[:order_id]).to eql('55689569-86a9-fe40-ab48-f12f6c11e108')
+      expect(order[:sip_peer_id]).to eql(123450)
+      expect(order[:site_id]).to eql(12345)
+    end
+  end
+
   describe '#get_sites' do
     it 'should return sites' do
       client.stubs.get('/v1.0/tns/1234/sites') {|env| [200, {}, Helper.xml['tn_sites']]}
