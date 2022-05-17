@@ -387,6 +387,11 @@ order.get_notes()
 ```
 
 ## Port Ins
+
+### List Portins
+```ruby
+page = BandwidthIris::PortIn.list(client, {'page': 1, 'size': 5})
+```
 ### Create PortIn
 ```ruby
 data = {
