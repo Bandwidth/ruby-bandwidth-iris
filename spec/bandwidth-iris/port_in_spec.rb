@@ -9,6 +9,22 @@ describe BandwidthIris::PortIn do
     client.stubs.verify_stubbed_calls()
   end
 
+  describe '#list_orders' do
+    it 'should list port in orders' do
+      client.stubs.get('/v1.0/accounts/accountId/portins') {|env| [200, {}, Helper.xml['port_ins']]}
+      orders = PortIn.list(client)
+      orders.each do |order|
+        expect(order.class).to eql(BandwidthIris::PortIn)
+      end
+      expect(orders[0][:order_id]).to eql("ab03375f-e0a9-47f8-bd31-6d8435454a6b")
+      expect(orders[1][:order_id]).to eql("b2190bcc-0272-4a51-ba56-7c3d628e8706")
+      expect(orders[0][:lnp_losing_carrier_id]).to eql(1163)
+      expect(orders[1][:lnp_losing_carrier_id]).to eql(1290)
+      expect(orders[0][:last_modified_date]).to eql(DateTime.new(2020, 1, 15, 19, 8, 57.626))
+      expect(orders[1][:last_modified_date]).to eql(DateTime.new(2020, 1, 15, 19, 6, 10.085))
+    end
+  end
+  
   describe '#create' do
     it 'should create an order' do
       data = {
