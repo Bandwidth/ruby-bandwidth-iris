@@ -63,7 +63,7 @@ describe BandwidthIris::Site do
       site = Site.new({:id => 1}, client)
       list = site.get_sip_peers()
       expect(list.length).to eql(1)
-      expect(list[0][:id]).to eql(12345)
+      expect(list[0][:peer_id]).to eql(12345)
       expect(list[0][:peer_name]).to eql("SIP Peer 1")
       expect(list[0][:description]).to eql("Sip Peer 1 description")
     end
@@ -74,7 +74,7 @@ describe BandwidthIris::Site do
       client.stubs.get('/v1.0/accounts/accountId/sites/1/sippeers/11') {|env| [200, {}, Helper.xml['sip_peer']]}
       site = Site.new({:id => 1}, client)
       item = site.get_sip_peer(11)
-      expect(item[:id]).to eql(10)
+      expect(item[:peer_id]).to eql(10)
       expect(item[:peer_name]).to eql("SIP Peer 1")
       expect(item[:description]).to eql("Sip Peer 1 description")
     end
@@ -87,7 +87,7 @@ describe BandwidthIris::Site do
       client.stubs.get('/v1.0/accounts/accountId/sites/1/sippeers/11') {|env| [200, {}, Helper.xml['sip_peer']]}
       site = Site.new({:id => 1}, client)
       item = site.create_sip_peer(data)
-      expect(item[:id]).to eql(10)
+      expect(item[:peer_id]).to eql(10)
       expect(item[:peer_name]).to eql("SIP Peer 1")
       expect(item[:description]).to eql("Sip Peer 1 description")
     end

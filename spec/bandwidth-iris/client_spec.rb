@@ -92,7 +92,6 @@ describe BandwidthIris::Client do
       expect{client.make_request(:get, '/path1')}.to raise_error(an_instance_of(Errors::GenericError).and having_attributes({
         http_status: 400,
         headers: {"content-type"=>"application/xml"},
-        code: 4010,
         body: {:error=>{:code=>4010, :description=>"The state abbreviation N is not valid."}}
       }))
     end

@@ -38,7 +38,8 @@ module BandwidthIris
 
     def get_sip_peer(peer_id)
       item = @client.make_request(:get, "#{@client.concat_account_path(SITE_PATH)}/#{id}/sippeers/#{peer_id}")[0][:sip_peer]
-      item[:id] = item[:peer_id]
+      item[:site_id] = id
+      puts item
       item
     end
 
@@ -46,7 +47,7 @@ module BandwidthIris
       list = @client.make_request(:get, "#{@client.concat_account_path(SITE_PATH)}/#{id}/sippeers")[0][:sip_peers][:sip_peer]
       return [] if !list
       list = if list.is_a?(Array) then list else [list] end
-      list.each {|i| i[:id] = i[:peer_id]}
+      list.each {|i| i[:site_id] = id}
       list
     end
 
