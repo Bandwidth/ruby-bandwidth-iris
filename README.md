@@ -510,6 +510,28 @@ BandwidthIris::SipPeer.list(sipPeer.siteId)
 ```ruby
 sipPeer.delete()
 ```
+
+### SipPeer Attributes
+```ruby
+#peer_id
+sipPeer.peer_id
+
+#peer_name
+sipPeer.peer_name
+
+#is_default_peer
+sipPeer.is_default_peer
+
+#products
+sipPeer.products
+
+#ss_send_to_customer
+sipPeer.ss_send_to_customer
+
+#site_id
+sipPeer.site_id
+```
+
 ### SipPeer TN Methods
 ```ruby
 # get TN for this peer
