@@ -10,8 +10,8 @@ module BandwidthIris
     end
     wrap_client_arg :list
 
-    def self.get(client, site_id, id)
-      Site.new({:id => site_id}, client).get_sip_peer(id)
+    def self.get(client, site_id, peer_id)
+      Site.new({:id => site_id}, client).get_sip_peer(peer_id)
     end
     wrap_client_arg :get
 
@@ -21,12 +21,12 @@ module BandwidthIris
     wrap_client_arg :create
 
     def delete()
-      @client.make_request(:delete,"#{@client.concat_account_path(SITE_PATH)}/#{site_id}/#{SIPPEER_PATH}/#{id}")
+      @client.make_request(:delete,"#{@client.concat_account_path(SITE_PATH)}/#{site_id}/#{SIPPEER_PATH}/#{peer_id}")
     end
 
 
     def get_tns(number = nil)
-      r = @client.make_request(:get,"#{@client.concat_account_path(SITE_PATH)}/#{site_id}/#{SIPPEER_PATH}/#{id}/tns#{if number then '/' + CGI.escape(number) else '' end}")[0]
+      r = @client.make_request(:get,"#{@client.concat_account_path(SITE_PATH)}/#{site_id}/#{SIPPEER_PATH}/#{peer_id}/tns#{if number then '/' + CGI.escape(number) else '' end}")[0]
       if number
         r[:sip_peer_telephone_number]
       else
@@ -37,11 +37,11 @@ module BandwidthIris
     end
 
     def update_tns(number, data)
-      @client.make_request(:put,"#{@client.concat_account_path(SITE_PATH)}/#{site_id}/#{SIPPEER_PATH}/#{id}/tns/#{CGI.escape(number)}", {:sip_peer_telephone_number => data})[0]
+      @client.make_request(:put,"#{@client.concat_account_path(SITE_PATH)}/#{site_id}/#{SIPPEER_PATH}/#{peer_id}/tns/#{CGI.escape(number)}", {:sip_peer_telephone_number => data})[0]
     end
 
     def move_tns(numbers)
-      @client.make_request(:post,"#{@client.concat_account_path(SITE_PATH)}/#{site_id}/#{SIPPEER_PATH}/#{id}/movetns", {:sip_peer_telephone_numbers => {:full_number => numbers}})[0]
+      @client.make_request(:post,"#{@client.concat_account_path(SITE_PATH)}/#{site_id}/#{SIPPEER_PATH}/#{peer_id}/movetns", {:sip_peer_telephone_numbers => {:full_number => numbers}})[0]
     end
   end
 end

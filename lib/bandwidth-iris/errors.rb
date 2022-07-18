@@ -23,8 +23,7 @@ module BandwidthIris
         @reason = reason
         @headers = headers
         @body = body
-        @code = body.nil? ? '' : body[:error][:code]
-        super message = "HTTP Error\nStatus Code: #{@http_status}\nReason: #{@reason}\nHTTP Headers: #{@headers}\nResponse Body: #{@body}\nIris Error Code: #{@code}"
+        super message = "HTTP Error\nStatus Code: #{@http_status}\nReason: #{@reason}\nHTTP Headers: #{@headers}\nResponse Body: #{@body}"
       end
     end
 
