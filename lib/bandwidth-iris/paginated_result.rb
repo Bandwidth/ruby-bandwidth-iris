@@ -9,7 +9,7 @@ module BandwidthIris
     end
 
     def next
-      return unless @links[:next]
+      return unless @links && @links[:next]
 
       @requestor.call(@links[:next].match(/\<([^>]+)\>/)[1].sub(/^http.*\/v1.0/, ""))
     end
