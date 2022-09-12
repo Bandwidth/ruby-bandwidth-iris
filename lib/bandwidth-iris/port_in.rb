@@ -16,6 +16,8 @@ module BandwidthIris
     def self.list_from_page_url(client, url, query=nil)
       response = client.make_request(:get, url, query)[0]
       items = response[:lnp_port_info_for_given_status]
+      return unless items
+
       items = items.is_a?(Array) ? items : [items]
       PaginatedResult.new(
         items.map { |item| PortIn.new(item, client) },
