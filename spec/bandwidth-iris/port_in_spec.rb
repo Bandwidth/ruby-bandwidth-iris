@@ -24,6 +24,14 @@ describe BandwidthIris::PortIn do
       expect(orders[1][:last_modified_date]).to eql(DateTime.new(2020, 1, 15, 19, 6, 10.085))
     end
   end
+
+  describe '#list orders empty' do
+    it 'should list port in orders with no orders' do
+      client.stubs.get('/v1.0/accounts/accountId/portins') {|env| [204, {}]}
+      orders = PortIn.list(client)
+      expect(orders.class).to eql(NilClass)
+    end
+  end
   
   describe '#create' do
     it 'should create an order' do
