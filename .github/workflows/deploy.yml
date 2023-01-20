@@ -11,32 +11,32 @@ jobs:
     if: ${{ !github.event.release.prerelease && github.event.release.target_commitish == 'master' }}
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    - name: Setup Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: '3.0'
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.0"
 
-    - name: Install Packages
-      run: bundle install
+      - name: Install Packages
+        run: bundle install
 
-    - name: Test
-      run: rake
+      - name: Test
+        run: rake
 
-    - name: Deploy to Rubygems
-      run: |
-        mkdir -p $HOME/.gem
-        touch $HOME/.gem/credentials
-        chmod 0600 $HOME/.gem/credentials
-        printf -- "---\n:rubygems_api_key: ${{ secrets.RUBYGEMS_API_KEY }}\n" > $HOME/.gem/credentials
-        gem build *.gemspec
-        gem push *.gem
+      - name: Deploy to Rubygems
+        run: |
+          mkdir -p $HOME/.gem
+          touch $HOME/.gem/credentials
+          chmod 0600 $HOME/.gem/credentials
+          printf -- "---\n:rubygems_api_key: ${{ secrets.RUBYGEMS_API_KEY }}\n" > $HOME/.gem/credentials
+          gem build *.gemspec
+          gem push *.gem
 
-    - uses: Bandwidth/build-notify-slack-action@v1.0.0
-      if: always()
-      with:
-        job-status: ${{ job.status }}
-        slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
-        slack-channel: ${{ secrets.SLACK_CHANNEL }}
+      - uses: Bandwidth/build-notify-slack-action@v1.0.0
+        if: always()
+        with:
+          job-status: ${{ job.status }}
+          slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
+          slack-channel: ${{ secrets.SLACK_CHANNEL }}
