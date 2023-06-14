@@ -1,5 +1,5 @@
 require 'faraday'
-require 'faraday_middleware'
+require 'faraday/follow_redirects'
 require 'active_support'
 require 'active_support/xml_mini'
 require 'active_support/core_ext/hash/conversions'
@@ -33,7 +33,7 @@ module BandwidthIris
           #faraday.response :logger
           faraday.headers['Accept'] = 'application/xml'
           faraday.headers['user-agent'] = 'Ruby-Bandwidth-Iris'
-          faraday.use FaradayMiddleware::FollowRedirects
+          faraday.response :follow_redirects # use Faraday::FollowRedirects::Middleware
           @set_adapter.call(faraday)
         }
       }
