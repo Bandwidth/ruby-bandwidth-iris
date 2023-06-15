@@ -1,5 +1,6 @@
 require 'faraday'
-require 'faraday_middleware'
+require 'base64'
+require 'faraday/follow_redirects'
 require 'active_support'
 require 'active_support/xml_mini'
 require 'active_support/core_ext/hash/conversions'
@@ -29,11 +30,12 @@ module BandwidthIris
       @set_adapter = lambda {|faraday| faraday.adapter(Faraday.default_adapter)}
       @create_connection = lambda{||
         Faraday.new(api_endpoint) { |faraday|
-          faraday.request :basic_auth, user_name, password
+          # To make this gem compatible with Faraday v1 and v2, the basic_auth middleware can't be used because it was removed in v2
+          faraday.request :authorization, 'Basic', Base64.strict_encode64("#{user_name}:#{password}")
           #faraday.response :logger
           faraday.headers['Accept'] = 'application/xml'
           faraday.headers['user-agent'] = 'Ruby-Bandwidth-Iris'
-          faraday.use FaradayMiddleware::FollowRedirects
+          faraday.response :follow_redirects # use Faraday::FollowRedirects::Middleware
           @set_adapter.call(faraday)
         }
       }
