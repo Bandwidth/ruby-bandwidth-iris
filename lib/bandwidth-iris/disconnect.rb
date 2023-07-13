@@ -21,6 +21,12 @@ module BandwidthIris
     end
     wrap_client_arg :create
 
+    def self.get(client, id)
+      data = client.make_request(:get, "#{client.concat_account_path(DISCONNECT_PATH)}/#{id}")
+      data
+    end
+    wrap_client_arg :get
+
     def get_notes()
       list = @client.make_request(:get, "#{@client.concat_account_path(DISCONNECT_PATH)}/#{id}/notes")[0][:note]
       return [] if !list
