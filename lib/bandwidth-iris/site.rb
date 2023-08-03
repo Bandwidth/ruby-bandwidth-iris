@@ -69,8 +69,8 @@ module BandwidthIris
       list
     end
 
-    def get_orders()
-      list = @client.make_request(:get, "#{@client.concat_account_path(SITE_PATH)}/#{id}/orders")[0]
+    def get_orders(size: 30, page: 1)
+      list = @client.make_request(:get, "#{@client.concat_account_path(SITE_PATH)}/#{id}/orders", {size:, page:})[0]
       # TODO need additional documentaion
       list
     end
