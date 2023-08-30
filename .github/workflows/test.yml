@@ -1,8 +1,6 @@
 name: Test
 
 on:
-  schedule:
-    - cron: "0 4 * * *"
   pull_request:
   workflow_dispatch:
 
@@ -11,28 +9,28 @@ jobs:
     name: Test
     runs-on: ${{ matrix.os }}
     strategy:
-      matrix: 
+      matrix:
         os: [windows-2022, windows-2019, ubuntu-20.04, ubuntu-22.04]
         ruby-version: [2.6, 2.7, 3.0]
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby-version }}
-    
-    - name: Install Packages
-      run: bundle install
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
 
-    - name: Test
-      run: rake
+      - name: Install Packages
+        run: bundle install
 
-    - name: Notify Slack of Failures    
-      uses: Bandwidth/build-notify-slack-action@v1.0.0
-      if: failure() && !github.event.pull_request.draft
-      with:
-        job-status: ${{ job.status }}
-        slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
-        slack-channel: ${{ secrets.SLACK_CHANNEL }}
+      - name: Test
+        run: rake
+
+      - name: Notify Slack of Failures
+        uses: Bandwidth/build-notify-slack-action@v1.0.0
+        if: failure() && !github.event.pull_request.draft
+        with:
+          job-status: ${{ job.status }}
+          slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
+          slack-channel: ${{ secrets.SLACK_CHANNEL }}
