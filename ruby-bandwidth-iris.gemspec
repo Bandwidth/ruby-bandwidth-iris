@@ -17,7 +17,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "builder"
   spec.add_dependency "faraday"
   spec.add_dependency "faraday-follow_redirects", '~> 0.3.0'
-  spec.add_dependency "nori"
   spec.add_dependency "activesupport",">= 4.2.7"
   spec.add_dependency "rexml"
 
