@@ -10,11 +10,11 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-2022, windows-2019, ubuntu-20.04, ubuntu-22.04]
+        os: [windows-2022, windows-2025, ubuntu-22.04, ubuntu-24.04]
         ruby-version: [2.6, 2.7, 3.0]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -28,7 +28,7 @@ jobs:
         run: rake
 
       - name: Notify Slack of Failures
-        uses: Bandwidth/build-notify-slack-action@v1.0.0
+        uses: Bandwidth/build-notify-slack-action@v2
         if: failure() && !github.event.pull_request.draft
         with:
           job-status: ${{ job.status }}
