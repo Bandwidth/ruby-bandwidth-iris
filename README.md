@@ -73,14 +73,20 @@ to run the tests
 require 'ruby-bandwidth-iris'
 
 # Using  directly
-client = BandwidthIris::Client.new('accountId', 'userName', 'password')
+client = BandwidthIris::Client.new('accountId', 'userName', 'password') # Basic Auth
+client = BandwidthIris::Client.new({access_token: 'accessToken'}) # Bearer Token Auth
+client = BandwidthIris::Client.new({client_id: 'clientId', client_secret: 'clientSecret'}) # OAuth 2 using Client Credentials
 sites = BandwidthIris::Site.list(client)
 
 # Or you can use default client instance (do this only once)
 BandwidthIris::Client.global_options = {
   :account_id => 'accountId',
   :username => 'userName',
-  :password => 'password'
+  :password => 'password',
+  :access_token => 'accessToken',
+  :access_token_expiration => Time.now + 3600
+  :client_id => 'client_id',
+  :client_secret => 'client_secret'
 }
 
 # Now you can call any functions without first arg 'client'
