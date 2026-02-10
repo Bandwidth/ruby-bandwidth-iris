@@ -20,8 +20,8 @@ describe BandwidthIris::Client do
       expect(Client.get_id_from_location_header('http://localhost/path1/path2/id')).to eql('id')
     end
     it 'should raise error if location is missing or nil' do
-      expect{Client.get_id_from_location_header('')}.to raise_error
-      expect{Client.get_id_from_location_header(nil)}.to raise_error
+      expect{Client.get_id_from_location_header('')}.to raise_error(StandardError)
+      expect{Client.get_id_from_location_header(nil)}.to raise_error(StandardError)
     end
   end
 
@@ -51,18 +51,51 @@ describe BandwidthIris::Client do
 
   describe '#make_request' do
     client = nil
+    token_client = nil
+    expired_token_client = nil
+    client_credentials_client = nil
+
     before :each do
       client = Helper.get_client()
+      token_client = Helper.get_token_client()
+      expired_token_client = Helper.get_expired_token_client()
+      client_credentials_client = Helper.get_client_credentials_client()
     end
 
     after :each do
       client.stubs.verify_stubbed_calls()
+      token_client.stubs.verify_stubbed_calls()
+      expired_token_client.stubs.verify_stubbed_calls()
+      client_credentials_client.stubs.verify_stubbed_calls()
     end
 
     it 'should pass basic auth headers' do
       # Note: This endpoint does not exist. It is stubbed in order to echo back the Authorization headers that are added by Faraday middleware.
       client.stubs.get('/v1.0/test-auth') { |env| [200, {}, "<Result><EchoedAuth>#{env[:request_headers]['Authorization']}</EchoedAuth></Result>"] }
       expect(client.make_request(:get, '/test-auth')).to eql([{:echoed_auth=>"Basic #{Base64.strict_encode64('username:password')}"}, {}])
+    end
+
+    it 'should pass bearer auth header using token' do
+      token_client.stubs.get('/v1.0/test-auth-token') { |env| [200, {}, "<Result><EchoedAuth>#{env[:request_headers]['Authorization']}</EchoedAuth></Result>"] }
+      expect(token_client.make_request(:get, '/test-auth-token')).to eql([{:echoed_auth=>"Bearer accessToken"}, {}])
+      expect(token_client.instance_variable_get(:@access_token)).to eql('accessToken')
+      expect(token_client.instance_variable_get(:@access_token_expiration)).to be_a(Time)
+    end
+
+    it 'should refresh expired token and pass bearer auth header' do
+      expired_token_client.stubs.post('https://api.bandwidth.com/api/v1/oauth2/token') { |env| [200, {}, '{"access_token":"newAccessToken","expires_in":3600}'] }
+      expired_token_client.stubs.get('/v1.0/test-auth-expired-token') { |env| [200, {}, "<Result><EchoedAuth>#{env[:request_headers]['Authorization']}</EchoedAuth></Result>"] }
+      expect(expired_token_client.make_request(:get, '/test-auth-expired-token')).to eql([{:echoed_auth=>"Bearer newAccessToken"}, {}])
+      expect(expired_token_client.instance_variable_get(:@access_token)).to eql('newAccessToken')
+      expect(expired_token_client.instance_variable_get(:@access_token_expiration)).to be_a(Time)
+    end
+
+    it 'should use client credentials to get token and pass bearer auth header' do
+      client_credentials_client.stubs.post('https://api.bandwidth.com/api/v1/oauth2/token') { |env| [200, {}, '{"access_token":"clientCredentialsAccessToken","expires_in":3600}'] }
+      client_credentials_client.stubs.get('/v1.0/test-auth-client-credentials') { |env| [200, {}, "<Result><EchoedAuth>#{env[:request_headers]['Authorization']}</EchoedAuth></Result>"] }
+      expect(client_credentials_client.make_request(:get, '/test-auth-client-credentials')).to eql([{:echoed_auth=>"Bearer clientCredentialsAccessToken"}, {}])
+      expect(client_credentials_client.instance_variable_get(:@access_token)).to eql('clientCredentialsAccessToken')
+      expect(client_credentials_client.instance_variable_get(:@access_token_expiration)).to be_a(Time)
     end
 
     it 'should make GET request and return xml  data' do

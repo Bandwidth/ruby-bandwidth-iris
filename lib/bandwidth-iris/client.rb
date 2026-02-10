@@ -78,12 +78,12 @@ module BandwidthIris
       items.last
     end
 
-    def refresh_auth_token # TODO: Test all combinations, and test with global options
+    def refresh_auth_token
       token_url = 'https://api.bandwidth.com/api/v1/oauth2/token'
       response = Faraday.new do |faraday|
         faraday.request :url_encoded
         faraday.request :authorization, :basic, @client_id, @client_secret
-        faraday.adapter(Faraday.default_adapter)
+        @set_adapter.call(faraday)
       end.post(token_url, {grant_type: 'client_credentials'})
       if response.status >= 400
         raise Errors::GenericError.new(response.status, response.reason_phrase, response.headers, response.body)

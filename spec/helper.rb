@@ -30,6 +30,23 @@ module Helper
     Client.new('accountId', 'username', 'password')
   end
 
+  def self.get_token_client()
+    Client.new({access_token: 'accessToken'})
+  end
+
+  def self.get_expired_token_client()
+    Client.new({
+      access_token: 'expiredAccessToken',
+      access_token_expiration: Time.now - 3600,
+      client_id: 'clientId',
+      client_secret: 'clientSecret'
+    })
+  end
+
+  def self.get_client_credentials_client()
+    Client.new({client_id: 'clientId', client_secret: 'clientSecret'})
+  end
+
   def self.setup_environment()
     Client.global_options[:account_id] = 'accountId'
     Client.global_options[:username] = 'username'
