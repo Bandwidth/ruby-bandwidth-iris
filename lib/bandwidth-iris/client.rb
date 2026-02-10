@@ -19,8 +19,12 @@ module BandwidthIris
       end
       options = options || @@global_options
       account_id = options[:account_id] unless account_id
-      user_name = options[:user_name] || options[:username]  unless user_name
+      user_name = options[:user_name] || options[:username] unless user_name
       password = options[:password] unless password
+      @access_token = options[:access_token]
+      @access_token_expiration = options[:access_token_expiration] || Time.now + 3600
+      @client_id = options[:client_id]
+      @client_secret = options[:client_secret]
       options[:api_endpoint] = @@global_options[:api_endpoint] unless options[:api_endpoint]
       options[:api_version] = @@global_options[:api_version] unless options[:api_version]
       api_endpoint = options[:api_endpoint] || "https://dashboard.bandwidth.com"
@@ -31,8 +35,15 @@ module BandwidthIris
       @create_connection = lambda{||
         Faraday.new(api_endpoint) { |faraday|
           # To make this gem compatible with Faraday v1 and v2, the basic_auth middleware can't be used because it was removed in v2
-          faraday.request :authorization, 'Basic', Base64.strict_encode64("#{user_name}:#{password}")
-          #faraday.response :logger
+          if @access_token && @access_token_expiration > Time.now + 60
+            faraday.request :authorization, 'Bearer', @access_token
+          elsif @client_id && @client_secret
+            refresh_auth_token
+            faraday.request :authorization, 'Bearer', @access_token
+          else
+            faraday.request :authorization, 'Basic', Base64.strict_encode64("#{user_name}:#{password}")
+          end
+          # faraday.response :logger
           faraday.headers['Accept'] = 'application/xml'
           faraday.headers['user-agent'] = 'Ruby-Bandwidth-Iris'
           faraday.response :follow_redirects # use Faraday::FollowRedirects::Middleware
@@ -67,9 +78,24 @@ module BandwidthIris
       items.last
     end
 
+    def refresh_auth_token # TODO: Test all combinations, and test with global options
+      token_url = 'https://api.bandwidth.com/api/v1/oauth2/token'
+      response = Faraday.new do |faraday|
+        faraday.request :url_encoded
+        faraday.request :authorization, :basic, @client_id, @client_secret
+        faraday.adapter(Faraday.default_adapter)
+      end.post(token_url, {grant_type: 'client_credentials'})
+      if response.status >= 400
+        raise Errors::GenericError.new(response.status, response.reason_phrase, response.headers, response.body)
+      end
+      body = JSON.parse(response.body)
+      @access_token = body['access_token']
+      @access_token_expiration = Time.now + body['expires_in']
+    end
+
     # Make HTTP request to IRIS API
     # @param method [Symbol] http method to make
-    # @param path [string] path of url (exclude api verion and endpoint) to make call
+    # @param path [string] path of url (exclude api version and endpoint) to make call
     # @param data [Hash] data  which will be sent with request (for :get and :delete request they will be sent with query in url)
     # @return [Array] array with 2 elements: parsed  data of response and response headers
     def make_request(method, path, data = {})
@@ -89,7 +115,7 @@ module BandwidthIris
 
     # Makes an HTTP request for file uploads
     # @param method [Symbol] http method to make
-    # @param path [string] path of url (exclude api verion and endpoint) to make call
+    # @param path [string] path of url (exclude api version and endpoint) to make call
     # @param data [string] the raw binary string representing the file to upload
     # @param content_type [string] the content type of the request
     # @return [Array] array with 2 elements: parsed  data of response and response headers
@@ -102,7 +128,7 @@ module BandwidthIris
 
     # Makes an HTTP request for a file download
     # @param method [Symbol] http method to make
-    # @param path [string] path of url (exclude api verion and endpoint) to make call
+    # @param path [string] path of url (exclude api version and endpoint) to make call
     # @param data [Hash] data  which will be sent with request (for :get and :delete request they will be sent with query in url)
     # @return [string] raw response from the API
     def make_request_file_download(method, path, data = {})
