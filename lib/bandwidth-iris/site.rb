@@ -39,7 +39,7 @@ module BandwidthIris
     def get_sip_peer(peer_id)
       item = @client.make_request(:get, "#{@client.concat_account_path(SITE_PATH)}/#{id}/sippeers/#{peer_id}")[0][:sip_peer]
       item[:site_id] = id
-      puts item
+      # puts item
       item
     end
 
