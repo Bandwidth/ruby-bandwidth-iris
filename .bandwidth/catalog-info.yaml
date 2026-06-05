@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  schemaVersion: v1.0.0
+  name: ruby-bandwidth-iris-location
+  description: Links to additional entities in the ruby-bandwidth-iris repository.
+  annotations:
+    github.com/project-slug: Bandwidth/ruby-bandwidth-iris
+spec:
+  targets:
+    - ./component.yaml
