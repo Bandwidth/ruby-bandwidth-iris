@@ -7,6 +7,7 @@ metadata:
     Ruby SDK for Bandwidth Phone Number Dashboard (AKA: Dashboard, Iris)
   annotations:
     github.com/project-slug: Bandwidth/ruby-bandwidth-iris
+    bandwidth.com/languages: Ruby
     organization: BW
     costCenter: Development - Software Infra
 spec:
